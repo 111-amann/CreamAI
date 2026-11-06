@@ -1,0 +1,183 @@
+
+[
+  {
+    "id": 1,
+    "module": "collections",
+    "name": "Counter",
+    "kind": "class",
+    "signature": "Counter(iterable=None, /, **kwargs)",
+    "summary": "A dict subclass for counting hashable objects. Elements are stored as dictionary keys and their counts as values.",
+    "version_note": "Added in Python 2.7."
+  },
+  {
+    "id": 2,
+    "module": "collections",
+    "name": "defaultdict",
+    "kind": "class",
+    "signature": "defaultdict(default_factory=None, /, *args, **kwargs)",
+    "summary": "A dict subclass that calls a factory function to provide a default value for missing keys.",
+    "version_note": "Added in Python 2.5."
+  },
+  {
+    "id": 3,
+    "module": "collections",
+    "name": "deque",
+    "kind": "class",
+    "signature": "deque(iterable=(), maxlen=None)",
+    "summary": "A list-like container with fast appends and pops from either end.",
+    "version_note": "Added in Python 2.4."
+  },
+  {
+    "id": 4,
+    "module": "itertools",
+    "name": "groupby",
+    "kind": "function",
+    "signature": "groupby(iterable, key=None)",
+    "summary": "Groups consecutive elements that have the same key value. The input generally needs to be sorted by the same key first.",
+    "version_note": "Added in Python 2.4."
+  },
+  {
+    "id": 5,
+    "module": "itertools",
+    "name": "combinations",
+    "kind": "function",
+    "signature": "combinations(iterable, r)",
+    "summary": "Returns r-length combinations of elements without repetition, treating elements as unique by position.",
+    "version_note": "Added in Python 2.6."
+  },
+  {
+    "id": 6,
+    "module": "functools",
+    "name": "lru_cache",
+    "kind": "function",
+    "signature": "lru_cache(maxsize=128, typed=False)",
+    "summary": "A decorator that caches recent function results to avoid repeating expensive calculations.",
+    "version_note": "Added in Python 3.2. The typed parameter was added in Python 3.3."
+  },
+  {
+    "id": 7,
+    "module": "pathlib",
+    "name": "Path.read_text",
+    "kind": "method",
+    "signature": "Path.read_text(encoding=None, errors=None, newline=None)",
+    "summary": "Reads a file and returns its decoded contents as a string.",
+    "version_note": "Added in Python 3.5. The newline parameter was added in Python 3.13."
+  },
+  {
+    "id": 8,
+    "module": "json",
+    "name": "load",
+    "kind": "function",
+    "signature": "load(fp, *, cls=None, object_hook=None, parse_float=None, parse_int=None, parse_constant=None, object_pairs_hook=None, **kw)",
+    "summary": "Deserializes JSON data from a file-like object into a Python object.",
+    "version_note": "Available since Python 2.6."
+  },
+  {
+    "id": 9,
+    "module": "json",
+    "name": "dumps",
+    "kind": "function",
+    "signature": "dumps(obj, *, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, cls=None, indent=None, separators=None, default=None, sort_keys=False, **kw)",
+    "summary": "Serializes a Python object into a JSON-formatted string.",
+    "version_note": "Available since Python 2.6."
+  },
+  {
+    "id": 10,
+    "module": "csv",
+    "name": "DictReader",
+    "kind": "class",
+    "signature": "DictReader(f, fieldnames=None, restkey=None, restval=None, dialect='excel', *args, **kwds)",
+    "summary": "Reads CSV rows and maps each row into a dictionary using column names as keys.",
+    "version_note": "Changed in Python 3.6 to return OrderedDict rows; changed in Python 3.8 to return dict rows."
+  },
+  {
+    "id": 11,
+    "module": "datetime",
+    "name": "datetime.strptime",
+    "kind": "method",
+    "signature": "datetime.strptime(date_string, format)",
+    "summary": "Parses a date or time string into a datetime object using a specified format.",
+    "version_note": "Available since Python 2.5."
+  },
+  {
+    "id": 12,
+    "module": "datetime",
+    "name": "timedelta",
+    "kind": "class",
+    "signature": "timedelta(days=0, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)",
+    "summary": "Represents a duration or difference between two dates or times.",
+    "version_note": "Available since Python 2.3."
+  },
+  {
+    "id": 13,
+    "module": "re",
+    "name": "findall",
+    "kind": "function",
+    "signature": "findall(pattern, string, flags=0)",
+    "summary": "Returns all non-overlapping matches of a regular expression in a string as a list.",
+    "version_note": "Available since Python 1.5.2."
+  },
+  {
+    "id": 14,
+    "module": "os",
+    "name": "environ",
+    "kind": "attribute",
+    "signature": "os.environ",
+    "summary": "A mapping containing the current process environment variables as strings.",
+    "version_note": "Changed in Python 3.9 to support dictionary merge and update operators."
+  },
+  {
+    "id": 15,
+    "module": "random",
+    "name": "choice",
+    "kind": "function",
+    "signature": "choice(seq)",
+    "summary": "Returns a random element from a non-empty sequence.",
+    "version_note": "Available since Python 2.0."
+  },
+  {
+    "id": 16,
+    "module": "statistics",
+    "name": "mean",
+    "kind": "function",
+    "signature": "mean(data)",
+    "summary": "Returns the arithmetic mean of a sequence or iterable of numeric values.",
+    "version_note": "Added in Python 3.4."
+  },
+  {
+    "id": 17,
+    "module": "heapq",
+    "name": "heappush",
+    "kind": "function",
+    "signature": "heappush(heap, item)",
+    "summary": "Pushes an item onto a heap while maintaining the heap invariant.",
+    "version_note": "Available since Python 2.3."
+  },
+  {
+    "id": 18,
+    "module": "bisect",
+    "name": "bisect_left",
+    "kind": "function",
+    "signature": "bisect_left(a, x, lo=0, hi=len(a), *, key=None)",
+    "summary": "Finds the insertion position for x in a sorted list, placing it before existing equal values.",
+    "version_note": "The key parameter was added in Python 3.10."
+  },
+  {
+    "id": 19,
+    "module": "logging",
+    "name": "basicConfig",
+    "kind": "function",
+    "signature": "basicConfig(**kwargs)",
+    "summary": "Configures the root logger with a default logging handler and formatter.",
+    "version_note": "The force parameter was added in Python 3.8."
+  },
+  {
+    "id": 20,
+    "module": "dataclasses",
+    "name": "dataclass",
+    "kind": "decorator",
+    "signature": "dataclass(cls=None, /, *, init=True, repr=True, eq=True, order=False, unsafe_hash=False, frozen=False, match_args=True, kw_only=False, slots=False, weakref_slot=False)",
+    "summary": "A decorator that automatically generates special methods such as __init__ and __repr__ for user-defined classes.",
+    "version_note": "Added in Python 3.7. The slots parameter was added in Python 3.10 and weakref_slot in Python 3.11."
+  }
+]

@@ -1,4 +1,3 @@
-
 # PyDocsPal 🐍
 
 ### Your Python Documentation Assistant
