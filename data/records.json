@@ -1,183 +1,4493 @@
-
 [
-  {
-    "id": 1,
-    "module": "collections",
-    "name": "Counter",
-    "kind": "class",
-    "signature": "Counter(iterable=None, /, **kwargs)",
-    "summary": "A dict subclass for counting hashable objects. Elements are stored as dictionary keys and their counts as values.",
-    "version_note": "Added in Python 2.7."
-  },
-  {
-    "id": 2,
-    "module": "collections",
-    "name": "defaultdict",
-    "kind": "class",
-    "signature": "defaultdict(default_factory=None, /, *args, **kwargs)",
-    "summary": "A dict subclass that calls a factory function to provide a default value for missing keys.",
-    "version_note": "Added in Python 2.5."
-  },
-  {
-    "id": 3,
-    "module": "collections",
-    "name": "deque",
-    "kind": "class",
-    "signature": "deque(iterable=(), maxlen=None)",
-    "summary": "A list-like container with fast appends and pops from either end.",
-    "version_note": "Added in Python 2.4."
-  },
-  {
-    "id": 4,
-    "module": "itertools",
-    "name": "groupby",
-    "kind": "function",
-    "signature": "groupby(iterable, key=None)",
-    "summary": "Groups consecutive elements that have the same key value. The input generally needs to be sorted by the same key first.",
-    "version_note": "Added in Python 2.4."
-  },
-  {
-    "id": 5,
-    "module": "itertools",
-    "name": "combinations",
-    "kind": "function",
-    "signature": "combinations(iterable, r)",
-    "summary": "Returns r-length combinations of elements without repetition, treating elements as unique by position.",
-    "version_note": "Added in Python 2.6."
-  },
-  {
-    "id": 6,
-    "module": "functools",
-    "name": "lru_cache",
-    "kind": "function",
-    "signature": "lru_cache(maxsize=128, typed=False)",
-    "summary": "A decorator that caches recent function results to avoid repeating expensive calculations.",
-    "version_note": "Added in Python 3.2. The typed parameter was added in Python 3.3."
-  },
-  {
-    "id": 7,
-    "module": "pathlib",
-    "name": "Path.read_text",
-    "kind": "method",
-    "signature": "Path.read_text(encoding=None, errors=None, newline=None)",
-    "summary": "Reads a file and returns its decoded contents as a string.",
-    "version_note": "Added in Python 3.5. The newline parameter was added in Python 3.13."
-  },
-  {
-    "id": 8,
-    "module": "json",
-    "name": "load",
-    "kind": "function",
-    "signature": "load(fp, *, cls=None, object_hook=None, parse_float=None, parse_int=None, parse_constant=None, object_pairs_hook=None, **kw)",
-    "summary": "Deserializes JSON data from a file-like object into a Python object.",
-    "version_note": "Available since Python 2.6."
-  },
-  {
-    "id": 9,
-    "module": "json",
-    "name": "dumps",
-    "kind": "function",
-    "signature": "dumps(obj, *, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, cls=None, indent=None, separators=None, default=None, sort_keys=False, **kw)",
-    "summary": "Serializes a Python object into a JSON-formatted string.",
-    "version_note": "Available since Python 2.6."
-  },
-  {
-    "id": 10,
-    "module": "csv",
-    "name": "DictReader",
-    "kind": "class",
-    "signature": "DictReader(f, fieldnames=None, restkey=None, restval=None, dialect='excel', *args, **kwds)",
-    "summary": "Reads CSV rows and maps each row into a dictionary using column names as keys.",
-    "version_note": "Changed in Python 3.6 to return OrderedDict rows; changed in Python 3.8 to return dict rows."
-  },
-  {
-    "id": 11,
-    "module": "datetime",
-    "name": "datetime.strptime",
-    "kind": "method",
-    "signature": "datetime.strptime(date_string, format)",
-    "summary": "Parses a date or time string into a datetime object using a specified format.",
-    "version_note": "Available since Python 2.5."
-  },
-  {
-    "id": 12,
-    "module": "datetime",
-    "name": "timedelta",
-    "kind": "class",
-    "signature": "timedelta(days=0, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)",
-    "summary": "Represents a duration or difference between two dates or times.",
-    "version_note": "Available since Python 2.3."
-  },
-  {
-    "id": 13,
-    "module": "re",
-    "name": "findall",
-    "kind": "function",
-    "signature": "findall(pattern, string, flags=0)",
-    "summary": "Returns all non-overlapping matches of a regular expression in a string as a list.",
-    "version_note": "Available since Python 1.5.2."
-  },
-  {
-    "id": 14,
-    "module": "os",
-    "name": "environ",
-    "kind": "attribute",
-    "signature": "os.environ",
-    "summary": "A mapping containing the current process environment variables as strings.",
-    "version_note": "Changed in Python 3.9 to support dictionary merge and update operators."
-  },
-  {
-    "id": 15,
-    "module": "random",
-    "name": "choice",
-    "kind": "function",
-    "signature": "choice(seq)",
-    "summary": "Returns a random element from a non-empty sequence.",
-    "version_note": "Available since Python 2.0."
-  },
-  {
-    "id": 16,
-    "module": "statistics",
-    "name": "mean",
-    "kind": "function",
-    "signature": "mean(data)",
-    "summary": "Returns the arithmetic mean of a sequence or iterable of numeric values.",
-    "version_note": "Added in Python 3.4."
-  },
-  {
-    "id": 17,
-    "module": "heapq",
-    "name": "heappush",
-    "kind": "function",
-    "signature": "heappush(heap, item)",
-    "summary": "Pushes an item onto a heap while maintaining the heap invariant.",
-    "version_note": "Available since Python 2.3."
-  },
-  {
-    "id": 18,
-    "module": "bisect",
-    "name": "bisect_left",
-    "kind": "function",
-    "signature": "bisect_left(a, x, lo=0, hi=len(a), *, key=None)",
-    "summary": "Finds the insertion position for x in a sorted list, placing it before existing equal values.",
-    "version_note": "The key parameter was added in Python 3.10."
-  },
-  {
-    "id": 19,
-    "module": "logging",
-    "name": "basicConfig",
-    "kind": "function",
-    "signature": "basicConfig(**kwargs)",
-    "summary": "Configures the root logger with a default logging handler and formatter.",
-    "version_note": "The force parameter was added in Python 3.8."
-  },
-  {
-    "id": 20,
-    "module": "dataclasses",
-    "name": "dataclass",
-    "kind": "decorator",
-    "signature": "dataclass(cls=None, /, *, init=True, repr=True, eq=True, order=False, unsafe_hash=False, frozen=False, match_args=True, kw_only=False, slots=False, weakref_slot=False)",
-    "summary": "A decorator that automatically generates special methods such as __init__ and __repr__ for user-defined classes.",
-    "version_note": "Added in Python 3.7. The slots parameter was added in Python 3.10 and weakref_slot in Python 3.11."
-  }
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.ChainMap(*maps)",
+        "summary": "A \"ChainMap\" groups multiple dicts or other mappings together to",
+        "version_note": "Check the official documentation for version details.",
+        "id": 1
+    },
+    {
+        "module": "collections",
+        "name": "new_child",
+        "kind": "function",
+        "signature": "new_child(m=None, **kwargs)",
+        "summary": "Returns a new \"ChainMap\" containing a new map followed by all of",
+        "version_note": "Check the official documentation for version details.",
+        "id": 2
+    },
+    {
+        "module": "collections",
+        "name": "parser",
+        "kind": "function",
+        "signature": "parser.add_argument('-u', '--user')",
+        "summary": "parser.add_argument('-c', '--color')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 3
+    },
+    {
+        "module": "collections",
+        "name": "parser",
+        "kind": "function",
+        "signature": "parser.add_argument('-c', '--color')",
+        "summary": "namespace = parser.parse_args()",
+        "version_note": "Check the official documentation for version details.",
+        "id": 4
+    },
+    {
+        "module": "collections",
+        "name": "print",
+        "kind": "function",
+        "signature": "print(combined['color'])",
+        "summary": "print(combined['user'])",
+        "version_note": "Check the official documentation for version details.",
+        "id": 5
+    },
+    {
+        "module": "collections",
+        "name": "print",
+        "kind": "function",
+        "signature": "print(combined['user'])",
+        "summary": "Example patterns for using the \"ChainMap\" class to simulate nested",
+        "version_note": "Check the official documentation for version details.",
+        "id": 6
+    },
+    {
+        "module": "collections",
+        "name": "list",
+        "kind": "function",
+        "signature": "list(d) # All nested values",
+        "summary": "k in d # Check all nested values",
+        "version_note": "Check the official documentation for version details.",
+        "id": 7
+    },
+    {
+        "module": "collections",
+        "name": "len",
+        "kind": "function",
+        "signature": "len(d) # Number of nested values",
+        "summary": "d.items() # All nested items",
+        "version_note": "Check the official documentation for version details.",
+        "id": 8
+    },
+    {
+        "module": "collections",
+        "name": "d",
+        "kind": "function",
+        "signature": "d.items() # All nested items",
+        "summary": "dict(d) # Flatten into a regular dictionary",
+        "version_note": "Check the official documentation for version details.",
+        "id": 9
+    },
+    {
+        "module": "collections",
+        "name": "dict",
+        "kind": "function",
+        "signature": "dict(d) # Flatten into a regular dictionary",
+        "summary": "The \"ChainMap\" class only makes updates (writes and deletions) to the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 10
+    },
+    {
+        "module": "collections",
+        "name": "DeepChainMap",
+        "kind": "class",
+        "signature": "class DeepChainMap(ChainMap):",
+        "summary": "'Variant of ChainMap that allows direct updates to inner scopes'",
+        "version_note": "Check the official documentation for version details.",
+        "id": 11
+    },
+    {
+        "module": "collections",
+        "name": "__setitem__",
+        "kind": "function",
+        "signature": "def __setitem__(self, key, value):",
+        "summary": "for mapping in self.maps:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 12
+    },
+    {
+        "module": "collections",
+        "name": "__delitem__",
+        "kind": "function",
+        "signature": "def __delitem__(self, key):",
+        "summary": "for mapping in self.maps:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 13
+    },
+    {
+        "module": "collections",
+        "name": "DeepChainMap",
+        "kind": "function",
+        "signature": "DeepChainMap({'zebra': 'black', 'snake': 'red'}, {}, {'lion': 'orange'})",
+        "summary": "\"Counter\" objects",
+        "version_note": "Check the official documentation for version details.",
+        "id": 14
+    },
+    {
+        "module": "collections",
+        "name": "Counter",
+        "kind": "function",
+        "signature": "Counter({'blue': 3, 'red': 2, 'green': 1})",
+        "summary": ">>> # Find the ten most common words in Hamlet",
+        "version_note": "Check the official documentation for version details.",
+        "id": 15
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.Counter(**kwargs)",
+        "summary": "class collections.Counter(iterable, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 16
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.Counter(iterable, /, **kwargs)",
+        "summary": "class collections.Counter(mapping, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 17
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.Counter(mapping, /, **kwargs)",
+        "summary": "A \"Counter\" is a \"dict\" subclass for counting *hashable* objects.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 18
+    },
+    {
+        "module": "collections",
+        "name": "elements",
+        "kind": "function",
+        "signature": "elements()",
+        "summary": "Return an iterator over elements repeating each as many times as",
+        "version_note": "Check the official documentation for version details.",
+        "id": 19
+    },
+    {
+        "module": "collections",
+        "name": "most_common",
+        "kind": "function",
+        "signature": "most_common(n=None)",
+        "summary": "Return a list of the *n* most common elements and their counts",
+        "version_note": "Check the official documentation for version details.",
+        "id": 20
+    },
+    {
+        "module": "collections",
+        "name": "subtract",
+        "kind": "function",
+        "signature": "subtract(**kwargs)",
+        "summary": "subtract(iterable, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 21
+    },
+    {
+        "module": "collections",
+        "name": "subtract",
+        "kind": "function",
+        "signature": "subtract(iterable, /, **kwargs)",
+        "summary": "subtract(mapping, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 22
+    },
+    {
+        "module": "collections",
+        "name": "subtract",
+        "kind": "function",
+        "signature": "subtract(mapping, /, **kwargs)",
+        "summary": "Elements are subtracted from an *iterable* or from another",
+        "version_note": "Check the official documentation for version details.",
+        "id": 23
+    },
+    {
+        "module": "collections",
+        "name": "Counter",
+        "kind": "function",
+        "signature": "Counter({'a': 3, 'b': 0, 'c': -3, 'd': -6})",
+        "summary": "Added in version 3.2.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 24
+    },
+    {
+        "module": "collections",
+        "name": "total",
+        "kind": "function",
+        "signature": "total()",
+        "summary": "Compute the sum of the counts.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 25
+    },
+    {
+        "module": "collections",
+        "name": "fromkeys",
+        "kind": "function",
+        "signature": "fromkeys(iterable)",
+        "summary": "This class method is not implemented for \"Counter\" objects.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 26
+    },
+    {
+        "module": "collections",
+        "name": "update",
+        "kind": "function",
+        "signature": "update(**kwargs)",
+        "summary": "update(iterable, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 27
+    },
+    {
+        "module": "collections",
+        "name": "update",
+        "kind": "function",
+        "signature": "update(iterable, /, **kwargs)",
+        "summary": "update(mapping, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 28
+    },
+    {
+        "module": "collections",
+        "name": "update",
+        "kind": "function",
+        "signature": "update(mapping, /, **kwargs)",
+        "summary": "Elements are counted from an *iterable* or added-in from another",
+        "version_note": "Check the official documentation for version details.",
+        "id": 29
+    },
+    {
+        "module": "collections",
+        "name": "c",
+        "kind": "function",
+        "signature": "c.total() # total of all counts",
+        "summary": "c.clear() # reset all counts",
+        "version_note": "Check the official documentation for version details.",
+        "id": 30
+    },
+    {
+        "module": "collections",
+        "name": "c",
+        "kind": "function",
+        "signature": "c.clear() # reset all counts",
+        "summary": "list(c) # list unique elements",
+        "version_note": "Check the official documentation for version details.",
+        "id": 31
+    },
+    {
+        "module": "collections",
+        "name": "list",
+        "kind": "function",
+        "signature": "list(c) # list unique elements",
+        "summary": "set(c) # convert to a set",
+        "version_note": "Check the official documentation for version details.",
+        "id": 32
+    },
+    {
+        "module": "collections",
+        "name": "set",
+        "kind": "function",
+        "signature": "set(c) # convert to a set",
+        "summary": "dict(c) # convert to a regular dictionary",
+        "version_note": "Check the official documentation for version details.",
+        "id": 33
+    },
+    {
+        "module": "collections",
+        "name": "dict",
+        "kind": "function",
+        "signature": "dict(c) # convert to a regular dictionary",
+        "summary": "c.items() # access the (elem, cnt) pairs",
+        "version_note": "Check the official documentation for version details.",
+        "id": 34
+    },
+    {
+        "module": "collections",
+        "name": "c",
+        "kind": "function",
+        "signature": "c.items() # access the (elem, cnt) pairs",
+        "summary": "Counter(dict(list_of_pairs)) # convert from a list of (elem, cnt) pairs",
+        "version_note": "Check the official documentation for version details.",
+        "id": 35
+    },
+    {
+        "module": "collections",
+        "name": "Counter",
+        "kind": "function",
+        "signature": "Counter(dict(list_of_pairs)) # convert from a list of (elem, cnt) pairs",
+        "summary": "c.most_common()[:-n-1:-1] # n least common elements",
+        "version_note": "Check the official documentation for version details.",
+        "id": 36
+    },
+    {
+        "module": "collections",
+        "name": "c",
+        "kind": "function",
+        "signature": "c.most_common()[:-n-1:-1] # n least common elements",
+        "summary": "+c # remove zero and negative counts",
+        "version_note": "Check the official documentation for version details.",
+        "id": 37
+    },
+    {
+        "module": "collections",
+        "name": "Counter",
+        "kind": "function",
+        "signature": "Counter({'a': 4, 'b': 3})",
+        "summary": ">>> c - d # subtract (keeping only positive counts)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 38
+    },
+    {
+        "module": "collections",
+        "name": "Counter",
+        "kind": "function",
+        "signature": "Counter({'a': 2})",
+        "summary": ">>> c & d # intersection: min(c[x], d[x])",
+        "version_note": "Check the official documentation for version details.",
+        "id": 39
+    },
+    {
+        "module": "collections",
+        "name": "Counter",
+        "kind": "function",
+        "signature": "Counter({'a': 1, 'b': 1})",
+        "summary": ">>> c | d # union: max(c[x], d[x])",
+        "version_note": "Check the official documentation for version details.",
+        "id": 40
+    },
+    {
+        "module": "collections",
+        "name": "Counter",
+        "kind": "function",
+        "signature": "Counter({'a': 3, 'b': 2})",
+        "summary": ">>> c ^ d # max(c[x], d[x]) - min(c[x], d[x])",
+        "version_note": "Check the official documentation for version details.",
+        "id": 41
+    },
+    {
+        "module": "collections",
+        "name": "Counter",
+        "kind": "function",
+        "signature": "Counter({'a': 2, 'b': 1})",
+        "summary": ">>> c == d # equality: c[x] == d[x]",
+        "version_note": "Check the official documentation for version details.",
+        "id": 42
+    },
+    {
+        "module": "collections",
+        "name": "Counter",
+        "kind": "function",
+        "signature": "Counter({'a': 2})",
+        "summary": ">>> -c",
+        "version_note": "Check the official documentation for version details.",
+        "id": 43
+    },
+    {
+        "module": "collections",
+        "name": "Counter",
+        "kind": "function",
+        "signature": "Counter({'b': 4})",
+        "summary": "Added in version 3.3: Added support for unary plus, unary minus, and",
+        "version_note": "Check the official documentation for version details.",
+        "id": 44
+    },
+    {
+        "module": "collections",
+        "name": "map",
+        "kind": "function",
+        "signature": "map(Counter, combinations_with_replacement('ABC', 2)) # --> AA AB AC BB BC CC",
+        "summary": "\"deque\" objects",
+        "version_note": "Check the official documentation for version details.",
+        "id": 45
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.deque([iterable[, maxlen]])",
+        "summary": "Returns a new deque object initialized left-to-right (using",
+        "version_note": "Check the official documentation for version details.",
+        "id": 46
+    },
+    {
+        "module": "collections",
+        "name": "append",
+        "kind": "function",
+        "signature": "append(item, /)",
+        "summary": "Add *item* to the right side of the deque.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 47
+    },
+    {
+        "module": "collections",
+        "name": "appendleft",
+        "kind": "function",
+        "signature": "appendleft(item, /)",
+        "summary": "Add *item* to the left side of the deque.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 48
+    },
+    {
+        "module": "collections",
+        "name": "clear",
+        "kind": "function",
+        "signature": "clear()",
+        "summary": "Remove all elements from the deque leaving it with length 0.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 49
+    },
+    {
+        "module": "collections",
+        "name": "copy",
+        "kind": "function",
+        "signature": "copy()",
+        "summary": "Create a shallow copy of the deque.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 50
+    },
+    {
+        "module": "collections",
+        "name": "count",
+        "kind": "function",
+        "signature": "count(value, /)",
+        "summary": "Count the number of deque elements equal to *value*.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 51
+    },
+    {
+        "module": "collections",
+        "name": "extend",
+        "kind": "function",
+        "signature": "extend(iterable, /)",
+        "summary": "Extend the right side of the deque by appending elements from",
+        "version_note": "Check the official documentation for version details.",
+        "id": 52
+    },
+    {
+        "module": "collections",
+        "name": "extendleft",
+        "kind": "function",
+        "signature": "extendleft(iterable, /)",
+        "summary": "Extend the left side of the deque by appending elements from",
+        "version_note": "Check the official documentation for version details.",
+        "id": 53
+    },
+    {
+        "module": "collections",
+        "name": "index",
+        "kind": "function",
+        "signature": "index(value[, start[, stop]])",
+        "summary": "Return the position of *value* in the deque (at or after index",
+        "version_note": "Check the official documentation for version details.",
+        "id": 54
+    },
+    {
+        "module": "collections",
+        "name": "insert",
+        "kind": "function",
+        "signature": "insert(index, value, /)",
+        "summary": "Insert *value* into the deque at position *index*.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 55
+    },
+    {
+        "module": "collections",
+        "name": "pop",
+        "kind": "function",
+        "signature": "pop()",
+        "summary": "Remove and return an element from the right side of the deque.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 56
+    },
+    {
+        "module": "collections",
+        "name": "popleft",
+        "kind": "function",
+        "signature": "popleft()",
+        "summary": "Remove and return an element from the left side of the deque. If",
+        "version_note": "Check the official documentation for version details.",
+        "id": 57
+    },
+    {
+        "module": "collections",
+        "name": "remove",
+        "kind": "function",
+        "signature": "remove(value, /)",
+        "summary": "Remove the first occurrence of *value*. If not found, raises a",
+        "version_note": "Check the official documentation for version details.",
+        "id": 58
+    },
+    {
+        "module": "collections",
+        "name": "reverse",
+        "kind": "function",
+        "signature": "reverse()",
+        "summary": "Reverse the elements of the deque in-place and then return",
+        "version_note": "Check the official documentation for version details.",
+        "id": 59
+    },
+    {
+        "module": "collections",
+        "name": "rotate",
+        "kind": "function",
+        "signature": "rotate(n=1, /)",
+        "summary": "Rotate the deque *n* steps to the right. If *n* is negative,",
+        "version_note": "Check the official documentation for version details.",
+        "id": 60
+    },
+    {
+        "module": "collections",
+        "name": "deque",
+        "kind": "function",
+        "signature": "deque(['f', 'g', 'h', 'i', 'j'])",
+        "summary": ">>> d.pop() # return and remove the rightmost item",
+        "version_note": "Check the official documentation for version details.",
+        "id": 61
+    },
+    {
+        "module": "collections",
+        "name": "deque",
+        "kind": "function",
+        "signature": "deque(['g', 'h', 'i', 'j', 'k', 'l'])",
+        "summary": ">>> d.rotate(1) # right rotation",
+        "version_note": "Check the official documentation for version details.",
+        "id": 62
+    },
+    {
+        "module": "collections",
+        "name": "deque",
+        "kind": "function",
+        "signature": "deque(['l', 'g', 'h', 'i', 'j', 'k'])",
+        "summary": ">>> d.rotate(-1) # left rotation",
+        "version_note": "Check the official documentation for version details.",
+        "id": 63
+    },
+    {
+        "module": "collections",
+        "name": "deque",
+        "kind": "function",
+        "signature": "deque(['g', 'h', 'i', 'j', 'k', 'l'])",
+        "summary": ">>> deque(reversed(d)) # make a new deque in reverse order",
+        "version_note": "Check the official documentation for version details.",
+        "id": 64
+    },
+    {
+        "module": "collections",
+        "name": "deque",
+        "kind": "function",
+        "signature": "deque(['l', 'k', 'j', 'i', 'h', 'g'])",
+        "summary": ">>> d.clear() # empty the deque",
+        "version_note": "Check the official documentation for version details.",
+        "id": 65
+    },
+    {
+        "module": "collections",
+        "name": "Traceback",
+        "kind": "function",
+        "signature": "Traceback (most recent call last):",
+        "summary": "File \"<pyshell#6>\", line 1, in -toplevel-",
+        "version_note": "Check the official documentation for version details.",
+        "id": 66
+    },
+    {
+        "module": "collections",
+        "name": "d",
+        "kind": "function",
+        "signature": "d.pop()",
+        "summary": "IndexError: pop from an empty deque",
+        "version_note": "Check the official documentation for version details.",
+        "id": 67
+    },
+    {
+        "module": "collections",
+        "name": "deque",
+        "kind": "function",
+        "signature": "deque(['c', 'b', 'a'])",
+        "summary": "\"deque\" Recipes",
+        "version_note": "Check the official documentation for version details.",
+        "id": 68
+    },
+    {
+        "module": "collections",
+        "name": "tail",
+        "kind": "function",
+        "signature": "def tail(filename, n=10):",
+        "summary": "'Return the last n lines of a file'",
+        "version_note": "Check the official documentation for version details.",
+        "id": 69
+    },
+    {
+        "module": "collections",
+        "name": "moving_average",
+        "kind": "function",
+        "signature": "def moving_average(iterable, n=3):",
+        "summary": "# moving_average([40, 30, 50, 46, 39, 44]) --> 40.0 42.0 45.0 43.0",
+        "version_note": "Check the official documentation for version details.",
+        "id": 70
+    },
+    {
+        "module": "collections",
+        "name": "d",
+        "kind": "function",
+        "signature": "d.appendleft(0)",
+        "summary": "s = sum(d)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 71
+    },
+    {
+        "module": "collections",
+        "name": "d",
+        "kind": "function",
+        "signature": "d.append(elem)",
+        "summary": "yield s / n",
+        "version_note": "Check the official documentation for version details.",
+        "id": 72
+    },
+    {
+        "module": "collections",
+        "name": "roundrobin",
+        "kind": "function",
+        "signature": "def roundrobin(*iterables):",
+        "summary": "\"roundrobin('ABC', 'D', 'EF') --> A D E B F C\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 73
+    },
+    {
+        "module": "collections",
+        "name": "iterators",
+        "kind": "function",
+        "signature": "iterators.rotate(-1)",
+        "summary": "except StopIteration:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 74
+    },
+    {
+        "module": "collections",
+        "name": "iterators",
+        "kind": "function",
+        "signature": "iterators.popleft()",
+        "summary": "The \"rotate()\" method provides a way to implement \"deque\" slicing and",
+        "version_note": "Check the official documentation for version details.",
+        "id": 75
+    },
+    {
+        "module": "collections",
+        "name": "delete_nth",
+        "kind": "function",
+        "signature": "def delete_nth(d, n):",
+        "summary": "d.rotate(-n)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 76
+    },
+    {
+        "module": "collections",
+        "name": "d",
+        "kind": "function",
+        "signature": "d.rotate(-n)",
+        "summary": "d.popleft()",
+        "version_note": "Check the official documentation for version details.",
+        "id": 77
+    },
+    {
+        "module": "collections",
+        "name": "d",
+        "kind": "function",
+        "signature": "d.popleft()",
+        "summary": "d.rotate(n)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 78
+    },
+    {
+        "module": "collections",
+        "name": "d",
+        "kind": "function",
+        "signature": "d.rotate(n)",
+        "summary": "To implement \"deque\" slicing, use a similar approach applying",
+        "version_note": "Check the official documentation for version details.",
+        "id": 79
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.defaultdict(default_factory=None, /, **kwargs)",
+        "summary": "class collections.defaultdict(default_factory, mapping, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 80
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.defaultdict(default_factory, mapping, /, **kwargs)",
+        "summary": "class collections.defaultdict(default_factory, iterable, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 81
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.defaultdict(default_factory, iterable, /, **kwargs)",
+        "summary": "Return a new dictionary-like object. \"defaultdict\" is a subclass",
+        "version_note": "Check the official documentation for version details.",
+        "id": 82
+    },
+    {
+        "module": "collections",
+        "name": "__missing__",
+        "kind": "function",
+        "signature": "__missing__(key, /)",
+        "summary": "If the \"default_factory\" attribute is \"None\", this raises a",
+        "version_note": "Check the official documentation for version details.",
+        "id": 83
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "function",
+        "signature": "collections.namedtuple(typename, field_names, *, rename=False, defaults=None, module=None)",
+        "summary": "Returns a new tuple subclass named *typename*. The new subclass is",
+        "version_note": "Check the official documentation for version details.",
+        "id": 84
+    },
+    {
+        "module": "collections",
+        "name": "Point",
+        "kind": "function",
+        "signature": "Point(x=11, y=22)",
+        "summary": "Named tuples are especially useful for assigning field names to result",
+        "version_note": "Check the official documentation for version details.",
+        "id": 85
+    },
+    {
+        "module": "collections",
+        "name": "print",
+        "kind": "function",
+        "signature": "print(emp.name, emp.title)",
+        "summary": "import sqlite3",
+        "version_note": "Check the official documentation for version details.",
+        "id": 86
+    },
+    {
+        "module": "collections",
+        "name": "cursor",
+        "kind": "function",
+        "signature": "cursor.execute('SELECT name, age, title, department, paygrade FROM employees')",
+        "summary": "for emp in map(EmployeeRecord._make, cursor.fetchall()):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 87
+    },
+    {
+        "module": "collections",
+        "name": "print",
+        "kind": "function",
+        "signature": "print(emp.name, emp.title)",
+        "summary": "In addition to the methods inherited from tuples, named tuples support",
+        "version_note": "Check the official documentation for version details.",
+        "id": 88
+    },
+    {
+        "module": "collections",
+        "name": "Point",
+        "kind": "function",
+        "signature": "Point(x=11, y=22)",
+        "summary": "somenamedtuple._asdict()",
+        "version_note": "Check the official documentation for version details.",
+        "id": 89
+    },
+    {
+        "module": "collections",
+        "name": "somenamedtuple",
+        "kind": "function",
+        "signature": "somenamedtuple._asdict()",
+        "summary": "Return a new \"dict\" which maps field names to their corresponding",
+        "version_note": "Check the official documentation for version details.",
+        "id": 90
+    },
+    {
+        "module": "collections",
+        "name": "somenamedtuple",
+        "kind": "function",
+        "signature": "somenamedtuple._replace(**kwargs)",
+        "summary": "Return a new instance of the named tuple replacing specified fields",
+        "version_note": "Check the official documentation for version details.",
+        "id": 91
+    },
+    {
+        "module": "collections",
+        "name": "Point",
+        "kind": "function",
+        "signature": "Point(x=33, y=22)",
+        "summary": ">>> for partnum, record in inventory.items():",
+        "version_note": "Check the official documentation for version details.",
+        "id": 92
+    },
+    {
+        "module": "collections",
+        "name": "Pixel",
+        "kind": "function",
+        "signature": "Pixel(x=11, y=22, red=128, green=255, blue=0)",
+        "summary": "somenamedtuple._field_defaults",
+        "version_note": "Check the official documentation for version details.",
+        "id": 93
+    },
+    {
+        "module": "collections",
+        "name": "Account",
+        "kind": "function",
+        "signature": "Account(type='premium', balance=0)",
+        "summary": "To retrieve a field whose name is stored in a string, use the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 94
+    },
+    {
+        "module": "collections",
+        "name": "Point",
+        "kind": "function",
+        "signature": "Point(x=11, y=22)",
+        "summary": "Since a named tuple is a regular Python class, it is easy to add or",
+        "version_note": "Check the official documentation for version details.",
+        "id": 95
+    },
+    {
+        "module": "collections",
+        "name": "Component",
+        "kind": "class",
+        "signature": "class Component(NamedTuple):",
+        "summary": "part_number: int",
+        "version_note": "Check the official documentation for version details.",
+        "id": 96
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.OrderedDict(**kwargs)",
+        "summary": "class collections.OrderedDict(mapping, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 97
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.OrderedDict(mapping, /, **kwargs)",
+        "summary": "class collections.OrderedDict(iterable, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 98
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.OrderedDict(iterable, /, **kwargs)",
+        "summary": "Return an instance of a \"dict\" subclass that has methods",
+        "version_note": "Check the official documentation for version details.",
+        "id": 99
+    },
+    {
+        "module": "collections",
+        "name": "popitem",
+        "kind": "function",
+        "signature": "popitem(last=True)",
+        "summary": "The \"popitem()\" method for ordered dictionaries returns and",
+        "version_note": "Check the official documentation for version details.",
+        "id": 100
+    },
+    {
+        "module": "collections",
+        "name": "move_to_end",
+        "kind": "function",
+        "signature": "move_to_end(key, last=True)",
+        "summary": "Move an existing *key* to either end of an ordered dictionary.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 101
+    },
+    {
+        "module": "collections",
+        "name": "LastUpdatedOrderedDict",
+        "kind": "class",
+        "signature": "class LastUpdatedOrderedDict(OrderedDict):",
+        "summary": "'Store items in the order that the keys were last updated.'",
+        "version_note": "Check the official documentation for version details.",
+        "id": 102
+    },
+    {
+        "module": "collections",
+        "name": "__setitem__",
+        "kind": "function",
+        "signature": "def __setitem__(self, key, value):",
+        "summary": "super().__setitem__(key, value)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 103
+    },
+    {
+        "module": "collections",
+        "name": "super",
+        "kind": "function",
+        "signature": "super().__setitem__(key, value)",
+        "summary": "self.move_to_end(key)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 104
+    },
+    {
+        "module": "collections",
+        "name": "self",
+        "kind": "function",
+        "signature": "self.move_to_end(key)",
+        "summary": "An \"OrderedDict\" would also be useful for implementing variants of",
+        "version_note": "Check the official documentation for version details.",
+        "id": 105
+    },
+    {
+        "module": "collections",
+        "name": "TimeBoundedLRU",
+        "kind": "class",
+        "signature": "class TimeBoundedLRU:",
+        "summary": "\"LRU Cache that invalidates and refreshes old entries.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 106
+    },
+    {
+        "module": "collections",
+        "name": "__init__",
+        "kind": "function",
+        "signature": "def __init__(self, func, maxsize=128, maxage=30):",
+        "summary": "self.cache = OrderedDict() # { args : (timestamp, result)}",
+        "version_note": "Check the official documentation for version details.",
+        "id": 107
+    },
+    {
+        "module": "collections",
+        "name": "__call__",
+        "kind": "function",
+        "signature": "def __call__(self, *args):",
+        "summary": "if args in self.cache:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 108
+    },
+    {
+        "module": "collections",
+        "name": "self",
+        "kind": "function",
+        "signature": "self.cache.move_to_end(args)",
+        "summary": "timestamp, result = self.cache[args]",
+        "version_note": "Check the official documentation for version details.",
+        "id": 109
+    },
+    {
+        "module": "collections",
+        "name": "self",
+        "kind": "function",
+        "signature": "self.cache.popitem(last=False)",
+        "summary": "return result",
+        "version_note": "Check the official documentation for version details.",
+        "id": 110
+    },
+    {
+        "module": "collections",
+        "name": "MultiHitLRUCache",
+        "kind": "class",
+        "signature": "class MultiHitLRUCache:",
+        "summary": "\"\"\" LRU cache that defers caching a result until",
+        "version_note": "Check the official documentation for version details.",
+        "id": 111
+    },
+    {
+        "module": "collections",
+        "name": "__init__",
+        "kind": "function",
+        "signature": "def __init__(self, func, maxsize=128, maxrequests=4096, cache_after=1):",
+        "summary": "self.requests = OrderedDict() # { uncached_key : request_count }",
+        "version_note": "Check the official documentation for version details.",
+        "id": 112
+    },
+    {
+        "module": "collections",
+        "name": "__call__",
+        "kind": "function",
+        "signature": "def __call__(self, *args):",
+        "summary": "if args in self.cache:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 113
+    },
+    {
+        "module": "collections",
+        "name": "self",
+        "kind": "function",
+        "signature": "self.cache.move_to_end(args)",
+        "summary": "return self.cache[args]",
+        "version_note": "Check the official documentation for version details.",
+        "id": 114
+    },
+    {
+        "module": "collections",
+        "name": "self",
+        "kind": "function",
+        "signature": "self.requests.move_to_end(args)",
+        "summary": "if len(self.requests) > self.maxrequests:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 115
+    },
+    {
+        "module": "collections",
+        "name": "self",
+        "kind": "function",
+        "signature": "self.requests.popitem(last=False)",
+        "summary": "else:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 116
+    },
+    {
+        "module": "collections",
+        "name": "self",
+        "kind": "function",
+        "signature": "self.requests.pop(args, None)",
+        "summary": "self.cache[args] = result",
+        "version_note": "Check the official documentation for version details.",
+        "id": 117
+    },
+    {
+        "module": "collections",
+        "name": "self",
+        "kind": "function",
+        "signature": "self.cache.popitem(last=False)",
+        "summary": "return result",
+        "version_note": "Check the official documentation for version details.",
+        "id": 118
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.UserDict(**kwargs)",
+        "summary": "class collections.UserDict(mapping, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 119
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.UserDict(mapping, /, **kwargs)",
+        "summary": "class collections.UserDict(iterable, /, **kwargs)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 120
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.UserDict(iterable, /, **kwargs)",
+        "summary": "Class that simulates a dictionary. The instance's contents are",
+        "version_note": "Check the official documentation for version details.",
+        "id": 121
+    },
+    {
+        "module": "collections",
+        "name": "popitem",
+        "kind": "function",
+        "signature": "popitem()",
+        "summary": "Remove and return a \"(key, value)\" pair from the wrapped",
+        "version_note": "Check the official documentation for version details.",
+        "id": 122
+    },
+    {
+        "module": "collections",
+        "name": "for",
+        "kind": "class",
+        "signature": "class for your own list-like classes which can inherit from them and",
+        "summary": "override existing methods or add new ones. In this way, one can add",
+        "version_note": "Check the official documentation for version details.",
+        "id": 123
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.UserList([list])",
+        "summary": "Class that simulates a list. The instance's contents are kept in a",
+        "version_note": "Check the official documentation for version details.",
+        "id": 124
+    },
+    {
+        "module": "collections",
+        "name": "collections",
+        "kind": "class",
+        "signature": "class collections.UserString(seq)",
+        "summary": "Class that simulates a string object. The instance's content is",
+        "version_note": "Check the official documentation for version details.",
+        "id": 125
+    },
+    {
+        "module": "itertools",
+        "name": "count",
+        "kind": "function",
+        "signature": "count())\".",
+        "summary": "**General iterators:**",
+        "version_note": "Check the official documentation for version details.",
+        "id": 126
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.accumulate(iterable[, function, *, initial=None])",
+        "summary": "Make an iterator that returns accumulated sums or accumulated",
+        "version_note": "Check the official documentation for version details.",
+        "id": 127
+    },
+    {
+        "module": "itertools",
+        "name": "accumulate",
+        "kind": "function",
+        "signature": "def accumulate(iterable, function=operator.add, *, initial=None):",
+        "summary": "'Return running totals'",
+        "version_note": "Check the official documentation for version details.",
+        "id": 128
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.batched(iterable, n, *, strict=False)",
+        "summary": "Batch data from the *iterable* into tuples of length *n*. The last",
+        "version_note": "Check the official documentation for version details.",
+        "id": 129
+    },
+    {
+        "module": "itertools",
+        "name": "batched",
+        "kind": "function",
+        "signature": "def batched(iterable, n, *, strict=False):",
+        "summary": "# batched('ABCDEFG', 3) → ABC DEF G",
+        "version_note": "Check the official documentation for version details.",
+        "id": 130
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.chain(*iterables)",
+        "summary": "Make an iterator that returns elements from the first iterable",
+        "version_note": "Check the official documentation for version details.",
+        "id": 131
+    },
+    {
+        "module": "itertools",
+        "name": "chain",
+        "kind": "function",
+        "signature": "def chain(*iterables):",
+        "summary": "# chain('ABC', 'DEF') → A B C D E F",
+        "version_note": "Check the official documentation for version details.",
+        "id": 132
+    },
+    {
+        "module": "itertools",
+        "name": "from_iterable",
+        "kind": "function",
+        "signature": "def from_iterable(iterables):",
+        "summary": "# chain.from_iterable(['ABC', 'DEF']) → A B C D E F",
+        "version_note": "Check the official documentation for version details.",
+        "id": 133
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.combinations(iterable, r)",
+        "summary": "Return *r* length subsequences of elements from the input",
+        "version_note": "Check the official documentation for version details.",
+        "id": 134
+    },
+    {
+        "module": "itertools",
+        "name": "combinations",
+        "kind": "function",
+        "signature": "def combinations(iterable, r):",
+        "summary": "# combinations('ABCD', 2) → AB AC AD BC BD CD",
+        "version_note": "Check the official documentation for version details.",
+        "id": 135
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.combinations_with_replacement(iterable, r)",
+        "summary": "Return *r* length subsequences of elements from the input",
+        "version_note": "Check the official documentation for version details.",
+        "id": 136
+    },
+    {
+        "module": "itertools",
+        "name": "combinations_with_replacement",
+        "kind": "function",
+        "signature": "def combinations_with_replacement(iterable, r):",
+        "summary": "# combinations_with_replacement('ABC', 2) → AA AB AC BB BC CC",
+        "version_note": "Check the official documentation for version details.",
+        "id": 137
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.compress(data, selectors)",
+        "summary": "Make an iterator that returns elements from *data* where the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 138
+    },
+    {
+        "module": "itertools",
+        "name": "compress",
+        "kind": "function",
+        "signature": "def compress(data, selectors):",
+        "summary": "# compress('ABCDEF', [1,0,1,0,1,1]) → A C E F",
+        "version_note": "Check the official documentation for version details.",
+        "id": 139
+    },
+    {
+        "module": "itertools",
+        "name": "return",
+        "kind": "function",
+        "signature": "return (datum for datum, selector in zip(data, selectors) if selector)",
+        "summary": "Added in version 3.1.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 140
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.count(start=0, step=1)",
+        "summary": "Make an iterator that returns evenly spaced values beginning with",
+        "version_note": "Check the official documentation for version details.",
+        "id": 141
+    },
+    {
+        "module": "itertools",
+        "name": "count",
+        "kind": "function",
+        "signature": "def count(start=0, step=1):",
+        "summary": "# count(10) → 10 11 12 13 14 ...",
+        "version_note": "Check the official documentation for version details.",
+        "id": 142
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.cycle(iterable)",
+        "summary": "Make an iterator returning elements from the *iterable* and saving",
+        "version_note": "Check the official documentation for version details.",
+        "id": 143
+    },
+    {
+        "module": "itertools",
+        "name": "cycle",
+        "kind": "function",
+        "signature": "def cycle(iterable):",
+        "summary": "# cycle('ABCD') → A B C D A B C D A B C D ...",
+        "version_note": "Check the official documentation for version details.",
+        "id": 144
+    },
+    {
+        "module": "itertools",
+        "name": "saved",
+        "kind": "function",
+        "signature": "saved.append(element)",
+        "summary": "while saved:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 145
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.dropwhile(predicate, iterable)",
+        "summary": "Make an iterator that drops elements from the *iterable* while the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 146
+    },
+    {
+        "module": "itertools",
+        "name": "dropwhile",
+        "kind": "function",
+        "signature": "def dropwhile(predicate, iterable):",
+        "summary": "# dropwhile(lambda x: x<5, [1,4,6,3,8]) → 6 3 8",
+        "version_note": "Check the official documentation for version details.",
+        "id": 147
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.filterfalse(predicate, iterable)",
+        "summary": "Make an iterator that filters elements from the *iterable*",
+        "version_note": "Check the official documentation for version details.",
+        "id": 148
+    },
+    {
+        "module": "itertools",
+        "name": "filterfalse",
+        "kind": "function",
+        "signature": "def filterfalse(predicate, iterable):",
+        "summary": "# filterfalse(lambda x: x<5, [1,4,6,3,8]) → 6 8",
+        "version_note": "Check the official documentation for version details.",
+        "id": 149
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.groupby(iterable, key=None)",
+        "summary": "Make an iterator that returns consecutive keys and groups from the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 150
+    },
+    {
+        "module": "itertools",
+        "name": "groups",
+        "kind": "function",
+        "signature": "groups.append(list(g)) # Store group iterator as a list",
+        "summary": "uniquekeys.append(k)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 151
+    },
+    {
+        "module": "itertools",
+        "name": "uniquekeys",
+        "kind": "function",
+        "signature": "uniquekeys.append(k)",
+        "summary": "\"groupby()\" is roughly equivalent to:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 152
+    },
+    {
+        "module": "itertools",
+        "name": "groupby",
+        "kind": "function",
+        "signature": "def groupby(iterable, key=None):",
+        "summary": "# [k for k, g in groupby('AAAABBBCCDAABBB')] → A B C D A B",
+        "version_note": "Check the official documentation for version details.",
+        "id": 153
+    },
+    {
+        "module": "itertools",
+        "name": "_grouper",
+        "kind": "function",
+        "signature": "def _grouper(target_key):",
+        "summary": "nonlocal curr_value, curr_key, exhausted",
+        "version_note": "Check the official documentation for version details.",
+        "id": 154
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.islice(iterable, stop)",
+        "summary": "itertools.islice(iterable, start, stop[, step])",
+        "version_note": "Check the official documentation for version details.",
+        "id": 155
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.islice(iterable, start, stop[, step])",
+        "summary": "Make an iterator that returns selected elements from the iterable.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 156
+    },
+    {
+        "module": "itertools",
+        "name": "islice",
+        "kind": "function",
+        "signature": "def islice(iterable, *args):",
+        "summary": "# islice('ABCDEFG', 2) → A B",
+        "version_note": "Check the official documentation for version details.",
+        "id": 157
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.pairwise(iterable)",
+        "summary": "Return successive overlapping pairs taken from the input",
+        "version_note": "Check the official documentation for version details.",
+        "id": 158
+    },
+    {
+        "module": "itertools",
+        "name": "pairwise",
+        "kind": "function",
+        "signature": "def pairwise(iterable):",
+        "summary": "# pairwise('ABCDEFG') → AB BC CD DE EF FG",
+        "version_note": "Check the official documentation for version details.",
+        "id": 159
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.permutations(iterable, r=None)",
+        "summary": "Return successive *r* length permutations of elements from the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 160
+    },
+    {
+        "module": "itertools",
+        "name": "permutations",
+        "kind": "function",
+        "signature": "def permutations(iterable, r=None):",
+        "summary": "# permutations('ABCD', 2) → AB AC AD BA BC BD CA CB CD DA DB DC",
+        "version_note": "Check the official documentation for version details.",
+        "id": 161
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.product(*iterables, repeat=1)",
+        "summary": "Cartesian product of the input iterables.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 162
+    },
+    {
+        "module": "itertools",
+        "name": "product",
+        "kind": "function",
+        "signature": "def product(*iterables, repeat=1):",
+        "summary": "# product('ABCD', 'xy') → Ax Ay Bx By Cx Cy Dx Dy",
+        "version_note": "Check the official documentation for version details.",
+        "id": 163
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.repeat(object[, times])",
+        "summary": "Make an iterator that returns *object* over and over again. Runs",
+        "version_note": "Check the official documentation for version details.",
+        "id": 164
+    },
+    {
+        "module": "itertools",
+        "name": "repeat",
+        "kind": "function",
+        "signature": "def repeat(object, times=None):",
+        "summary": "# repeat(10, 3) → 10 10 10",
+        "version_note": "Check the official documentation for version details.",
+        "id": 165
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.starmap(function, iterable)",
+        "summary": "Make an iterator that computes the *function* using arguments",
+        "version_note": "Check the official documentation for version details.",
+        "id": 166
+    },
+    {
+        "module": "itertools",
+        "name": "starmap",
+        "kind": "function",
+        "signature": "def starmap(function, iterable):",
+        "summary": "# starmap(pow, [(2,5), (3,2), (10,3)]) → 32 9 1000",
+        "version_note": "Check the official documentation for version details.",
+        "id": 167
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.takewhile(predicate, iterable)",
+        "summary": "Make an iterator that returns elements from the *iterable* as long",
+        "version_note": "Check the official documentation for version details.",
+        "id": 168
+    },
+    {
+        "module": "itertools",
+        "name": "takewhile",
+        "kind": "function",
+        "signature": "def takewhile(predicate, iterable):",
+        "summary": "# takewhile(lambda x: x<5, [1,4,6,3,8]) → 1 4",
+        "version_note": "Check the official documentation for version details.",
+        "id": 169
+    },
+    {
+        "module": "itertools",
+        "name": "before_and_after",
+        "kind": "function",
+        "signature": "before_and_after() instead.",
+        "summary": "itertools.tee(iterable, n=2)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 170
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.tee(iterable, n=2)",
+        "summary": "Return *n* independent iterators from a single iterable.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 171
+    },
+    {
+        "module": "itertools",
+        "name": "tee",
+        "kind": "function",
+        "signature": "def tee(iterable, n=2):",
+        "summary": "if n < 0:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 172
+    },
+    {
+        "module": "itertools",
+        "name": "return",
+        "kind": "function",
+        "signature": "return ()",
+        "summary": "iterator = _tee(iterable)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 173
+    },
+    {
+        "module": "itertools",
+        "name": "result",
+        "kind": "function",
+        "signature": "result.append(_tee(iterator))",
+        "summary": "return tuple(result)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 174
+    },
+    {
+        "module": "itertools",
+        "name": "_tee",
+        "kind": "class",
+        "signature": "class _tee:",
+        "summary": "def __init__(self, iterable):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 175
+    },
+    {
+        "module": "itertools",
+        "name": "__init__",
+        "kind": "function",
+        "signature": "def __init__(self, iterable):",
+        "summary": "it = iter(iterable)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 176
+    },
+    {
+        "module": "itertools",
+        "name": "__iter__",
+        "kind": "function",
+        "signature": "def __iter__(self):",
+        "summary": "return self",
+        "version_note": "Check the official documentation for version details.",
+        "id": 177
+    },
+    {
+        "module": "itertools",
+        "name": "__next__",
+        "kind": "function",
+        "signature": "def __next__(self):",
+        "summary": "link = self.link",
+        "version_note": "Check the official documentation for version details.",
+        "id": 178
+    },
+    {
+        "module": "itertools",
+        "name": "lookahead",
+        "kind": "function",
+        "signature": "def lookahead(tee_iterator):",
+        "summary": "\"Return the next value without moving the input forward\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 179
+    },
+    {
+        "module": "itertools",
+        "name": "itertools",
+        "kind": "function",
+        "signature": "itertools.zip_longest(*iterables, fillvalue=None)",
+        "summary": "Make an iterator that aggregates elements from each of the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 180
+    },
+    {
+        "module": "itertools",
+        "name": "zip_longest",
+        "kind": "function",
+        "signature": "def zip_longest(*iterables, fillvalue=None):",
+        "summary": "# zip_longest('ABCD', 'xy', fillvalue='-') → Ax By C- D-",
+        "version_note": "Check the official documentation for version details.",
+        "id": 181
+    },
+    {
+        "module": "itertools",
+        "name": "values",
+        "kind": "function",
+        "signature": "values.append(value)",
+        "summary": "yield tuple(values)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 182
+    },
+    {
+        "module": "itertools",
+        "name": "take",
+        "kind": "function",
+        "signature": "def take(n, iterable):",
+        "summary": "\"Return first n items of the iterable as a list.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 183
+    },
+    {
+        "module": "itertools",
+        "name": "prepend",
+        "kind": "function",
+        "signature": "def prepend(value, iterable):",
+        "summary": "\"Prepend a single value in front of an iterable.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 184
+    },
+    {
+        "module": "itertools",
+        "name": "repeatfunc",
+        "kind": "function",
+        "signature": "def repeatfunc(function, times=None, *args):",
+        "summary": "\"Repeat calls to a function with specified arguments.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 185
+    },
+    {
+        "module": "itertools",
+        "name": "flatten",
+        "kind": "function",
+        "signature": "def flatten(list_of_lists):",
+        "summary": "\"Flatten one level of nesting.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 186
+    },
+    {
+        "module": "itertools",
+        "name": "ncycles",
+        "kind": "function",
+        "signature": "def ncycles(iterable, n):",
+        "summary": "\"Returns the sequence elements n times.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 187
+    },
+    {
+        "module": "itertools",
+        "name": "loops",
+        "kind": "function",
+        "signature": "def loops(n):",
+        "summary": "\"Loop n times. Like range(n) but without creating integers.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 188
+    },
+    {
+        "module": "itertools",
+        "name": "tail",
+        "kind": "function",
+        "signature": "def tail(n, iterable):",
+        "summary": "\"Return an iterator over the last n items.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 189
+    },
+    {
+        "module": "itertools",
+        "name": "consume",
+        "kind": "function",
+        "signature": "def consume(iterator, n=None):",
+        "summary": "\"Advance the iterator n-steps ahead. If n is None, consume entirely.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 190
+    },
+    {
+        "module": "itertools",
+        "name": "deque",
+        "kind": "function",
+        "signature": "deque(iterator, maxlen=0)",
+        "summary": "else:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 191
+    },
+    {
+        "module": "itertools",
+        "name": "next",
+        "kind": "function",
+        "signature": "next(islice(iterator, n, n), None)",
+        "summary": "def nth(iterable, n, default=None):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 192
+    },
+    {
+        "module": "itertools",
+        "name": "nth",
+        "kind": "function",
+        "signature": "def nth(iterable, n, default=None):",
+        "summary": "\"Returns the nth item or a default value.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 193
+    },
+    {
+        "module": "itertools",
+        "name": "quantify",
+        "kind": "function",
+        "signature": "def quantify(iterable, predicate=bool):",
+        "summary": "\"Given a predicate that returns True or False, count the True results.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 194
+    },
+    {
+        "module": "itertools",
+        "name": "first_true",
+        "kind": "function",
+        "signature": "def first_true(iterable, default=False, predicate=None):",
+        "summary": "\"Returns the first true value or the *default* if there is no true value.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 195
+    },
+    {
+        "module": "itertools",
+        "name": "all_equal",
+        "kind": "function",
+        "signature": "def all_equal(iterable, key=None):",
+        "summary": "\"Returns True if all the elements are equal to each other.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 196
+    },
+    {
+        "module": "itertools",
+        "name": "unique_justseen",
+        "kind": "function",
+        "signature": "def unique_justseen(iterable, key=None):",
+        "summary": "\"Yield unique elements, preserving order. Remember only the element just seen.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 197
+    },
+    {
+        "module": "itertools",
+        "name": "unique_everseen",
+        "kind": "function",
+        "signature": "def unique_everseen(iterable, key=None):",
+        "summary": "\"Yield unique elements, preserving order. Remember all elements ever seen.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 198
+    },
+    {
+        "module": "itertools",
+        "name": "seen",
+        "kind": "function",
+        "signature": "seen.add(element)",
+        "summary": "yield element",
+        "version_note": "Check the official documentation for version details.",
+        "id": 199
+    },
+    {
+        "module": "itertools",
+        "name": "seen",
+        "kind": "function",
+        "signature": "seen.add(k)",
+        "summary": "yield element",
+        "version_note": "Check the official documentation for version details.",
+        "id": 200
+    },
+    {
+        "module": "itertools",
+        "name": "unique",
+        "kind": "function",
+        "signature": "def unique(iterable, key=None, reverse=False):",
+        "summary": "\"Yield unique elements in sorted order. Supports unhashable inputs.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 201
+    },
+    {
+        "module": "itertools",
+        "name": "sliding_window",
+        "kind": "function",
+        "signature": "def sliding_window(iterable, n):",
+        "summary": "\"Collect data into overlapping fixed-length chunks or blocks.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 202
+    },
+    {
+        "module": "itertools",
+        "name": "window",
+        "kind": "function",
+        "signature": "window.append(x)",
+        "summary": "yield tuple(window)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 203
+    },
+    {
+        "module": "itertools",
+        "name": "grouper",
+        "kind": "function",
+        "signature": "def grouper(iterable, n, *, incomplete='fill', fillvalue=None):",
+        "summary": "\"Collect data into non-overlapping fixed-length chunks or blocks.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 204
+    },
+    {
+        "module": "itertools",
+        "name": "roundrobin",
+        "kind": "function",
+        "signature": "def roundrobin(*iterables):",
+        "summary": "\"Visit input iterables in a cycle until each is exhausted.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 205
+    },
+    {
+        "module": "itertools",
+        "name": "subslices",
+        "kind": "function",
+        "signature": "def subslices(seq):",
+        "summary": "\"Return all contiguous non-empty subslices of a sequence.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 206
+    },
+    {
+        "module": "itertools",
+        "name": "derangements",
+        "kind": "function",
+        "signature": "def derangements(iterable, r=None):",
+        "summary": "\"Produce r length permutations without fixed points.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 207
+    },
+    {
+        "module": "itertools",
+        "name": "iter_index",
+        "kind": "function",
+        "signature": "def iter_index(iterable, value, start=0, stop=None):",
+        "summary": "\"Return indices where a value occurs in a sequence or iterable.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 208
+    },
+    {
+        "module": "itertools",
+        "name": "yield",
+        "kind": "function",
+        "signature": "yield (i := seq_index(value, i, stop))",
+        "summary": "i += 1",
+        "version_note": "Check the official documentation for version details.",
+        "id": 209
+    },
+    {
+        "module": "itertools",
+        "name": "iter_except",
+        "kind": "function",
+        "signature": "def iter_except(function, exception, first=None):",
+        "summary": "\"Convert a call-until-exception interface to an iterator interface.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 210
+    },
+    {
+        "module": "itertools",
+        "name": "multinomial",
+        "kind": "function",
+        "signature": "def multinomial(*counts):",
+        "summary": "\"Number of distinct arrangements of a multiset.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 211
+    },
+    {
+        "module": "itertools",
+        "name": "powerset",
+        "kind": "function",
+        "signature": "def powerset(iterable):",
+        "summary": "\"Subsequences of the iterable from shortest to longest.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 212
+    },
+    {
+        "module": "itertools",
+        "name": "sum_of_squares",
+        "kind": "function",
+        "signature": "def sum_of_squares(iterable):",
+        "summary": "\"Add up the squares of the input values.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 213
+    },
+    {
+        "module": "itertools",
+        "name": "reshape",
+        "kind": "function",
+        "signature": "def reshape(matrix, columns):",
+        "summary": "\"Reshape a 2-D matrix to have a given number of columns.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 214
+    },
+    {
+        "module": "itertools",
+        "name": "transpose",
+        "kind": "function",
+        "signature": "def transpose(matrix):",
+        "summary": "\"Swap the rows and columns of a 2-D matrix.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 215
+    },
+    {
+        "module": "itertools",
+        "name": "matmul",
+        "kind": "function",
+        "signature": "def matmul(m1, m2):",
+        "summary": "\"Multiply two matrices.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 216
+    },
+    {
+        "module": "itertools",
+        "name": "convolve",
+        "kind": "function",
+        "signature": "def convolve(signal, kernel):",
+        "summary": "\"\"\"Discrete linear convolution of two iterables.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 217
+    },
+    {
+        "module": "itertools",
+        "name": "polynomial_from_roots",
+        "kind": "function",
+        "signature": "def polynomial_from_roots(roots):",
+        "summary": "\"\"\"Compute a polynomial's coefficients from its roots.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 218
+    },
+    {
+        "module": "itertools",
+        "name": "polynomial_eval",
+        "kind": "function",
+        "signature": "def polynomial_eval(coefficients, x):",
+        "summary": "\"\"\"Evaluate a polynomial at a specific value.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 219
+    },
+    {
+        "module": "itertools",
+        "name": "polynomial_derivative",
+        "kind": "function",
+        "signature": "def polynomial_derivative(coefficients):",
+        "summary": "\"\"\"Compute the first derivative of a polynomial.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 220
+    },
+    {
+        "module": "itertools",
+        "name": "f",
+        "kind": "function",
+        "signature": "f(x) = x³ -4x² -17x + 60",
+        "summary": "f'(x) = 3x² -8x -17",
+        "version_note": "Check the official documentation for version details.",
+        "id": 221
+    },
+    {
+        "module": "itertools",
+        "name": "sieve",
+        "kind": "function",
+        "signature": "def sieve(n):",
+        "summary": "\"Primes less than n.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 222
+    },
+    {
+        "module": "itertools",
+        "name": "factor",
+        "kind": "function",
+        "signature": "def factor(n):",
+        "summary": "\"Prime factors of n.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 223
+    },
+    {
+        "module": "itertools",
+        "name": "is_prime",
+        "kind": "function",
+        "signature": "def is_prime(n):",
+        "summary": "\"Return True if n is prime.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 224
+    },
+    {
+        "module": "itertools",
+        "name": "totient",
+        "kind": "function",
+        "signature": "def totient(n):",
+        "summary": "\"Count of natural numbers up to n that are coprime to n.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 225
+    },
+    {
+        "module": "itertools",
+        "name": "running_mean",
+        "kind": "function",
+        "signature": "def running_mean(iterable):",
+        "summary": "\"Average of values seen so far.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 226
+    },
+    {
+        "module": "itertools",
+        "name": "running_min",
+        "kind": "function",
+        "signature": "def running_min(iterable):",
+        "summary": "\"Smallest of values seen so far.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 227
+    },
+    {
+        "module": "itertools",
+        "name": "running_max",
+        "kind": "function",
+        "signature": "def running_max(iterable):",
+        "summary": "\"Largest of values seen so far.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 228
+    },
+    {
+        "module": "itertools",
+        "name": "running_median",
+        "kind": "function",
+        "signature": "def running_median(iterable):",
+        "summary": "\"Median of values seen so far.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 229
+    },
+    {
+        "module": "itertools",
+        "name": "heappush_max",
+        "kind": "function",
+        "signature": "heappush_max(lo, heappushpop(hi, read()))",
+        "summary": "yield lo[0]",
+        "version_note": "Check the official documentation for version details.",
+        "id": 230
+    },
+    {
+        "module": "itertools",
+        "name": "heappush",
+        "kind": "function",
+        "signature": "heappush(hi, heappushpop_max(lo, read()))",
+        "summary": "yield (lo[0] + hi[0]) / 2",
+        "version_note": "Check the official documentation for version details.",
+        "id": 231
+    },
+    {
+        "module": "itertools",
+        "name": "yield",
+        "kind": "function",
+        "signature": "yield (lo[0] + hi[0]) / 2",
+        "summary": "def running_statistics(iterable):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 232
+    },
+    {
+        "module": "itertools",
+        "name": "running_statistics",
+        "kind": "function",
+        "signature": "def running_statistics(iterable):",
+        "summary": "\"Aggregate statistics for values seen so far.\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 233
+    },
+    {
+        "module": "itertools",
+        "name": "count",
+        "kind": "function",
+        "signature": "count(1),",
+        "summary": "running_min(t0),",
+        "version_note": "Check the official documentation for version details.",
+        "id": 234
+    },
+    {
+        "module": "itertools",
+        "name": "running_min",
+        "kind": "function",
+        "signature": "running_min(t0),",
+        "summary": "running_median(t1),",
+        "version_note": "Check the official documentation for version details.",
+        "id": 235
+    },
+    {
+        "module": "itertools",
+        "name": "running_median",
+        "kind": "function",
+        "signature": "running_median(t1),",
+        "summary": "running_max(t2),",
+        "version_note": "Check the official documentation for version details.",
+        "id": 236
+    },
+    {
+        "module": "itertools",
+        "name": "running_max",
+        "kind": "function",
+        "signature": "running_max(t2),",
+        "summary": "running_mean(t3),",
+        "version_note": "Check the official documentation for version details.",
+        "id": 237
+    },
+    {
+        "module": "itertools",
+        "name": "running_mean",
+        "kind": "function",
+        "signature": "running_mean(t3),",
+        "summary": ")",
+        "version_note": "Check the official documentation for version details.",
+        "id": 238
+    },
+    {
+        "module": "functools",
+        "name": "factorial",
+        "kind": "function",
+        "signature": "def factorial(n):",
+        "summary": "return n * factorial(n-1) if n else 1",
+        "version_note": "Check the official documentation for version details.",
+        "id": 239
+    },
+    {
+        "module": "functools",
+        "name": "DataSet",
+        "kind": "class",
+        "signature": "class DataSet:",
+        "summary": "def __init__(self, sequence_of_numbers):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 240
+    },
+    {
+        "module": "functools",
+        "name": "__init__",
+        "kind": "function",
+        "signature": "def __init__(self, sequence_of_numbers):",
+        "summary": "self._data = tuple(sequence_of_numbers)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 241
+    },
+    {
+        "module": "functools",
+        "name": "stdev",
+        "kind": "function",
+        "signature": "def stdev(self):",
+        "summary": "return statistics.stdev(self._data)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 242
+    },
+    {
+        "module": "functools",
+        "name": "functools",
+        "kind": "function",
+        "signature": "functools.cmp_to_key(func)",
+        "summary": "Transform an old-style comparison function to a *key function*.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 243
+    },
+    {
+        "module": "functools",
+        "name": "sorted",
+        "kind": "function",
+        "signature": "sorted(iterable, key=cmp_to_key(locale.strcoll)) # locale-aware sort order",
+        "summary": "For sorting examples and a brief sorting tutorial, see Sorting",
+        "version_note": "Check the official documentation for version details.",
+        "id": 244
+    },
+    {
+        "module": "functools",
+        "name": "count_vowels",
+        "kind": "function",
+        "signature": "def count_vowels(word):",
+        "summary": "return sum(word.count(vowel) for vowel in 'AEIOUaeiou')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 245
+    },
+    {
+        "module": "functools",
+        "name": "Decimal",
+        "kind": "function",
+        "signature": "Decimal(42))\" and \"('answer', Fraction(42))\" are treated as",
+        "summary": "equivalent.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 246
+    },
+    {
+        "module": "functools",
+        "name": "random",
+        "kind": "function",
+        "signature": "random().",
+        "summary": "Example of an LRU cache for static web content:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 247
+    },
+    {
+        "module": "functools",
+        "name": "get_pep",
+        "kind": "function",
+        "signature": "def get_pep(num):",
+        "summary": "'Retrieve text of a Python Enhancement Proposal'",
+        "version_note": "Check the official documentation for version details.",
+        "id": 248
+    },
+    {
+        "module": "functools",
+        "name": "CacheInfo",
+        "kind": "function",
+        "signature": "CacheInfo(hits=3, misses=8, maxsize=32, currsize=8)",
+        "summary": "Example of efficiently computing Fibonacci numbers using a cache to",
+        "version_note": "Check the official documentation for version details.",
+        "id": 249
+    },
+    {
+        "module": "functools",
+        "name": "fib",
+        "kind": "function",
+        "signature": "def fib(n):",
+        "summary": "if n < 2:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 250
+    },
+    {
+        "module": "functools",
+        "name": "CacheInfo",
+        "kind": "function",
+        "signature": "CacheInfo(hits=28, misses=16, maxsize=None, currsize=16)",
+        "summary": "Added in version 3.2.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 251
+    },
+    {
+        "module": "functools",
+        "name": "Student",
+        "kind": "class",
+        "signature": "class Student:",
+        "summary": "def _is_valid_operand(self, other):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 252
+    },
+    {
+        "module": "functools",
+        "name": "_is_valid_operand",
+        "kind": "function",
+        "signature": "def _is_valid_operand(self, other):",
+        "summary": "return (hasattr(other, \"lastname\") and",
+        "version_note": "Check the official documentation for version details.",
+        "id": 253
+    },
+    {
+        "module": "functools",
+        "name": "return",
+        "kind": "function",
+        "signature": "return (hasattr(other, \"lastname\") and",
+        "summary": "hasattr(other, \"firstname\"))",
+        "version_note": "Check the official documentation for version details.",
+        "id": 254
+    },
+    {
+        "module": "functools",
+        "name": "hasattr",
+        "kind": "function",
+        "signature": "hasattr(other, \"firstname\"))",
+        "summary": "def __eq__(self, other):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 255
+    },
+    {
+        "module": "functools",
+        "name": "__eq__",
+        "kind": "function",
+        "signature": "def __eq__(self, other):",
+        "summary": "if not self._is_valid_operand(other):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 256
+    },
+    {
+        "module": "functools",
+        "name": "return",
+        "kind": "function",
+        "signature": "return ((self.lastname.lower(), self.firstname.lower()) ==",
+        "summary": "(other.lastname.lower(), other.firstname.lower()))",
+        "version_note": "Check the official documentation for version details.",
+        "id": 257
+    },
+    {
+        "module": "functools",
+        "name": "__lt__",
+        "kind": "function",
+        "signature": "def __lt__(self, other):",
+        "summary": "if not self._is_valid_operand(other):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 258
+    },
+    {
+        "module": "functools",
+        "name": "return",
+        "kind": "function",
+        "signature": "return ((self.lastname.lower(), self.firstname.lower()) <",
+        "summary": "(other.lastname.lower(), other.firstname.lower()))",
+        "version_note": "Check the official documentation for version details.",
+        "id": 259
+    },
+    {
+        "module": "functools",
+        "name": "functools",
+        "kind": "function",
+        "signature": "functools.partial(func, /, *args, **keywords)",
+        "summary": "Return a new partial object which when called will behave like",
+        "version_note": "Check the official documentation for version details.",
+        "id": 260
+    },
+    {
+        "module": "functools",
+        "name": "partial",
+        "kind": "function",
+        "signature": "def partial(func, /, *args, **keywords):",
+        "summary": "def newfunc(*more_args, **more_keywords):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 261
+    },
+    {
+        "module": "functools",
+        "name": "newfunc",
+        "kind": "function",
+        "signature": "def newfunc(*more_args, **more_keywords):",
+        "summary": "return func(*args, *more_args, **(keywords | more_keywords))",
+        "version_note": "Check the official documentation for version details.",
+        "id": 262
+    },
+    {
+        "module": "functools",
+        "name": "functools",
+        "kind": "class",
+        "signature": "class functools.partialmethod(func, /, *args, **keywords)",
+        "summary": "Return a new \"partialmethod\" descriptor which behaves like",
+        "version_note": "Check the official documentation for version details.",
+        "id": 263
+    },
+    {
+        "module": "functools",
+        "name": "functools",
+        "kind": "function",
+        "signature": "functools.reduce(function, iterable, /[, initial])",
+        "summary": "Apply *function* of two arguments cumulatively to the items of",
+        "version_note": "Check the official documentation for version details.",
+        "id": 264
+    },
+    {
+        "module": "functools",
+        "name": "reduce",
+        "kind": "function",
+        "signature": "def reduce(function, iterable, /, initial=initial_missing):",
+        "summary": "it = iter(iterable)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 265
+    },
+    {
+        "module": "functools",
+        "name": "dict_keys",
+        "kind": "function",
+        "signature": "dict_keys([<class 'NoneType'>, <class 'int'>, <class 'object'>,",
+        "summary": "<class 'decimal.Decimal'>, <class 'list'>,",
+        "version_note": "Check the official documentation for version details.",
+        "id": 266
+    },
+    {
+        "module": "functools",
+        "name": "functools",
+        "kind": "class",
+        "signature": "class functools.singledispatchmethod(func)",
+        "summary": "Transform a method into a *single-dispatch* *generic function*.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 267
+    },
+    {
+        "module": "functools",
+        "name": "Negator",
+        "kind": "class",
+        "signature": "class Negator:",
+        "summary": "@singledispatchmethod",
+        "version_note": "Check the official documentation for version details.",
+        "id": 268
+    },
+    {
+        "module": "functools",
+        "name": "neg",
+        "kind": "function",
+        "signature": "def neg(self, arg):",
+        "summary": "raise NotImplementedError(\"Cannot negate a\")",
+        "version_note": "Check the official documentation for version details.",
+        "id": 269
+    },
+    {
+        "module": "functools",
+        "name": "_",
+        "kind": "function",
+        "signature": "def _(self, arg: int):",
+        "summary": "return -arg",
+        "version_note": "Check the official documentation for version details.",
+        "id": 270
+    },
+    {
+        "module": "functools",
+        "name": "_",
+        "kind": "function",
+        "signature": "def _(self, arg: bool):",
+        "summary": "return not arg",
+        "version_note": "Check the official documentation for version details.",
+        "id": 271
+    },
+    {
+        "module": "functools",
+        "name": "Negator",
+        "kind": "class",
+        "signature": "class Negator:",
+        "summary": "@singledispatchmethod",
+        "version_note": "Check the official documentation for version details.",
+        "id": 272
+    },
+    {
+        "module": "functools",
+        "name": "neg",
+        "kind": "function",
+        "signature": "def neg(cls, arg):",
+        "summary": "raise NotImplementedError(\"Cannot negate a\")",
+        "version_note": "Check the official documentation for version details.",
+        "id": 273
+    },
+    {
+        "module": "functools",
+        "name": "_",
+        "kind": "function",
+        "signature": "def _(cls, arg: int):",
+        "summary": "return -arg",
+        "version_note": "Check the official documentation for version details.",
+        "id": 274
+    },
+    {
+        "module": "functools",
+        "name": "_",
+        "kind": "function",
+        "signature": "def _(cls, arg: bool):",
+        "summary": "return not arg",
+        "version_note": "Check the official documentation for version details.",
+        "id": 275
+    },
+    {
+        "module": "functools",
+        "name": "functools",
+        "kind": "function",
+        "signature": "functools.update_wrapper(wrapper, wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES)",
+        "summary": "Update a *wrapper* function to look like the *wrapped* function.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 276
+    },
+    {
+        "module": "pathlib",
+        "name": "is",
+        "kind": "class",
+        "signature": "class is right for your task, \"Path\" is most likely what you need. It",
+        "summary": "instantiates a concrete path for the platform the code is running on.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 277
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('__pycache__'), PosixPath('build')]",
+        "summary": "Listing Python source files in this directory tree:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 278
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('pathlib.py'), PosixPath('docs/conf.py'),",
+        "summary": "PosixPath('build/lib/pathlib.py')]",
+        "version_note": "Check the official documentation for version details.",
+        "id": 279
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('build/lib/pathlib.py')]",
+        "summary": "Navigating inside a directory tree:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 280
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('/etc/init.d/reboot')",
+        "summary": ">>> q.resolve()",
+        "version_note": "Check the official documentation for version details.",
+        "id": 281
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('/etc/rc.d/init.d/halt')",
+        "summary": "Querying path properties:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 282
+    },
+    {
+        "module": "pathlib",
+        "name": "pathlib",
+        "kind": "class",
+        "signature": "class pathlib.PurePath(*pathsegments)",
+        "summary": "A generic class that represents the system's path flavour",
+        "version_note": "Check the official documentation for version details.",
+        "id": 283
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('setup.py')",
+        "summary": "Each element of *pathsegments* can be either a string representing",
+        "version_note": "Check the official documentation for version details.",
+        "id": 284
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('foo/some/path/bar')",
+        "summary": ">>> PurePath(Path('foo'), Path('bar'))",
+        "version_note": "Check the official documentation for version details.",
+        "id": 285
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('foo/bar')",
+        "summary": "When *pathsegments* is empty or consists only of empty strings, the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 286
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/usr/lib64')",
+        "summary": ">>> PureWindowsPath('c:/Windows', 'd:bar')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 287
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('d:bar')",
+        "summary": "On Windows, the drive is not reset when a rooted relative path",
+        "version_note": "Check the official documentation for version details.",
+        "id": 288
+    },
+    {
+        "module": "pathlib",
+        "name": "segment",
+        "kind": "function",
+        "signature": "segment (e.g., \"r'\\foo'\") is encountered:",
+        "summary": ">>> PureWindowsPath('c:/Windows', '/Program Files')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 289
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('c:/Program Files')",
+        "summary": "Spurious slashes and single dots are collapsed, but double dots",
+        "version_note": "Check the official documentation for version details.",
+        "id": 290
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('foo/bar')",
+        "summary": ">>> PurePath('//foo/bar')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 291
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('//foo/bar')",
+        "summary": ">>> PurePath('foo/./bar')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 292
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('foo/bar')",
+        "summary": ">>> PurePath('foo/../bar')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 293
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('foo/../bar')",
+        "summary": "(a naïve approach would make \"PurePosixPath('foo/../bar')\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 294
+    },
+    {
+        "module": "pathlib",
+        "name": "pathlib",
+        "kind": "class",
+        "signature": "class pathlib.PurePosixPath(*pathsegments)",
+        "summary": "A subclass of \"PurePath\", this path flavour represents non-Windows",
+        "version_note": "Check the official documentation for version details.",
+        "id": 295
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/etc/hosts')",
+        "summary": "*pathsegments* is specified similarly to \"PurePath\".",
+        "version_note": "Check the official documentation for version details.",
+        "id": 296
+    },
+    {
+        "module": "pathlib",
+        "name": "pathlib",
+        "kind": "class",
+        "signature": "class pathlib.PureWindowsPath(*pathsegments)",
+        "summary": "A subclass of \"PurePath\", this path flavour represents Windows",
+        "version_note": "Check the official documentation for version details.",
+        "id": 297
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('c:/Users/Ximénez')",
+        "summary": ">>> PureWindowsPath('//server/share/file')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 298
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('//server/share/file')",
+        "summary": "*pathsegments* is specified similarly to \"PurePath\".",
+        "version_note": "Check the official documentation for version details.",
+        "id": 299
+    },
+    {
+        "module": "pathlib",
+        "name": "Traceback",
+        "kind": "function",
+        "signature": "Traceback (most recent call last):",
+        "summary": "File \"<stdin>\", line 1, in <module>",
+        "version_note": "Check the official documentation for version details.",
+        "id": 300
+    },
+    {
+        "module": "pathlib",
+        "name": "path",
+        "kind": "function",
+        "signature": "path (e.g., \"r'\\foo'\"):",
+        "summary": ">>> p = PurePath('/etc')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 301
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/etc')",
+        "summary": ">>> p / 'init.d' / 'apache2'",
+        "version_note": "Check the official documentation for version details.",
+        "id": 302
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/etc/init.d/apache2')",
+        "summary": ">>> q = PurePath('bin')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 303
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/usr/bin')",
+        "summary": ">>> p / '/an_absolute_path'",
+        "version_note": "Check the official documentation for version details.",
+        "id": 304
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/an_absolute_path')",
+        "summary": ">>> PureWindowsPath('c:/Windows', '/Program Files')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 305
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('c:/Program Files')",
+        "summary": "A path object can be used anywhere an object implementing",
+        "version_note": "Check the official documentation for version details.",
+        "id": 306
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/srv/holy'), p.name is 'grail.tar.gz', p.stem is",
+        "summary": "'grail.tar', and p.suffix is '.gz'.][image]",
+        "version_note": "Check the official documentation for version details.",
+        "id": 307
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('c:/foo/bar')",
+        "summary": ">>> p.parents[1]",
+        "version_note": "Check the official documentation for version details.",
+        "id": 308
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('c:/foo')",
+        "summary": ">>> p.parents[2]",
+        "version_note": "Check the official documentation for version details.",
+        "id": 309
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('c:/')",
+        "summary": "Changed in version 3.10: The parents sequence now supports *slices*",
+        "version_note": "Check the official documentation for version details.",
+        "id": 310
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/a/b/c')",
+        "summary": "You cannot go past an anchor, or empty path:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 311
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/')",
+        "summary": ">>> p = PurePosixPath('.')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 312
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('.')",
+        "summary": "Note:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 313
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('foo')",
+        "summary": "If you want to walk an arbitrary filesystem path upwards, it is",
+        "version_note": "Check the official documentation for version details.",
+        "id": 314
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePath",
+        "kind": "function",
+        "signature": "PurePath.as_posix()",
+        "summary": "Return a string representation of the path with forward slashes",
+        "version_note": "Check the official documentation for version details.",
+        "id": 315
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePath",
+        "kind": "function",
+        "signature": "PurePath.is_absolute()",
+        "summary": "Return whether the path is absolute or not. A path is considered",
+        "version_note": "Check the official documentation for version details.",
+        "id": 316
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePath",
+        "kind": "function",
+        "signature": "PurePath.is_relative_to(other)",
+        "summary": "Return whether or not this path is relative to the *other* path.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 317
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePath",
+        "kind": "function",
+        "signature": "PurePath.joinpath(*pathsegments)",
+        "summary": "Calling this method is equivalent to combining the path with each",
+        "version_note": "Check the official documentation for version details.",
+        "id": 318
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/etc/passwd')",
+        "summary": ">>> PurePosixPath('/etc').joinpath(PurePosixPath('passwd'))",
+        "version_note": "Check the official documentation for version details.",
+        "id": 319
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/etc/passwd')",
+        "summary": ">>> PurePosixPath('/etc').joinpath('init.d', 'apache2')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 320
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('/etc/init.d/apache2')",
+        "summary": ">>> PureWindowsPath('c:').joinpath('/Program Files')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 321
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('c:/Program Files')",
+        "summary": "PurePath.full_match(pattern, *, case_sensitive=None)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 322
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePath",
+        "kind": "function",
+        "signature": "PurePath.full_match(pattern, *, case_sensitive=None)",
+        "summary": "Match this path against the provided glob-style pattern. Return",
+        "version_note": "Check the official documentation for version details.",
+        "id": 323
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePath",
+        "kind": "function",
+        "signature": "PurePath.match(pattern, *, case_sensitive=None)",
+        "summary": "Match this path against the provided non-recursive glob-style",
+        "version_note": "Check the official documentation for version details.",
+        "id": 324
+    },
+    {
+        "module": "pathlib",
+        "name": "allowed",
+        "kind": "function",
+        "signature": "allowed (\"ValueError\" is raised), the recursive wildcard \"\"**\"\"",
+        "summary": "isn't supported (it acts like non-recursive \"\"*\"\"), and if a",
+        "version_note": "Check the official documentation for version details.",
+        "id": 325
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePath",
+        "kind": "function",
+        "signature": "PurePath.relative_to(other, walk_up=False)",
+        "summary": "Compute a version of this path relative to the path represented by",
+        "version_note": "Check the official documentation for version details.",
+        "id": 326
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('etc/passwd')",
+        "summary": ">>> p.relative_to('/etc')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 327
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('passwd')",
+        "summary": ">>> p.relative_to('/usr')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 328
+    },
+    {
+        "module": "pathlib",
+        "name": "Traceback",
+        "kind": "function",
+        "signature": "Traceback (most recent call last):",
+        "summary": "File \"<stdin>\", line 1, in <module>",
+        "version_note": "Check the official documentation for version details.",
+        "id": 329
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePosixPath",
+        "kind": "function",
+        "signature": "PurePosixPath('../etc/passwd')",
+        "summary": ">>> p.relative_to('foo', walk_up=True)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 330
+    },
+    {
+        "module": "pathlib",
+        "name": "Traceback",
+        "kind": "function",
+        "signature": "Traceback (most recent call last):",
+        "summary": "File \"<stdin>\", line 1, in <module>",
+        "version_note": "Check the official documentation for version details.",
+        "id": 331
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePath",
+        "kind": "function",
+        "signature": "PurePath.with_name(name)",
+        "summary": "Return a new path with the \"name\" changed. If the original path",
+        "version_note": "Check the official documentation for version details.",
+        "id": 332
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('c:/Downloads/setup.py')",
+        "summary": ">>> p = PureWindowsPath('c:/')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 333
+    },
+    {
+        "module": "pathlib",
+        "name": "Traceback",
+        "kind": "function",
+        "signature": "Traceback (most recent call last):",
+        "summary": "File \"<stdin>\", line 1, in <module>",
+        "version_note": "Check the official documentation for version details.",
+        "id": 334
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePath",
+        "kind": "function",
+        "signature": "PurePath.with_stem(stem)",
+        "summary": "Return a new path with the \"stem\" changed. If the original path",
+        "version_note": "Check the official documentation for version details.",
+        "id": 335
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('c:/Downloads/final.txt')",
+        "summary": ">>> p = PureWindowsPath('c:/Downloads/pathlib.tar.gz')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 336
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('c:/Downloads/lib.gz')",
+        "summary": ">>> p = PureWindowsPath('c:/')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 337
+    },
+    {
+        "module": "pathlib",
+        "name": "Traceback",
+        "kind": "function",
+        "signature": "Traceback (most recent call last):",
+        "summary": "File \"<stdin>\", line 1, in <module>",
+        "version_note": "Check the official documentation for version details.",
+        "id": 338
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePath",
+        "kind": "function",
+        "signature": "PurePath.with_suffix(suffix)",
+        "summary": "Return a new path with the \"suffix\" changed. If the original path",
+        "version_note": "Check the official documentation for version details.",
+        "id": 339
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('c:/Downloads/pathlib.tar.bz2')",
+        "summary": ">>> p = PureWindowsPath('README')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 340
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('README.txt')",
+        "summary": ">>> p = PureWindowsPath('README.txt')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 341
+    },
+    {
+        "module": "pathlib",
+        "name": "PureWindowsPath",
+        "kind": "function",
+        "signature": "PureWindowsPath('README')",
+        "summary": "Changed in version 3.14: A single dot (\"\".\"\") is considered a valid",
+        "version_note": "Check the official documentation for version details.",
+        "id": 342
+    },
+    {
+        "module": "pathlib",
+        "name": "PurePath",
+        "kind": "function",
+        "signature": "PurePath.with_segments(*pathsegments)",
+        "summary": "Create a new path object of the same type by combining the given",
+        "version_note": "Check the official documentation for version details.",
+        "id": 343
+    },
+    {
+        "module": "pathlib",
+        "name": "MyPath",
+        "kind": "class",
+        "signature": "class MyPath(PurePosixPath):",
+        "summary": "def __init__(self, *pathsegments, session_id):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 344
+    },
+    {
+        "module": "pathlib",
+        "name": "__init__",
+        "kind": "function",
+        "signature": "def __init__(self, *pathsegments, session_id):",
+        "summary": "super().__init__(*pathsegments)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 345
+    },
+    {
+        "module": "pathlib",
+        "name": "super",
+        "kind": "function",
+        "signature": "super().__init__(*pathsegments)",
+        "summary": "self.session_id = session_id",
+        "version_note": "Check the official documentation for version details.",
+        "id": 346
+    },
+    {
+        "module": "pathlib",
+        "name": "with_segments",
+        "kind": "function",
+        "signature": "def with_segments(self, *pathsegments):",
+        "summary": "return type(self)(*pathsegments, session_id=self.session_id)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 347
+    },
+    {
+        "module": "pathlib",
+        "name": "print",
+        "kind": "function",
+        "signature": "print(hosts.session_id) # 42",
+        "summary": "Added in version 3.12.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 348
+    },
+    {
+        "module": "pathlib",
+        "name": "pathlib",
+        "kind": "class",
+        "signature": "class pathlib.Path(*pathsegments)",
+        "summary": "A subclass of \"PurePath\", this class represents concrete paths of",
+        "version_note": "Check the official documentation for version details.",
+        "id": 349
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('setup.py')",
+        "summary": "*pathsegments* is specified similarly to \"PurePath\".",
+        "version_note": "Check the official documentation for version details.",
+        "id": 350
+    },
+    {
+        "module": "pathlib",
+        "name": "pathlib",
+        "kind": "class",
+        "signature": "class pathlib.PosixPath(*pathsegments)",
+        "summary": "A subclass of \"Path\" and \"PurePosixPath\", this class represents",
+        "version_note": "Check the official documentation for version details.",
+        "id": 351
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('/etc/hosts')",
+        "summary": "*pathsegments* is specified similarly to \"PurePath\".",
+        "version_note": "Check the official documentation for version details.",
+        "id": 352
+    },
+    {
+        "module": "pathlib",
+        "name": "pathlib",
+        "kind": "class",
+        "signature": "class pathlib.WindowsPath(*pathsegments)",
+        "summary": "A subclass of \"Path\" and \"PureWindowsPath\", this class represents",
+        "version_note": "Check the official documentation for version details.",
+        "id": 353
+    },
+    {
+        "module": "pathlib",
+        "name": "WindowsPath",
+        "kind": "function",
+        "signature": "WindowsPath('c:/Users/Ximénez')",
+        "summary": "*pathsegments* is specified similarly to \"PurePath\".",
+        "version_note": "Check the official documentation for version details.",
+        "id": 354
+    },
+    {
+        "module": "pathlib",
+        "name": "system",
+        "kind": "function",
+        "signature": "system (allowing system calls on non-compatible path flavours could",
+        "summary": "lead to bugs or failures in your application):",
+        "version_note": "Check the official documentation for version details.",
+        "id": 355
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('setup.py')",
+        "summary": ">>> PosixPath('setup.py')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 356
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('setup.py')",
+        "summary": ">>> WindowsPath('setup.py')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 357
+    },
+    {
+        "module": "pathlib",
+        "name": "Traceback",
+        "kind": "function",
+        "signature": "Traceback (most recent call last):",
+        "summary": "File \"<stdin>\", line 1, in <module>",
+        "version_note": "Check the official documentation for version details.",
+        "id": 358
+    },
+    {
+        "module": "pathlib",
+        "name": "fails",
+        "kind": "function",
+        "signature": "fails (for example because the path doesn't exist).",
+        "summary": "Parsing and generating URIs",
+        "version_note": "Check the official documentation for version details.",
+        "id": 359
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('/etc/hosts')",
+        "summary": "On Windows, DOS device and UNC paths may be parsed from URIs:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 360
+    },
+    {
+        "module": "pathlib",
+        "name": "WindowsPath",
+        "kind": "function",
+        "signature": "WindowsPath('c:/windows')",
+        "summary": ">>> p = Path.from_uri('file://server/share')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 361
+    },
+    {
+        "module": "pathlib",
+        "name": "WindowsPath",
+        "kind": "function",
+        "signature": "WindowsPath('//server/share')",
+        "summary": "Several variant forms are supported:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 362
+    },
+    {
+        "module": "pathlib",
+        "name": "WindowsPath",
+        "kind": "function",
+        "signature": "WindowsPath('//server/share')",
+        "summary": ">>> p = Path.from_uri('file://///server/share')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 363
+    },
+    {
+        "module": "pathlib",
+        "name": "WindowsPath",
+        "kind": "function",
+        "signature": "WindowsPath('//server/share')",
+        "summary": ">>> p = Path.from_uri('file:c:/windows')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 364
+    },
+    {
+        "module": "pathlib",
+        "name": "WindowsPath",
+        "kind": "function",
+        "signature": "WindowsPath('c:/windows')",
+        "summary": ">>> p = Path.from_uri('file:/c|/windows')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 365
+    },
+    {
+        "module": "pathlib",
+        "name": "WindowsPath",
+        "kind": "function",
+        "signature": "WindowsPath('c:/windows')",
+        "summary": "\"ValueError\" is raised if the URI does not start with \"file:\", or",
+        "version_note": "Check the official documentation for version details.",
+        "id": 366
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.as_uri()",
+        "summary": "Represent the path as a 'file' URI. \"ValueError\" is raised if the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 367
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('/home/antoine')",
+        "summary": "Added in version 3.5.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 368
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.expanduser()",
+        "summary": "Return a new path with expanded \"~\" and \"~user\" constructs, as",
+        "version_note": "Check the official documentation for version details.",
+        "id": 369
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('/home/eric/films/Monty Python')",
+        "summary": "Added in version 3.5.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 370
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('/home/antoine/pathlib')",
+        "summary": "Path.absolute()",
+        "version_note": "Check the official documentation for version details.",
+        "id": 371
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.absolute()",
+        "summary": "Make the path absolute, without normalization or resolving",
+        "version_note": "Check the official documentation for version details.",
+        "id": 372
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('tests')",
+        "summary": ">>> p.absolute()",
+        "version_note": "Check the official documentation for version details.",
+        "id": 373
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('/home/antoine/pathlib/tests')",
+        "summary": "Path.resolve(strict=False)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 374
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.resolve(strict=False)",
+        "summary": "Make the path absolute, resolving any symlinks. A new path object",
+        "version_note": "Check the official documentation for version details.",
+        "id": 375
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('.')",
+        "summary": ">>> p.resolve()",
+        "version_note": "Check the official documentation for version details.",
+        "id": 376
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('/home/antoine/pathlib')",
+        "summary": "\"\"..\"\" components are also eliminated (this is the only method to",
+        "version_note": "Check the official documentation for version details.",
+        "id": 377
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('/home/antoine/pathlib/setup.py')",
+        "summary": "If a path doesn't exist or a symlink loop is encountered, and",
+        "version_note": "Check the official documentation for version details.",
+        "id": 378
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.readlink()",
+        "summary": "Return the path to which the symbolic link points (as returned by",
+        "version_note": "Check the official documentation for version details.",
+        "id": 379
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('setup.py')",
+        "summary": "Added in version 3.9.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 380
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.stat(*, follow_symlinks=True)",
+        "summary": "Return an \"os.stat_result\" object containing information about this",
+        "version_note": "Check the official documentation for version details.",
+        "id": 381
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.lstat()",
+        "summary": "Like \"Path.stat()\" but, if the path points to a symbolic link,",
+        "version_note": "Check the official documentation for version details.",
+        "id": 382
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.exists(*, follow_symlinks=True)",
+        "summary": "Return \"True\" if the path points to an existing file or directory",
+        "version_note": "Check the official documentation for version details.",
+        "id": 383
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.is_file(*, follow_symlinks=True)",
+        "summary": "Return \"True\" if the path points to a regular file. \"False\" will be",
+        "version_note": "Check the official documentation for version details.",
+        "id": 384
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.is_dir(*, follow_symlinks=True)",
+        "summary": "Return \"True\" if the path points to a directory. \"False\" will be",
+        "version_note": "Check the official documentation for version details.",
+        "id": 385
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.is_symlink()",
+        "summary": "Return \"True\" if the path points to a symbolic link, even if that",
+        "version_note": "Check the official documentation for version details.",
+        "id": 386
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.is_junction()",
+        "summary": "Return \"True\" if the path points to a junction, and \"False\" for any",
+        "version_note": "Check the official documentation for version details.",
+        "id": 387
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.is_mount()",
+        "summary": "Return \"True\" if the path is a *mount point*: a point in a file",
+        "version_note": "Check the official documentation for version details.",
+        "id": 388
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.is_socket()",
+        "summary": "Return \"True\" if the path points to a Unix socket. \"False\" will be",
+        "version_note": "Check the official documentation for version details.",
+        "id": 389
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.is_fifo()",
+        "summary": "Return \"True\" if the path points to a FIFO. \"False\" will be",
+        "version_note": "Check the official documentation for version details.",
+        "id": 390
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.is_block_device()",
+        "summary": "Return \"True\" if the path points to a block device. \"False\" will be",
+        "version_note": "Check the official documentation for version details.",
+        "id": 391
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.is_char_device()",
+        "summary": "Return \"True\" if the path points to a character device. \"False\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 392
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.samefile(other_path)",
+        "summary": "Return whether this path points to the same file as *other_path*,",
+        "version_note": "Check the official documentation for version details.",
+        "id": 393
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path(p)\".",
+        "summary": "Added in version 3.14.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 394
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.open(mode='r', buffering=-1, encoding=None, errors=None, newline=None)",
+        "summary": "Open the file pointed to by the path, like the built-in \"open()\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 395
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.read_text(encoding=None, errors=None, newline=None)",
+        "summary": "Return the decoded contents of the pointed-to file as a string:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 396
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.read_bytes()",
+        "summary": "Return the binary contents of the pointed-to file as a bytes",
+        "version_note": "Check the official documentation for version details.",
+        "id": 397
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.write_text(data, encoding=None, errors=None, newline=None)",
+        "summary": "Open the file pointed to in text mode, write *data* to it, and",
+        "version_note": "Check the official documentation for version details.",
+        "id": 398
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.write_bytes(data)",
+        "summary": "Open the file pointed to in bytes mode, write *data* to it, and",
+        "version_note": "Check the official documentation for version details.",
+        "id": 399
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.iterdir()",
+        "summary": "When the path points to a directory, yield path objects of the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 400
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('docs/conf.py')",
+        "summary": "PosixPath('docs/_templates')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 401
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('docs/_templates')",
+        "summary": "PosixPath('docs/make.bat')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 402
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('docs/make.bat')",
+        "summary": "PosixPath('docs/index.rst')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 403
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('docs/index.rst')",
+        "summary": "PosixPath('docs/_build')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 404
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('docs/_build')",
+        "summary": "PosixPath('docs/_static')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 405
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('docs/_static')",
+        "summary": "PosixPath('docs/Makefile')",
+        "version_note": "Check the official documentation for version details.",
+        "id": 406
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('docs/Makefile')",
+        "summary": "The children are yielded in arbitrary order, and the special",
+        "version_note": "Check the official documentation for version details.",
+        "id": 407
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.glob(pattern, *, case_sensitive=None, recurse_symlinks=False)",
+        "summary": "Glob the given relative *pattern* in the directory represented by",
+        "version_note": "Check the official documentation for version details.",
+        "id": 408
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('docs/conf.py'),",
+        "summary": "PosixPath('pathlib.py'),",
+        "version_note": "Check the official documentation for version details.",
+        "id": 409
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('pathlib.py'),",
+        "summary": "PosixPath('setup.py'),",
+        "version_note": "Check the official documentation for version details.",
+        "id": 410
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('setup.py'),",
+        "summary": "PosixPath('test_pathlib.py')]",
+        "version_note": "Check the official documentation for version details.",
+        "id": 411
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('test_pathlib.py')]",
+        "summary": "Note:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 412
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.rglob(pattern, *, case_sensitive=None, recurse_symlinks=False)",
+        "summary": "Glob the given relative *pattern* recursively. This is like",
+        "version_note": "Check the official documentation for version details.",
+        "id": 413
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.walk(top_down=True, on_error=None, follow_symlinks=False)",
+        "summary": "Generate the file names in a directory tree by walking the tree",
+        "version_note": "Check the official documentation for version details.",
+        "id": 414
+    },
+    {
+        "module": "pathlib",
+        "name": "print",
+        "kind": "function",
+        "signature": "print(",
+        "summary": "root,",
+        "version_note": "Check the official documentation for version details.",
+        "id": 415
+    },
+    {
+        "module": "pathlib",
+        "name": "sum",
+        "kind": "function",
+        "signature": "sum((root / file).stat().st_size for file in files),",
+        "summary": "\"bytes in\",",
+        "version_note": "Check the official documentation for version details.",
+        "id": 416
+    },
+    {
+        "module": "pathlib",
+        "name": "len",
+        "kind": "function",
+        "signature": "len(files),",
+        "summary": "\"non-directory files\"",
+        "version_note": "Check the official documentation for version details.",
+        "id": 417
+    },
+    {
+        "module": "pathlib",
+        "name": "dirs",
+        "kind": "function",
+        "signature": "dirs.remove('__pycache__')",
+        "summary": "This next example is a simple implementation of \"shutil.rmtree()\".",
+        "version_note": "Check the official documentation for version details.",
+        "id": 418
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.touch(mode=0o666, exist_ok=True)",
+        "summary": "Create a file at this given path. If *mode* is given, it is",
+        "version_note": "Check the official documentation for version details.",
+        "id": 419
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.mkdir(mode=0o777, parents=False, exist_ok=False, *, parent_mode=None)",
+        "summary": "Create a new directory at this given path. If *mode* is given, it",
+        "version_note": "Check the official documentation for version details.",
+        "id": 420
+    },
+    {
+        "module": "pathlib",
+        "name": "permissions",
+        "kind": "function",
+        "signature": "permissions (also subject to the umask).",
+        "summary": "If *parents* is false (the default), a missing parent raises",
+        "version_note": "Check the official documentation for version details.",
+        "id": 421
+    },
+    {
+        "module": "pathlib",
+        "name": "directory",
+        "kind": "function",
+        "signature": "directory (same behavior as the POSIX \"mkdir -p\" command).",
+        "summary": "Changed in version 3.5: The *exist_ok* parameter was added.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 422
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.symlink_to(target, target_is_directory=False)",
+        "summary": "Make this path a symbolic link pointing to *target*.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 423
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('/home/antoine/pathlib/setup.py')",
+        "summary": ">>> p.stat().st_size",
+        "version_note": "Check the official documentation for version details.",
+        "id": 424
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.hardlink_to(target)",
+        "summary": "Make this path a hard link to the same file as *target*.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 425
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.copy(target, *, follow_symlinks=True, preserve_metadata=False)",
+        "summary": "Copy this file or directory tree to the given *target*, and return",
+        "version_note": "Check the official documentation for version details.",
+        "id": 426
+    },
+    {
+        "module": "pathlib",
+        "name": "true",
+        "kind": "function",
+        "signature": "true (the default), the symlink's target is copied. Otherwise, the",
+        "summary": "symlink is recreated at the destination.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 427
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.copy_into(target_dir, *, follow_symlinks=True, preserve_metadata=False)",
+        "summary": "Copy this file or directory tree into the given *target_dir*, which",
+        "version_note": "Check the official documentation for version details.",
+        "id": 428
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.rename(target)",
+        "summary": "Rename this file or directory to the given *target*, and return a",
+        "version_note": "Check the official documentation for version details.",
+        "id": 429
+    },
+    {
+        "module": "pathlib",
+        "name": "PosixPath",
+        "kind": "function",
+        "signature": "PosixPath('bar')",
+        "summary": ">>> target.open().read()",
+        "version_note": "Check the official documentation for version details.",
+        "id": 430
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.replace(target)",
+        "summary": "Rename this file or directory to the given *target*, and return a",
+        "version_note": "Check the official documentation for version details.",
+        "id": 431
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.move(target)",
+        "summary": "Move this file or directory tree to the given *target*, and return",
+        "version_note": "Check the official documentation for version details.",
+        "id": 432
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.move_into(target_dir)",
+        "summary": "Move this file or directory tree into the given *target_dir*, which",
+        "version_note": "Check the official documentation for version details.",
+        "id": 433
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.unlink(missing_ok=False)",
+        "summary": "Remove this file or symbolic link. If the path points to a",
+        "version_note": "Check the official documentation for version details.",
+        "id": 434
+    },
+    {
+        "module": "pathlib",
+        "name": "ignored",
+        "kind": "function",
+        "signature": "ignored (same behavior as the POSIX \"rm -f\" command).",
+        "summary": "Changed in version 3.8: The *missing_ok* parameter was added.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 435
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.rmdir()",
+        "summary": "Remove this directory. The directory must be empty.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 436
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.owner(*, follow_symlinks=True)",
+        "summary": "Return the name of the user owning the file. \"KeyError\" is raised",
+        "version_note": "Check the official documentation for version details.",
+        "id": 437
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.group(*, follow_symlinks=True)",
+        "summary": "Return the name of the group owning the file. \"KeyError\" is raised",
+        "version_note": "Check the official documentation for version details.",
+        "id": 438
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.chmod(mode, *, follow_symlinks=True)",
+        "summary": "Change the file mode and permissions, like \"os.chmod()\".",
+        "version_note": "Check the official documentation for version details.",
+        "id": 439
+    },
+    {
+        "module": "pathlib",
+        "name": "Path",
+        "kind": "function",
+        "signature": "Path.lchmod(mode)",
+        "summary": "Like \"Path.chmod()\" but, if the path points to a symbolic link, the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 440
+    },
+    {
+        "module": "pathlib",
+        "name": "pathlib",
+        "kind": "class",
+        "signature": "class pathlib.types.PathInfo",
+        "summary": "A \"typing.Protocol\" describing the \"Path.info\" attribute.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 441
+    },
+    {
+        "module": "pathlib",
+        "name": "exists",
+        "kind": "function",
+        "signature": "exists(*, follow_symlinks=True)",
+        "summary": "Return \"True\" if the path is an existing file or directory, or",
+        "version_note": "Check the official documentation for version details.",
+        "id": 442
+    },
+    {
+        "module": "pathlib",
+        "name": "is_dir",
+        "kind": "function",
+        "signature": "is_dir(*, follow_symlinks=True)",
+        "summary": "Return \"True\" if the path is a directory, or a symbolic link",
+        "version_note": "Check the official documentation for version details.",
+        "id": 443
+    },
+    {
+        "module": "pathlib",
+        "name": "is_file",
+        "kind": "function",
+        "signature": "is_file(*, follow_symlinks=True)",
+        "summary": "Return \"True\" if the path is a file, or a symbolic link pointing",
+        "version_note": "Check the official documentation for version details.",
+        "id": 444
+    },
+    {
+        "module": "pathlib",
+        "name": "is_symlink",
+        "kind": "function",
+        "signature": "is_symlink()",
+        "summary": "Return \"True\" if the path is a symbolic link (even if broken);",
+        "version_note": "Check the official documentation for version details.",
+        "id": 445
+    },
+    {
+        "module": "json",
+        "name": "JSON",
+        "kind": "function",
+        "signature": "JSON (JavaScript Object Notation), specified by **RFC 7159** (which",
+        "summary": "obsoletes **RFC 4627**) and by ECMA-404, is a lightweight data",
+        "version_note": "Check the official documentation for version details.",
+        "id": 446
+    },
+    {
+        "module": "json",
+        "name": "Decimal",
+        "kind": "function",
+        "signature": "Decimal('1.1')",
+        "summary": ">>> json.loads('{\"name\": \"point\", \"coords\": [[1, 2], [3, 4]]}',",
+        "version_note": "Check the official documentation for version details.",
+        "id": 447
+    },
+    {
+        "module": "json",
+        "name": "frozendict",
+        "kind": "function",
+        "signature": "frozendict({'name': 'point', 'coords': (1, 2)})",
+        "summary": "Extending \"JSONEncoder\":",
+        "version_note": "Check the official documentation for version details.",
+        "id": 448
+    },
+    {
+        "module": "json",
+        "name": "json",
+        "kind": "function",
+        "signature": "json.dump(obj, fp, *, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, cls=None, indent=None, separators=None, default=None, sort_keys=False, **kw)",
+        "summary": "Serialize *obj* as a JSON formatted stream to *fp* (a",
+        "version_note": "Check the official documentation for version details.",
+        "id": 449
+    },
+    {
+        "module": "json",
+        "name": "equivalents",
+        "kind": "function",
+        "signature": "equivalents (\"NaN\", \"Infinity\", \"-Infinity\") are used.",
+        "summary": "* **cls** (a \"JSONEncoder\" subclass) -- If set, a custom JSON",
+        "version_note": "Check the official documentation for version details.",
+        "id": 450
+    },
+    {
+        "module": "json",
+        "name": "json",
+        "kind": "function",
+        "signature": "json.dumps(obj, *, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, cls=None, indent=None, separators=None, default=None, sort_keys=False, **kw)",
+        "summary": "Serialize *obj* to a JSON formatted \"str\" using this conversion",
+        "version_note": "Check the official documentation for version details.",
+        "id": 451
+    },
+    {
+        "module": "json",
+        "name": "json",
+        "kind": "function",
+        "signature": "json.load(fp, *, cls=None, object_hook=None, parse_float=None, parse_int=None, parse_constant=None, object_pairs_hook=None, array_hook=None, **kw)",
+        "summary": "Deserialize *fp* to a Python object using the JSON-to-Python",
+        "version_note": "Check the official documentation for version details.",
+        "id": 452
+    },
+    {
+        "module": "json",
+        "name": "json",
+        "kind": "function",
+        "signature": "json.loads(s, *, cls=None, object_hook=None, parse_float=None, parse_int=None, parse_constant=None, object_pairs_hook=None, array_hook=None, **kw)",
+        "summary": "Identical to \"load()\", but instead of a file-like object,",
+        "version_note": "Check the official documentation for version details.",
+        "id": 453
+    },
+    {
+        "module": "json",
+        "name": "json",
+        "kind": "class",
+        "signature": "class json.JSONDecoder(*, object_hook=None, parse_float=None, parse_int=None, parse_constant=None, strict=True, object_pairs_hook=None, array_hook=None)",
+        "summary": "Simple JSON decoder.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 454
+    },
+    {
+        "module": "json",
+        "name": "decode",
+        "kind": "function",
+        "signature": "decode(s)",
+        "summary": "Return the Python representation of *s* (a \"str\" instance",
+        "version_note": "Check the official documentation for version details.",
+        "id": 455
+    },
+    {
+        "module": "json",
+        "name": "raw_decode",
+        "kind": "function",
+        "signature": "raw_decode(s)",
+        "summary": "Decode a JSON document from *s* (a \"str\" beginning with a JSON",
+        "version_note": "Check the official documentation for version details.",
+        "id": 456
+    },
+    {
+        "module": "json",
+        "name": "json",
+        "kind": "class",
+        "signature": "class json.JSONEncoder(*, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, sort_keys=False, indent=None, separators=None, default=None)",
+        "summary": "Extensible JSON encoder for Python data structures.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 457
+    },
+    {
+        "module": "json",
+        "name": "implementation",
+        "kind": "function",
+        "signature": "implementation (to raise \"TypeError\").",
+        "summary": "If *skipkeys* is false (the default), a \"TypeError\" will be raised",
+        "version_note": "Check the official documentation for version details.",
+        "id": 458
+    },
+    {
+        "module": "json",
+        "name": "default",
+        "kind": "function",
+        "signature": "default(o)",
+        "summary": "Implement this method in a subclass such that it returns a",
+        "version_note": "Check the official documentation for version details.",
+        "id": 459
+    },
+    {
+        "module": "json",
+        "name": "default",
+        "kind": "function",
+        "signature": "def default(self, o):",
+        "summary": "try:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 460
+    },
+    {
+        "module": "json",
+        "name": "encode",
+        "kind": "function",
+        "signature": "encode(o)",
+        "summary": "Return a JSON string representation of a Python data structure,",
+        "version_note": "Check the official documentation for version details.",
+        "id": 461
+    },
+    {
+        "module": "json",
+        "name": "iterencode",
+        "kind": "function",
+        "signature": "iterencode(o)",
+        "summary": "Encode the given object, *o*, and yield each string",
+        "version_note": "Check the official documentation for version details.",
+        "id": 462
+    },
+    {
+        "module": "json",
+        "name": "mysocket",
+        "kind": "function",
+        "signature": "mysocket.write(chunk)",
+        "summary": "Exceptions",
+        "version_note": "Check the official documentation for version details.",
+        "id": 463
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "function",
+        "signature": "csv.reader(csvfile, /, dialect='excel', **fmtparams)",
+        "summary": "Return a reader object that will process lines from the given",
+        "version_note": "Check the official documentation for version details.",
+        "id": 464
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "function",
+        "signature": "csv.writer(csvfile, /, dialect='excel', **fmtparams)",
+        "summary": "Return a writer object responsible for converting the user's data",
+        "version_note": "Check the official documentation for version details.",
+        "id": 465
+    },
+    {
+        "module": "csv",
+        "name": "spamwriter",
+        "kind": "function",
+        "signature": "spamwriter.writerow(['Spam'] * 5 + ['Baked Beans'])",
+        "summary": "spamwriter.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam'])",
+        "version_note": "Check the official documentation for version details.",
+        "id": 466
+    },
+    {
+        "module": "csv",
+        "name": "spamwriter",
+        "kind": "function",
+        "signature": "spamwriter.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam'])",
+        "summary": "which writes \"eggs.csv\" containing:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 467
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "function",
+        "signature": "csv.register_dialect(name, /, dialect='excel', **fmtparams)",
+        "summary": "Associate *dialect* with *name*. *name* must be a string. The",
+        "version_note": "Check the official documentation for version details.",
+        "id": 468
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "function",
+        "signature": "csv.unregister_dialect(name)",
+        "summary": "Delete the dialect associated with *name* from the dialect",
+        "version_note": "Check the official documentation for version details.",
+        "id": 469
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "function",
+        "signature": "csv.get_dialect(name)",
+        "summary": "Return the dialect associated with *name*. An \"Error\" is raised if",
+        "version_note": "Check the official documentation for version details.",
+        "id": 470
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "function",
+        "signature": "csv.list_dialects()",
+        "summary": "Return the names of all registered dialects.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 471
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "function",
+        "signature": "csv.field_size_limit()",
+        "summary": "csv.field_size_limit(new_limit)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 472
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "function",
+        "signature": "csv.field_size_limit(new_limit)",
+        "summary": "Returns the current maximum field size allowed by the parser. If",
+        "version_note": "Check the official documentation for version details.",
+        "id": 473
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "class",
+        "signature": "class csv.DictReader(f, fieldnames=None, restkey=None, restval=None, dialect='excel', *args, **kwds)",
+        "summary": "Create an object that operates like a regular reader but maps the",
+        "version_note": "Check the official documentation for version details.",
+        "id": 474
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "class",
+        "signature": "class csv.DictWriter(f, fieldnames, restval='', extrasaction='raise', dialect='excel', *args, **kwds)",
+        "summary": "Create an object which operates like a regular writer but maps",
+        "version_note": "Check the official documentation for version details.",
+        "id": 475
+    },
+    {
+        "module": "csv",
+        "name": "writer",
+        "kind": "function",
+        "signature": "writer.writeheader()",
+        "summary": "writer.writerow({'first_name': 'Baked', 'last_name': 'Beans'})",
+        "version_note": "Check the official documentation for version details.",
+        "id": 476
+    },
+    {
+        "module": "csv",
+        "name": "writer",
+        "kind": "function",
+        "signature": "writer.writerow({'first_name': 'Baked', 'last_name': 'Beans'})",
+        "summary": "writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})",
+        "version_note": "Check the official documentation for version details.",
+        "id": 477
+    },
+    {
+        "module": "csv",
+        "name": "writer",
+        "kind": "function",
+        "signature": "writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})",
+        "summary": "writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})",
+        "version_note": "Check the official documentation for version details.",
+        "id": 478
+    },
+    {
+        "module": "csv",
+        "name": "writer",
+        "kind": "function",
+        "signature": "writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})",
+        "summary": "which writes \"names.csv\" containing:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 479
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "class",
+        "signature": "class csv.Dialect",
+        "summary": "The \"Dialect\" class is a container class whose attributes contain",
+        "version_note": "Check the official documentation for version details.",
+        "id": 480
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "class",
+        "signature": "class csv.excel",
+        "summary": "The \"excel\" class defines the usual properties of an Excel-",
+        "version_note": "Check the official documentation for version details.",
+        "id": 481
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "class",
+        "signature": "class csv.excel_tab",
+        "summary": "The \"excel_tab\" class defines the usual properties of an Excel-",
+        "version_note": "Check the official documentation for version details.",
+        "id": 482
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "class",
+        "signature": "class csv.unix_dialect",
+        "summary": "The \"unix_dialect\" class defines the usual properties of a CSV file",
+        "version_note": "Check the official documentation for version details.",
+        "id": 483
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "class",
+        "signature": "class csv.Sniffer",
+        "summary": "The \"Sniffer\" class is used to deduce the format of a CSV file.",
+        "version_note": "Check the official documentation for version details.",
+        "id": 484
+    },
+    {
+        "module": "csv",
+        "name": "sniff",
+        "kind": "function",
+        "signature": "sniff(sample, delimiters=None)",
+        "summary": "Analyze the given *sample* and return a \"Dialect\" subclass",
+        "version_note": "Check the official documentation for version details.",
+        "id": 485
+    },
+    {
+        "module": "csv",
+        "name": "has_header",
+        "kind": "function",
+        "signature": "has_header(sample)",
+        "summary": "Analyze the sample text (presumed to be in CSV format) and",
+        "version_note": "Check the official documentation for version details.",
+        "id": 486
+    },
+    {
+        "module": "csv",
+        "name": "csvfile",
+        "kind": "function",
+        "signature": "csvfile.seek(0)",
+        "summary": "reader = csv.reader(csvfile, dialect)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 487
+    },
+    {
+        "module": "csv",
+        "name": "csvreader",
+        "kind": "function",
+        "signature": "csvreader.__next__()",
+        "summary": "Return the next row of the reader's iterable object as a list (if",
+        "version_note": "Check the official documentation for version details.",
+        "id": 488
+    },
+    {
+        "module": "csv",
+        "name": "csvwriter",
+        "kind": "function",
+        "signature": "csvwriter.writerow(row, /)",
+        "summary": "Write the *row* parameter to the writer's file object, formatted",
+        "version_note": "Check the official documentation for version details.",
+        "id": 489
+    },
+    {
+        "module": "csv",
+        "name": "csvwriter",
+        "kind": "function",
+        "signature": "csvwriter.writerows(rows, /)",
+        "summary": "Write all elements in *rows* (an iterable of *row* objects as",
+        "version_note": "Check the official documentation for version details.",
+        "id": 490
+    },
+    {
+        "module": "csv",
+        "name": "DictWriter",
+        "kind": "function",
+        "signature": "DictWriter.writeheader()",
+        "summary": "Write a row with the field names (as specified in the constructor)",
+        "version_note": "Check the official documentation for version details.",
+        "id": 491
+    },
+    {
+        "module": "csv",
+        "name": "print",
+        "kind": "function",
+        "signature": "print(row)",
+        "summary": "Reading a file with an alternate format:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 492
+    },
+    {
+        "module": "csv",
+        "name": "print",
+        "kind": "function",
+        "signature": "print(row)",
+        "summary": "The corresponding simplest possible writing example is:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 493
+    },
+    {
+        "module": "csv",
+        "name": "writer",
+        "kind": "function",
+        "signature": "writer.writerows(someiterable)",
+        "summary": "Since \"open()\" is used to open a CSV file for reading, the file will",
+        "version_note": "Check the official documentation for version details.",
+        "id": 494
+    },
+    {
+        "module": "csv",
+        "name": "print",
+        "kind": "function",
+        "signature": "print(row)",
+        "summary": "The same applies to writing in something other than the default",
+        "version_note": "Check the official documentation for version details.",
+        "id": 495
+    },
+    {
+        "module": "csv",
+        "name": "csv",
+        "kind": "function",
+        "signature": "csv.register_dialect('unixpwd', delimiter=':', quoting=csv.QUOTE_NONE)",
+        "summary": "with open('passwd', newline='') as f:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 496
+    },
+    {
+        "module": "csv",
+        "name": "print",
+        "kind": "function",
+        "signature": "print(row)",
+        "summary": "except csv.Error as e:",
+        "version_note": "Check the official documentation for version details.",
+        "id": 497
+    },
+    {
+        "module": "csv",
+        "name": "sys",
+        "kind": "function",
+        "signature": "sys.exit(f'file {filename}, line {reader.line_num}: {e}')",
+        "summary": "And while the module doesn't directly support parsing strings, it can",
+        "version_note": "Check the official documentation for version details.",
+        "id": 498
+    },
+    {
+        "module": "csv",
+        "name": "print",
+        "kind": "function",
+        "signature": "print(row)",
+        "summary": "-[ Footnotes ]-",
+        "version_note": "Check the official documentation for version details.",
+        "id": 499
+    }
 ]
