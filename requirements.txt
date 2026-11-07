@@ -1,3 +1,5 @@
-# PyDocsPal Day 2
-# No external dependencies required yet.
 requests>=2.32.0
+fastapi
+uvicorn
+pandas
+scikit-learn
