@@ -12,9 +12,9 @@ PyDocsPal is a Python documentation assistant designed to help developers and st
 
 **Problem:** Finding accurate information about Python APIs, understanding their usage, checking Python version compatibility, and identifying deprecated or removed features can take time. Python documentation also changes between versions.
 
-**Solution:** PyDocsPal aims to simplify Python documentation discovery by organizing official documentation into searchable records and eventually providing AI-powered explanations.
+**Solution:** PyDocsPal simplifies Python documentation discovery by organizing official documentation into searchable records and providing relevant results through a FastAPI service.
 
-**Data Source:** [Official Python Documentation](https://docs.python.org/3/download.html)
+**Data Source:** [Official Python Documentation](https://docs.python.org/3/)
 
 ## ✨ Core Features
 
@@ -22,15 +22,25 @@ PyDocsPal is a Python documentation assistant designed to help developers and st
 - Understand function signatures and usage.
 - Check Python version compatibility.
 - Identify deprecated and removed APIs.
-- Provide answers with official documentation references.
-- Organize documentation into structured records.
+- Retrieve relevant documentation records.
+- Organize documentation into structured JSON records.
+- Search documentation using TF-IDF and cosine similarity.
+- Access documentation through REST API endpoints.
+- Analyze documentation records using Pandas.
 
-**Signature Feature:** Every answer will display a Python version compatibility badge and warnings for deprecated or removed APIs.
+**Signature Feature:** Every answer is intended to display a Python version compatibility badge and warnings for deprecated or removed APIs.
 
 ## 🛠️ Tech Stack
 
-**Current Implementation**
+### Current Implementation
+
 - Python
+- FastAPI
+- Uvicorn
+- Pandas
+- Scikit-learn
+- TF-IDF
+- Cosine Similarity
 - JSON
 - Requests
 - Dataclasses
@@ -38,24 +48,29 @@ PyDocsPal is a Python documentation assistant designed to help developers and st
 - Regular Expressions
 - Git and GitHub
 
-**Planned Technologies**
-- FastAPI
-- Pandas
-- Scikit-learn
+### Planned Technologies
+
 - Groq / Gemini API
 - Embeddings
 - ChromaDB
 - Retrieval-Augmented Generation (RAG)
 - Streamlit
+- Large Language Models (LLMs)
 
 ## 📂 Project Structure
 
 ```text
 PyDocsPal/
 │
+├── analysis/
+│   ├── __init__.py
+│   └── explore.py
+│
 ├── app/
 │   ├── __init__.py
+│   ├── main.py
 │   ├── records.py
+│   ├── smart_search.py
 │   ├── cli.py
 │   ├── ingest.py
 │   ├── models.py
@@ -65,21 +80,14 @@ PyDocsPal/
 │   ├── raw/
 │   └── records.json
 │
+├── day01_intro.py
+├── day01_menu.py
 ├── README.md
 ├── requirements.txt
 └── .gitignore
 ```
 
-## 📅 Development Progress
-
-| Day | Milestone | Status |
-|---|---|---|
-| Day 1 | Python fundamentals and interactive CLI menu | Completed |
-| Day 2 | 20 Python documentation records, searching and categorization | Completed |
-| Day 3 | Documentation downloading, ingestion, cleaning and Record dataclass | Completed |
-| Day 4 | FastAPI endpoints | Upcoming |
-
-## 🚀 Running the Project
+## 🚀 How to Run
 
 ### 1. Clone the repository
 
@@ -88,11 +96,13 @@ git clone https://github.com/111-amann/CreamAI.git
 cd CreamAI
 ```
 
-### 2. Create and activate virtual environment
+### 2. Create a virtual environment
 
 ```bash
 python -m venv .venv
 ```
+
+### 3. Activate the virtual environment
 
 Windows PowerShell:
 
@@ -100,33 +110,96 @@ Windows PowerShell:
 .venv\Scripts\Activate.ps1
 ```
 
-### 3. Install dependencies
+### 4. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Run the CLI application
+### 5. Run the CLI application
 
 ```bash
 python -m app.cli
 ```
 
-### 5. Download documentation pages
+### 6. Download documentation pages
 
 ```bash
 python -m app.fetch
 ```
 
-### 6. Ingest documentation
+### 7. Ingest documentation
 
 ```bash
 python -m app.ingest
 ```
 
+### 8. Run data analysis
+
+```bash
+python -m analysis.explore
+```
+
+### 9. Start the FastAPI server
+
+```bash
+uvicorn app.main:app --reload
+```
+
+The API will be available at:
+
+http://127.0.0.1:8000
+
+### 10. Explore API documentation
+
+Open the interactive Swagger UI:
+
+http://127.0.0.1:8000/docs
+
+## 🔗 API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/health` | Check API health |
+| GET | `/records?limit=10` | Retrieve documentation records |
+| GET | `/records/{id}` | Retrieve a record by ID |
+| GET | `/search?q=python` | Search documentation using TF-IDF |
+| POST | `/questions` | Submit a documentation question and retrieve relevant records |
+
+### Example API Request
+
+**POST `/questions`**
+
+Request body:
+
+```json
+{
+    "question": "How do I read a text file in Python?"
+}
+```
+
+## 📊 Data Analysis and Smart Search
+
+PyDocsPal uses Pandas to explore and analyze its documentation records.
+
+The smart search module uses:
+
+- **TF-IDF:** Converts documentation text into numerical vectors based on word importance.
+- **Cosine Similarity:** Measures similarity between the user's query and documentation records.
+- **Ranking:** Returns the most relevant documentation records first.
+
+## 📅 Development Progress
+
+| Day | Milestone | Status |
+|---|---|---|
+| Day 1 | Python fundamentals and interactive CLI menu | Completed |
+| Day 2 | 20 Python documentation records, searching and categorization | Completed |
+| Day 3 | Documentation downloading, ingestion, cleaning and Record dataclass | Completed |
+| Day 4 | FastAPI service, Pandas analysis and TF-IDF smart search | Completed |
+
 ## 🎯 Project Goal
 
-To build an intelligent Python documentation assistant that combines structured documentation, semantic search, and Large Language Models to deliver accurate, version-aware answers with references to official Python documentation.
+To build an intelligent Python documentation assistant that combines structured documentation, intelligent search, and Large Language Models to deliver accurate, version-aware answers with references to official Python documentation.
 
 ## 👨‍💻 Developer
 
