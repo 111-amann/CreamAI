@@ -80,6 +80,10 @@ PyDocsPal/
 │   ├── raw/
 │   └── records.json
 │
+├── docs/
+│   ├── how_llms_work.md
+│   └── user_questions.md
+│
 ├── day01_intro.py
 ├── day01_menu.py
 ├── README.md
@@ -188,6 +192,34 @@ The smart search module uses:
 - **Cosine Similarity:** Measures similarity between the user's query and documentation records.
 - **Ranking:** Returns the most relevant documentation records first.
 
+## 🧠 LLM Concepts and Documentation
+
+The project includes documentation covering Large Language Models and their working principles.
+
+- Understanding Large Language Models.
+- Tokenization and embeddings.
+- Transformer architecture and attention mechanisms.
+- Next-token prediction and response generation.
+- Prompt engineering.
+- LLM limitations and hallucinations.
+- Potential LLM integration with PyDocsPal.
+
+See: [`docs/how_llms_work.md`](docs/how_llms_work.md)
+
+## ❓ PyDocsPal User Questions
+
+A collection of 10 realistic questions that potential PyDocsPal users may ask.
+
+These questions cover:
+
+- Python functions and modules.
+- Function signatures and usage.
+- Python version compatibility.
+- Deprecation and documentation references.
+- Current dataset limitations.
+
+See: [`docs/user_questions.md`](docs/user_questions.md)
+
 ## 📅 Development Progress
 
 | Day | Milestone | Status |
@@ -196,6 +228,7 @@ The smart search module uses:
 | Day 2 | 20 Python documentation records, searching and categorization | Completed |
 | Day 3 | Documentation downloading, ingestion, cleaning and Record dataclass | Completed |
 | Day 4 | FastAPI service, Pandas analysis and TF-IDF smart search | Completed |
+| Day 5 | LLM working documentation, user questions and Checkpoint 1 | In Progress |
 
 ## 🎯 Project Goal
 
