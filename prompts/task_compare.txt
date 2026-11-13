@@ -1,0 +1,23 @@
+
+Compare the following Python APIs using the supplied
+documentation context.
+
+Question:
+{question}
+
+Available documentation context:
+{context}
+
+Explain the important similarities and differences.
+Do not make unsupported claims about performance,
+compatibility, or deprecation.
+
+If the available context is insufficient, clearly
+identify what information is missing.
+
+Return JSON only:
+{
+  "answer": "Your comparison",
+  "confidence": 0.0,
+  "follow_up": "A useful follow-up question"
+}

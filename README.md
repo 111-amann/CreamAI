@@ -229,6 +229,7 @@ See: [`docs/user_questions.md`](docs/user_questions.md)
 | Day 3 | Documentation downloading, ingestion, cleaning and Record dataclass | Completed |
 | Day 4 | FastAPI service, Pandas analysis and TF-IDF smart search | Completed |
 | Day 5 | LLM working documentation, user questions and Checkpoint 1 | In Progress |
+| Day 6 | LLM provider integration, chat endpoint and prompt evaluation | In Progress |
 
 ## 🎯 Project Goal
 

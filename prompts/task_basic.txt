@@ -1,0 +1,14 @@
+Answer the following Python question clearly.
+
+Question:
+{question}
+
+Use the following context if relevant:
+{context}
+
+Return JSON only:
+{
+  "answer": "Your answer",
+  "confidence": 0.0,
+  "follow_up": "A follow-up question"
+}

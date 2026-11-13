@@ -1,0 +1,19 @@
+
+Answer the following Python documentation question.
+
+Question:
+{question}
+
+Available documentation context:
+{context}
+
+Explain the relevant Python API in simple language.
+Include the function signature if it is available in the context.
+If the context is insufficient, say so rather than guessing.
+
+Return JSON only:
+{
+  "answer": "Your explanation",
+  "confidence": 0.0,
+  "follow_up": "A useful follow-up question"
+}
