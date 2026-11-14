@@ -178,8 +178,15 @@ def chat(request: ChatRequest):
             detail=str(error)
         )
 
-    except Exception:
+    # except Exception:
+    #     raise HTTPException(
+    #         status_code=502,
+    #         detail="LLM provider request failed"
+    #     )
+
+    except Exception as exc:
+        print(f"LLM ERROR: {type(exc).__name__}: {exc}")
         raise HTTPException(
             status_code=502,
             detail="LLM provider request failed"
-        )
+    )
