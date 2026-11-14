@@ -11,6 +11,8 @@ from pydantic import BaseModel, Field
 from fastapi import HTTPException
 from app.llm import generate_response
 
+from app.hybrid_search import hybrid_search
+
 app = FastAPI(
     title="PyDocsPal API",
     description="Python Documentation Assistant API",
@@ -190,3 +192,38 @@ def chat(request: ChatRequest):
             status_code=502,
             detail="LLM provider request failed"
     )
+
+@app.get("/search/semantic")
+def semantic_search_endpoint(
+    q: str = Query(min_length=1, max_length=500),
+    limit: int = Query(default=5, ge=1, le=20)
+):
+    query = q.strip()
+
+    if not query:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Search query cannot be empty"
+        )
+
+    results = hybrid_search(query, limit=limit)
+
+    return {
+        "query": query,
+        "search_type": "hybrid",
+        "total_results": len(results),
+        "results": [
+            {
+                "id": result["id"],
+                "text": result["text"],
+                "source": result["metadata"]["source"],
+                "title": result["metadata"]["title"],
+                "section": result["metadata"]["section"],
+                "page": result["metadata"]["page"],
+                "hybrid_score": result["hybrid_score"],
+                "semantic_rank": result["semantic_rank"],
+                "lexical_rank": result["lexical_rank"]
+            }
+            for result in results
+        ]
+    }

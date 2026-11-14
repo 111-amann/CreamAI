@@ -24,3 +24,6 @@ __pycache__/
 *.py[cod]
 .env
 .pytest_cache/
+
+# ChromaDB persistent database
+data/chroma_db/
