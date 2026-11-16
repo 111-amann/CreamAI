@@ -151,7 +151,11 @@ def extract_sections(text: str) -> list[tuple[str, str]]:
     return sections
 
 
-def chunk_document(file_path: Path) -> list[dict]:
+def chunk_document(
+    file_path: Path,
+    chunk_size: int = CHUNK_SIZE,
+    overlap: int = CHUNK_OVERLAP,
+) -> list[dict]:
     """Read one documentation file and convert it into chunks."""
     text = file_path.read_text(
         encoding="utf-8",
@@ -175,7 +179,11 @@ def chunk_document(file_path: Path) -> list[dict]:
     )
 
     for section_title, section_text in sections:
-        section_chunks = split_text(section_text)
+        section_chunks = split_text(
+            section_text,
+            chunk_size=chunk_size,
+            overlap=overlap,
+        )
 
         for chunk_text in section_chunks:
             chunks.append(
@@ -195,7 +203,10 @@ def chunk_document(file_path: Path) -> list[dict]:
     return chunks
 
 
-def load_all_chunks() -> list[dict]:
+def load_all_chunks(
+    chunk_size: int = CHUNK_SIZE,
+    overlap: int = CHUNK_OVERLAP,
+) -> list[dict]:
     """Load and chunk all extracted Python documentation text files."""
     if not DOCS_DIR.exists():
         raise FileNotFoundError(
@@ -208,7 +219,11 @@ def load_all_chunks() -> list[dict]:
 
     for file_path in text_files:
         try:
-            document_chunks = chunk_document(file_path)
+            document_chunks = chunk_document(
+                file_path,
+                chunk_size=chunk_size,
+                overlap=overlap,
+            )
             all_chunks.extend(document_chunks)
 
         except OSError as exc:

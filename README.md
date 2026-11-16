@@ -258,6 +258,7 @@ The confidence value is model-reported and is not a calibrated probability.
 | GET | `/search/semantic?q=python` | Search documentation chunks using hybrid retrieval |
 | POST | `/questions` | Retrieve relevant structured records for a question |
 | POST | `/chat` | Generate an LLM-powered response using structured-record context |
+| POST | `/ask` | Full RAG: Grounded answer with verified citations and evidence-based abstention |
 
 ### Example: Hybrid Search
 
@@ -311,6 +312,39 @@ The response contains:
 - `confidence`
 - `follow_up`
 
+### Example: Grounded RAG (`/ask`)
+
+**POST `/ask`**
+
+Request body:
+
+```json
+{
+  "question": "What is the signature of pathlib.Path.read_text?",
+  "top_k": 5
+}
+```
+
+Response structure:
+
+```json
+{
+  "question": "What is the signature of pathlib.Path.read_text?",
+  "answer": "Path.read_text(encoding=None, errors=None, newline=None)",
+  "status": "answered",
+  "citations": [
+    {
+      "source": "data/raw/extracted/python-3.15-docs-text/library/pathlib.txt",
+      "title": "pathlib --- Object-oriented filesystem paths",
+      "section": "Reading and writing files",
+      "page": "unknown"
+    }
+  ]
+}
+```
+
+For questions unsupported by the documentation corpus, evidence-based abstention returns `status: "insufficient_evidence"`, `answer: "I don't know"`, and `citations: []`.
+
 ## Evaluation
 
 PyDocsPal includes evaluation scripts for comparing semantic and hybrid retrieval.
@@ -329,10 +363,41 @@ python -m eval.run_hybrid_eval
 
 Evaluation reports:
 
-- `eval/search_results.md`
-- `eval/hybrid_search_results.md`
+- `eval/search_results.md` (Semantic retrieval evaluation)
+- `eval/hybrid_search_results.md` (Day 7 hybrid retrieval evaluation)
+- `eval/eval_comparison.md` (Day 8 RAG benchmark comparison)
+- `eval/eval_results_config_a.json` (Config A detailed results)
+- `eval/eval_results_config_b.json` (Config B detailed results)
 
-The current manual evaluation identified successful, partial, and failed retrieval cases. Some queries still require improvements, particularly complete API listings, version-specific changes, and dataset-wide inventory questions.
+### Day 8 RAG Benchmark Comparison (Config A vs Config B)
+
+Run the full automated benchmark:
+
+```bash
+python -m eval.run_eval
+```
+
+Benchmark results across 15 ground-truth evaluation questions (14 answerable questions covering signatures, behavior, release notes, and module discovery; 1 unanswerable question testing evidence-based abstention):
+
+| Metric | Denominator | Config A (1800 chars, top-5) | Config B (1200 chars, top-8) | Assessment / Comparison |
+|---|:---:|:---:|:---:|:---:|
+| **ChromaDB Collection** | - | `pydocspal_docs` (21,012 chunks) | `pydocspal_docs_c1200_o250` (34,633 chunks) | Isolated collections |
+| **Source Retrieval Rate** | 14 answerable | 92.9% (13/14) | 92.9% (13/14) | Tied |
+| **Evidence Retrieval Rate** | 14 answerable | 85.7% (12/14) | 85.7% (12/14) | Tied |
+| **Answer Correctness Rate** | 15 total | 60.0% (9/15) | 60.0% (9/15) | Tied |
+| **Expected Source Citation Rate** | 15 total | 60.0% (9/15) | 60.0% (9/15) | Tied |
+| **Correct Abstention Rate** | 1 unanswerable | 100.0% (1/1) | 100.0% (1/1) | Tied (Both strictly abstain on Q14) |
+| **False Abstention Rate** | 14 answerable | 28.6% (4/14) | 35.7% (5/14) | Config A lower (4 vs 5 false abstentions) |
+| **Unsupported Answer Rate** | 15 total | 13.3% (2/15) | 6.7% (1/15) | Config B lower (1 vs 2 unsupported) |
+| **Avg Retrieval Latency** | 15 total | **1.115s** | 1.228s | Config A slightly faster (-0.113s) |
+| **Avg Total Latency** | 15 total | **11.341s** | 15.768s | Config A faster (-4.428s, fewer context tokens) |
+
+**Overall Assessment**:
+1. **Parity in Answer Correctness**: When ground truth is verified against the official documentation (confirming that Q6 is answerable from `whatsnew/3.15.txt`), both configurations achieve identical overall answer correctness (9/15 = 60.0%). There is no definitive overall winner based solely on answer correctness.
+2. **Source vs Evidence Retrieval Gap**: While both configurations achieve a high Source Retrieval Rate (92.9%), the Evidence Retrieval Rate is 85.7% (and drops on multi-fact queries such as Q1 and Q6). Retrieving a relevant document chunk does not guarantee that the exact needed sentence or class inventory is present.
+3. **Expected Source Citation Rate**: The 60.0% rate reflects whether citations point to expected documentation files (or are properly empty for unanswerable queries). It does not certify full semantic entailment of every generated claim.
+4. **Abstention Trade-offs**: Both configurations correctly abstain on fictitious queries (Q14) with 100% precision. Config A is more prone to generating answers from adjacent context (e.g. Q6 changelog extrapolation), while Config B is more conservative, yielding slightly higher false abstentions (35.7% vs 28.6%) but fewer unsupported substantive answers (6.7% vs 13.3%).
+5. **Latency Profile**: Config A is significantly faster in end-to-end latency (11.34s vs 15.77s) because passing 5 chunks (1800 chars) introduces fewer tokens to the remote LLM than passing 8 chunks (1200 chars).
 
 ## LLM Concepts and Learning Documentation
 

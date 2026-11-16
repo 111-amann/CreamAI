@@ -24,20 +24,20 @@ client = chromadb.PersistentClient(
 )
 
 
-def get_collection(reset: bool = False):
+def get_collection(collection_name: str = COLLECTION_NAME, reset: bool = False):
     """Get or create the documentation collection."""
 
     if reset:
         try:
             client.delete_collection(
-                name=COLLECTION_NAME
+                name=collection_name
             )
-            print("Existing collection deleted.")
+            print(f"Existing collection '{collection_name}' deleted.")
         except Exception:
             pass
 
     collection = client.get_or_create_collection(
-        name=COLLECTION_NAME,
+        name=collection_name,
         metadata={
             "description": "Python documentation embeddings",
             "hnsw:space": "cosine",
@@ -60,15 +60,20 @@ def create_unique_id(chunk: dict) -> str:
     return f"{source_hash}_{chunk_index}"
 
 
-def build_index(reset: bool = False):
+def build_index(
+    collection_name: str = COLLECTION_NAME,
+    chunks: list[dict] = None,
+    reset: bool = False,
+):
     """
     Load documentation chunks, generate embeddings,
     and store everything in ChromaDB.
     """
 
-    print("Loading documentation chunks...")
+    print(f"Loading documentation chunks for {collection_name}...")
 
-    chunks = load_all_chunks()
+    if chunks is None:
+        chunks = load_all_chunks()
 
     if not chunks:
         print("No documentation chunks found.")
@@ -76,7 +81,7 @@ def build_index(reset: bool = False):
 
     print(f"Total chunks loaded: {len(chunks)}")
 
-    collection = get_collection(reset=reset)
+    collection = get_collection(collection_name=collection_name, reset=reset)
 
     print("\nStarting vector indexing...")
 
@@ -129,12 +134,16 @@ def build_index(reset: bool = False):
         )
 
     print("\nIndexing completed.")
-    print(f"Collection: {COLLECTION_NAME}")
+    print(f"Collection: {collection_name}")
     print(f"Stored documents: {collection.count()}")
     print(f"Database location: {CHROMA_DIR}")
 
 
-def semantic_search(query: str, n_results: int = 5):
+def semantic_search(
+    query: str,
+    n_results: int = 5,
+    collection_name: str = COLLECTION_NAME,
+):
     """Search documentation using semantic similarity."""
 
     if not query or not query.strip():
@@ -143,7 +152,7 @@ def semantic_search(query: str, n_results: int = 5):
     if n_results < 1:
         raise ValueError("n_results must be at least 1.")
 
-    collection = get_collection()
+    collection = get_collection(collection_name=collection_name)
 
     total_documents = collection.count()
 

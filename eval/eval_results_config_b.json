@@ -1,0 +1,304 @@
+{
+  "summary": {
+    "configuration": "Config B (1200 chars, top-8)",
+    "collection_name": "pydocspal_docs_c1200_o250",
+    "chunk_size": 1200,
+    "chunk_overlap": 250,
+    "top_k": 8,
+    "total_questions": 15,
+    "answerable_questions": 14,
+    "unanswerable_questions": 1,
+    "source_retrieval_rate": 0.9286,
+    "evidence_retrieval_rate": 0.7143,
+    "answer_correctness_rate": 0.6,
+    "expected_source_citation_rate": 0.6,
+    "correct_abstention_rate": 1.0,
+    "false_abstention_rate": 0.3571,
+    "unsupported_answer_rate": 0.0667,
+    "avg_retrieval_latency": 1.2282,
+    "avg_total_latency": 15.7681
+  },
+  "details": [
+    {
+      "id": "Q1",
+      "question": "What functions are available in the Python collections module?",
+      "category": "standard",
+      "answerable": true,
+      "status": "insufficient_evidence",
+      "answer": "I don't know",
+      "citations": [],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": false,
+      "expected_source_citation_ok": false,
+      "answer_ok": false,
+      "retrieval_latency": 10.9,
+      "total_latency": 12.69
+    },
+    {
+      "id": "Q2",
+      "question": "What is the purpose of collections.Counter, and how is it used?",
+      "category": "standard",
+      "answerable": true,
+      "status": "answered",
+      "answer": "collections.Counter is a dict subclass that provides a convenient way to count hashable objects – essentially a multiset or bag.  Elements are stored as dictionary keys and their occurrence counts as the corresponding values; the counts may be any integer (including zero or negative).  You create a Counter either empty, from an iterable, or from a mapping, and then update counts by indexing the Counter like a dict.  For example:\n\n```python\ncnt = Counter()\nfor word in ['red', 'blue', 'red', 'green', 'blue', 'blue']:\n    cnt[word] += 1\n# cnt is Counter({'blue': 3, 'red': 2, 'green': 1})\n```\n\nYou can also build one directly from an iterable (`Counter(words)`) and use methods such as `most_common()` to retrieve the most frequent items.  This makes Counter useful for rapid tallies of items such as word frequencies.",
+      "citations": [
+        {
+          "source": "data/raw/extracted/python-3.15-docs-text/library/collections.txt",
+          "title": "collections",
+          "section": "Counter",
+          "page": "unknown"
+        }
+      ],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": true,
+      "expected_source_citation_ok": true,
+      "answer_ok": true,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q3",
+      "question": "What is the function signature of pathlib.Path.read_text()?",
+      "category": "standard",
+      "answerable": true,
+      "status": "answered",
+      "answer": "Path.read_text(encoding=None, errors=None, newline=None)",
+      "citations": [
+        {
+          "source": "data/raw/extracted/python-3.15-docs-text/library/collections.txt",
+          "title": "collections",
+          "section": "Counter",
+          "page": "unknown"
+        }
+      ],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": true,
+      "expected_source_citation_ok": true,
+      "answer_ok": true,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q4",
+      "question": "How does itertools.combinations() work, and what arguments does it accept?",
+      "category": "standard",
+      "answerable": true,
+      "status": "answered",
+      "answer": "itertools.combinations(iterable, r) returns an iterator that yields every r‑length subsequence (combination) of the elements from the supplied iterable. Each tuple preserves the order of the original iterable, and the tuples are emitted in lexicographic order according to that order. The function accepts exactly two arguments: the *iterable* to draw elements from and an integer *r* that specifies the length of each combination.",
+      "citations": [
+        {
+          "source": "data/raw/extracted/python-3.15-docs-text/library/collections.txt",
+          "title": "collections",
+          "section": "Counter",
+          "page": "unknown"
+        }
+      ],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": true,
+      "expected_source_citation_ok": true,
+      "answer_ok": true,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q5",
+      "question": "Which Python version introduced functools.cache, and how does it differ from functools.lru_cache?",
+      "category": "standard",
+      "answerable": true,
+      "status": "insufficient_evidence",
+      "answer": "I don't know",
+      "citations": [],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": false,
+      "expected_source_citation_ok": false,
+      "answer_ok": false,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q6",
+      "question": "What were all the changes made to the pathlib module in Python 3.15, according to its official release notes?",
+      "category": "release_notes",
+      "answerable": true,
+      "status": "insufficient_evidence",
+      "answer": "I don't know",
+      "citations": [],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": false,
+      "expected_source_citation_ok": false,
+      "answer_ok": false,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q7",
+      "question": "Is datetime.datetime.strptime() deprecated in Python, and where can I find its official documentation?",
+      "category": "standard",
+      "answerable": true,
+      "status": "answered",
+      "answer": "The provided excerpts do not indicate that the class method datetime.datetime.strptime() itself is deprecated. Document 1 only notes that a particular usage of strptime() (using \"%d\" without a year) was deprecated, not the function overall. The official documentation for datetime.datetime.strptime() can be found in the \"datetime\" module documentation under the \"strftime() and strptime() behavior\" section (see Document 5).",
+      "citations": [
+        {
+          "source": "data/raw/extracted/python-3.15-docs-text/library/collections.txt",
+          "title": "collections",
+          "section": "Counter",
+          "page": "unknown"
+        }
+      ],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": true,
+      "expected_source_citation_ok": true,
+      "answer_ok": true,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q8",
+      "question": "Where can I find the official Python documentation for json.dumps()?",
+      "category": "standard",
+      "answerable": true,
+      "status": "insufficient_evidence",
+      "answer": "I don't know",
+      "citations": [],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": true,
+      "expected_source_citation_ok": false,
+      "answer_ok": false,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q9",
+      "question": "Which Python modules in the current PyDocsPal dataset contain file-handling functions?",
+      "category": "standard",
+      "answerable": true,
+      "status": "answered",
+      "answer": "The documentation indicates that file‑handling functions are provided by the built‑in \"io\" module (see the discussion of file objects and streams in Document 2).",
+      "citations": [],
+      "source_retrieval_ok": false,
+      "evidence_retrieval_ok": false,
+      "expected_source_citation_ok": false,
+      "answer_ok": false,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q10",
+      "question": "Can I find Python functions related to regular expressions using PyDocsPal?",
+      "category": "standard",
+      "answerable": true,
+      "status": "insufficient_evidence",
+      "answer": "I don't know",
+      "citations": [],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": true,
+      "expected_source_citation_ok": false,
+      "answer_ok": false,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q11",
+      "question": "What arguments does functools.partial accept and what does it return?",
+      "category": "standard",
+      "answerable": true,
+      "status": "answered",
+      "answer": "functools.partial takes a callable `func` as a required first (positional‑only) argument, followed by any number of positional arguments `*args` and any number of keyword arguments `**keywords`. It returns a new *partial* object – a callable that, when invoked, calls `func` with the supplied `args` and `keywords` pre‑filled (additional arguments are appended and additional keywords extend/override the stored ones). The returned object has read‑only attributes `func`, `args`, and `keywords`.",
+      "citations": [
+        {
+          "source": "data/raw/extracted/python-3.15-docs-text/library/collections.txt",
+          "title": "collections",
+          "section": "Counter",
+          "page": "unknown"
+        }
+      ],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": true,
+      "expected_source_citation_ok": true,
+      "answer_ok": true,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q12",
+      "question": "How is collections.defaultdict initialized and what is the role of default_factory?",
+      "category": "standard",
+      "answerable": true,
+      "status": "answered",
+      "answer": "collections.defaultdict is created by calling its constructor, optionally passing a callable as the first argument. If a first argument is given it becomes the initial value of the instance’s default_factory attribute; if omitted, default_factory is set to None. All other arguments are handled like the built‑in dict constructor. The default_factory attribute is used by the __missing__() method: when a key is accessed that is not present, __missing__ checks default_factory – if it is None a KeyError is raised, otherwise the callable is invoked with no arguments, its return value is stored for that key and returned as the default value.",
+      "citations": [
+        {
+          "source": "data/raw/extracted/python-3.15-docs-text/library/collections.txt",
+          "title": "collections",
+          "section": "Counter",
+          "page": "unknown"
+        }
+      ],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": true,
+      "expected_source_citation_ok": true,
+      "answer_ok": true,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q13",
+      "question": "How does itertools.cycle work and what caution should be exercised regarding its termination?",
+      "category": "standard",
+      "answerable": true,
+      "status": "answered",
+      "answer": "itertools.cycle(iterable) first iterates over the given iterable, yielding each element while storing a copy of those elements. Once the original iterable is exhausted, it repeatedly yields the saved elements over and over, so the iterator never terminates on its own. Because it repeats indefinitely, you must take care to limit the iteration (e.g., by using a break condition, slicing, or another terminating iterator) or else you will create an infinite loop.",
+      "citations": [
+        {
+          "source": "data/raw/extracted/python-3.15-docs-text/library/collections.txt",
+          "title": "collections",
+          "section": "Counter",
+          "page": "unknown"
+        }
+      ],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": true,
+      "expected_source_citation_ok": true,
+      "answer_ok": true,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q14",
+      "question": "What new quantum computing algorithms were added to the math module in Python 3.15?",
+      "category": "fictitious_api_abstention",
+      "answerable": false,
+      "status": "insufficient_evidence",
+      "answer": "I don't know",
+      "citations": [],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": true,
+      "expected_source_citation_ok": true,
+      "answer_ok": true,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    },
+    {
+      "id": "Q15",
+      "question": "What parameter in csv.reader customizes the field delimiter?",
+      "category": "standard",
+      "answerable": true,
+      "status": "answered",
+      "answer": "The parameter is delimiter; passing delimiter='…' to csv.reader overrides the default field separator.",
+      "citations": [
+        {
+          "source": "data/raw/extracted/python-3.15-docs-text/library/collections.txt",
+          "title": "collections",
+          "section": "Counter",
+          "page": "unknown"
+        }
+      ],
+      "source_retrieval_ok": true,
+      "evidence_retrieval_ok": true,
+      "expected_source_citation_ok": true,
+      "answer_ok": true,
+      "retrieval_latency": 0.65,
+      "total_latency": 15.76
+    }
+  ]
+}

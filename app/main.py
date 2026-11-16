@@ -1,3 +1,4 @@
+from app.rag import run_rag_pipeline, GenerationError
 from fastapi import FastAPI, HTTPException, Query, status
 from pydantic import BaseModel
 
@@ -227,3 +228,59 @@ def semantic_search_endpoint(
             for result in results
         ]
     }
+
+class Citation(BaseModel):
+    source: str
+    title: str
+    section: str
+    page: str
+
+
+class AskRequest(BaseModel):
+    question: str = Field(min_length=1, max_length=2000)
+    top_k: int = Field(default=5, ge=1, le=20)
+
+
+class AskResponse(BaseModel):
+    question: str
+    answer: str
+    status: str
+    citations: list[Citation]
+
+
+@app.post("/ask", response_model=AskResponse)
+def ask(request: AskRequest):
+    question = request.question.strip()
+    if not question:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Question cannot be empty"
+        )
+
+    try:
+        result = run_rag_pipeline(
+            question=question,
+            top_k=request.top_k,
+        )
+        return AskResponse(
+            question=result["question"],
+            answer=result["answer"],
+            status=result["status"],
+            citations=[Citation(**c) for c in result["citations"]],
+        )
+    except GenerationError as err:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=str(err),
+        )
+    except ValueError as err:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(err),
+        )
+    except Exception as err:
+        print(f"RAG ERROR: {type(err).__name__}: {err}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal error during RAG processing",
+        )

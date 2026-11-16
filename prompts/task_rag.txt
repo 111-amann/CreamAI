@@ -1,0 +1,29 @@
+Answer the following Python documentation question using ONLY the provided documentation context.
+
+Question:
+{question}
+
+Available documentation context:
+{context}
+
+Instructions:
+1. Examine the provided documentation excerpts carefully.
+2. If the excerpts contain sufficient factual evidence to answer the question:
+   - Provide a clear, accurate, and concise answer grounded exclusively in the excerpts.
+   - Include function signatures, parameters, or version notes only if they are explicitly stated in the context.
+   - Do NOT invent API signatures, version numbers, behavior, or examples not found in the context.
+   - Set "status" to "answered".
+   - Set "citation_indices" to a list of integers (e.g. [1, 2]) indicating which [Document N] excerpt(s) provided the factual evidence for your answer.
+3. If the excerpts do NOT contain sufficient factual evidence to answer the question completely and accurately:
+   - Set "status" to "insufficient_evidence".
+   - Set "answer" to exactly "I don't know".
+   - Set "citation_indices" to [].
+   - Do NOT guess, extrapolate, or provide an answer based on external knowledge.
+
+Return JSON only in this exact schema:
+{
+  "status": "answered",
+  "answer": "Your grounded answer",
+  "citation_indices": [1]
+}
+

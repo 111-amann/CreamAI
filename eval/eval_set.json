@@ -1,0 +1,257 @@
+[
+  {
+    "id": "Q1",
+    "question": "What functions are available in the Python collections module?",
+    "category": "inventory",
+    "answerable": true,
+    "expected_answer": "The collections module provides specialized container datatypes including namedtuple(), deque, ChainMap, Counter, OrderedDict, defaultdict, UserDict, UserList, and UserString, as well as abstract base classes in collections.abc.",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/collections.txt",
+      "data/raw/extracted/python-3.15-docs-text/library/collections.abc.txt"
+    ],
+    "key_facts": [
+      "namedtuple",
+      "deque",
+      "Counter",
+      "defaultdict",
+      "OrderedDict"
+    ],
+    "evaluation_notes": "Answerable in documentation, but challenging for single-chunk retrieval due to wide distribution across document."
+  },
+  {
+    "id": "Q2",
+    "question": "What is the purpose of collections.Counter, and how is it used?",
+    "category": "concept_and_usage",
+    "answerable": true,
+    "expected_answer": "collections.Counter is a dict subclass designed for counting hashable objects. Elements are stored as dictionary keys and their counts are stored as dictionary values. It is used by passing an iterable or mapping, returning 0 for missing items instead of raising KeyError.",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/collections.txt"
+    ],
+    "key_facts": [
+      "counting",
+      "hashable",
+      "dict subclass",
+      "zero"
+    ],
+    "evaluation_notes": "Core API conceptual and usage documentation is prominently featured in library/collections.txt."
+  },
+  {
+    "id": "Q3",
+    "question": "What is the function signature of pathlib.Path.read_text()?",
+    "category": "signature",
+    "answerable": true,
+    "expected_answer": "Path.read_text(encoding=None, errors=None, newline=None)",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/pathlib.txt"
+    ],
+    "key_facts": [
+      "read_text",
+      "encoding",
+      "errors",
+      "newline"
+    ],
+    "evaluation_notes": "Exact method signature lookup in reading and writing files section."
+  },
+  {
+    "id": "Q4",
+    "question": "How does itertools.combinations() work, and what arguments does it accept?",
+    "category": "parameters_and_behavior",
+    "answerable": true,
+    "expected_answer": "itertools.combinations(iterable, r) returns an iterator yielding r-length subsequences of elements from the input iterable in lexicographic order. Elements are treated as unique based on their position, and if r is greater than the iterable length, no tuples are produced.",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/itertools.txt",
+      "data/raw/extracted/python-3.15-docs-text/howto/functional.txt"
+    ],
+    "key_facts": [
+      "iterable",
+      "r",
+      "subsequences",
+      "lexicographic"
+    ],
+    "evaluation_notes": "Well-documented in itertools module reference and functional programming HOWTO."
+  },
+  {
+    "id": "Q5",
+    "question": "Which Python version introduced functools.cache, and how does it differ from functools.lru_cache?",
+    "category": "version_and_comparison",
+    "answerable": true,
+    "expected_answer": "functools.cache was added in Python 3.9. It is a simpler, unbounded memoizing wrapper that is equivalent to functools.lru_cache(maxsize=None), and it does not need to evict old values or manage an LRU cache size limit.",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/functools.txt",
+      "data/raw/extracted/python-3.15-docs-text/whatsnew/3.9.txt"
+    ],
+    "key_facts": [
+      "cache",
+      "3.9",
+      "unbounded",
+      "lru_cache"
+    ],
+    "evaluation_notes": "Requires cross-referencing version note and functional difference."
+  },
+  {
+    "id": "Q6",
+    "question": "What were all the changes made to the pathlib module in Python 3.15, according to its official release notes?",
+    "category": "release_notes",
+    "answerable": true,
+    "expected_answer": "According to the official Python 3.15 release notes (whatsnew/3.15.txt), the changes to the pathlib module are: 1) pathlib.Path.mkdir() added the 'parent_mode' parameter to specify the file mode for intermediate directories when parents=True (gh-86533); 2) The deprecated method pathlib.PurePath.is_reserved() was removed, directing users to os.path.isreserved() to detect reserved paths on Windows (gh-133875).",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/whatsnew/3.15.txt",
+      "data/raw/extracted/python-3.15-docs-text/library/pathlib.txt"
+    ],
+    "key_facts": [
+      "parent_mode",
+      "mkdir",
+      "is_reserved",
+      "removed"
+    ],
+    "evaluation_notes": "Answerable from documentation: whatsnew/3.15.txt contains explicit entries under 'Improved Modules' (gh-86533: parent_mode for Path.mkdir) and 'Removed' (gh-133875: PurePath.is_reserved removal)."
+  },
+  {
+    "id": "Q7",
+    "question": "Is datetime.datetime.strptime() deprecated in Python, and where can I find its official documentation?",
+    "category": "deprecation_and_docs",
+    "answerable": true,
+    "expected_answer": "datetime.datetime.strptime() as a whole is not deprecated. However, calling strptime() with a format string containing '%e' without a year was deprecated in Python 3.15 (scheduled for removal in 3.17). Official documentation is found in the datetime module documentation.",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/datetime.txt",
+      "data/raw/extracted/python-3.15-docs-text/whatsnew/3.15.txt"
+    ],
+    "key_facts": [
+      "strptime",
+      "deprecated",
+      "datetime"
+    ],
+    "evaluation_notes": "Distinguishes nuanced deprecation of specific format directives from deprecation of the entire API."
+  },
+  {
+    "id": "Q8",
+    "question": "Where can I find the official Python documentation for json.dumps()?",
+    "category": "location_and_docs",
+    "answerable": true,
+    "expected_answer": "The official documentation for json.dumps() is located in the 'json' module chapter under 'JSON encoder and decoder' (library/json.txt), which documents serializing Python objects to JSON formatted strings.",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/json.txt"
+    ],
+    "key_facts": [
+      "json.dumps",
+      "serialize",
+      "json"
+    ],
+    "evaluation_notes": "Straightforward reference lookup to the json library document."
+  },
+  {
+    "id": "Q9",
+    "question": "Which Python modules in the current PyDocsPal dataset contain file-handling functions?",
+    "category": "cross_module_thematic",
+    "answerable": true,
+    "expected_answer": "Modules in the Python documentation dataset that handle files and directories include pathlib (object-oriented filesystem paths), os / os.path (low-level OS and file interfaces), shutil (high-level file operations and archiving), and io / fileinput.",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/filesys.txt",
+      "data/raw/extracted/python-3.15-docs-text/contents.txt",
+      "data/raw/extracted/python-3.15-docs-text/library/pathlib.txt"
+    ],
+    "key_facts": [
+      "pathlib",
+      "os",
+      "shutil"
+    ],
+    "evaluation_notes": "Thematic question requiring synthesis across file and directory access documentation."
+  },
+  {
+    "id": "Q10",
+    "question": "Can I find Python functions related to regular expressions using PyDocsPal?",
+    "category": "topic_discovery",
+    "answerable": true,
+    "expected_answer": "Yes, regular expression operations in Python are provided by the 're' standard library module, documented in library/re.txt and the Regular Expression HOWTO (howto/regex.txt), providing functions such as re.compile(), re.search(), re.match(), re.findall(), and re.sub().",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/re.txt",
+      "data/raw/extracted/python-3.15-docs-text/howto/regex.txt"
+    ],
+    "key_facts": [
+      "re",
+      "regular expression",
+      "compile",
+      "search"
+    ],
+    "evaluation_notes": "Topic discovery mapping developer query to the re module."
+  },
+  {
+    "id": "Q11",
+    "question": "What arguments does functools.partial accept and what does it return?",
+    "category": "parameters_and_behavior",
+    "answerable": true,
+    "expected_answer": "functools.partial accepts a callable 'func', followed by arbitrary positional arguments (*args) and keyword arguments (**keywords). It returns a new partial object that, when called, behaves like func called with the supplied arguments and any additional arguments passed to the call.",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/functools.txt"
+    ],
+    "key_facts": [
+      "func",
+      "args",
+      "keywords",
+      "partial object"
+    ],
+    "evaluation_notes": "Standard functional helper in library/functools.txt."
+  },
+  {
+    "id": "Q12",
+    "question": "How is collections.defaultdict initialized and what is the role of default_factory?",
+    "category": "concept_and_usage",
+    "answerable": true,
+    "expected_answer": "collections.defaultdict is initialized with an optional first argument, 'default_factory', followed by standard dictionary arguments. The default_factory attribute is a callable (or None); when a requested key is missing, defaultdict invokes default_factory to provide a default value rather than raising a KeyError.",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/collections.txt"
+    ],
+    "key_facts": [
+      "default_factory",
+      "callable",
+      "missing",
+      "KeyError"
+    ],
+    "evaluation_notes": "Standard collections container datatype."
+  },
+  {
+    "id": "Q13",
+    "question": "How does itertools.cycle work and what caution should be exercised regarding its termination?",
+    "category": "parameters_and_behavior",
+    "answerable": true,
+    "expected_answer": "itertools.cycle(iterable) saves a copy of the elements from the input iterable and returns an iterator that cycles through them repeatedly and indefinitely. The caution is that it runs infinitely and never terminates on its own, so it requires an external stopping condition (or break) when consumed, and may require significant auxiliary memory to cache the iterable elements.",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/itertools.txt"
+    ],
+    "key_facts": [
+      "infinite",
+      "indefinitely",
+      "cycle",
+      "memory"
+    ],
+    "evaluation_notes": "Tests understanding of infinite iterator behavior and memory/termination caveats."
+  },
+  {
+    "id": "Q14",
+    "question": "What new quantum computing algorithms were added to the math module in Python 3.15?",
+    "category": "fictitious_api_abstention",
+    "answerable": false,
+    "expected_answer": "I don't know",
+    "expected_sources": [],
+    "key_facts": [
+      "I don't know"
+    ],
+    "evaluation_notes": "Completely fictitious API feature. A corpus-wide search across all 553 extracted text files found 0 quantum algorithm references in the math module (only unrelated occurrences in decimal.txt same_quantum, os.txt round-robin quantum, and ssl.txt post-quantum curves). Model must strictly abstain with 'I don't know'."
+  },
+  {
+    "id": "Q15",
+    "question": "What parameter in csv.reader customizes the field delimiter?",
+    "category": "parameters_and_behavior",
+    "answerable": true,
+    "expected_answer": "The 'delimiter' parameter in csv.reader(csvfile, dialect='excel', **fmtparams) customizes the field delimiter. It is a one-character string used to separate fields, which defaults to a comma (',').",
+    "expected_sources": [
+      "data/raw/extracted/python-3.15-docs-text/library/csv.txt"
+    ],
+    "key_facts": [
+      "delimiter",
+      "comma",
+      "one-character"
+    ],
+    "evaluation_notes": "Standard parameter documentation in library/csv.txt."
+  }
+]

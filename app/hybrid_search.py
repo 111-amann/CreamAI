@@ -24,13 +24,13 @@ SUPPORTED_MODULES = (
 )
 
 
-@lru_cache(maxsize=1)
-def load_lexical_index():
+@lru_cache(maxsize=4)
+def load_lexical_index(chunk_size: int = 1800, overlap: int = 250):
     """Load documentation chunks and build a cached TF-IDF index."""
 
-    print("Building lexical search index...")
+    print(f"Building lexical search index (chunk_size={chunk_size}, overlap={overlap})...")
 
-    chunks = load_all_chunks()
+    chunks = load_all_chunks(chunk_size=chunk_size, overlap=overlap)
 
     if not chunks:
         return [], None, None
@@ -65,7 +65,12 @@ def extract_api_name(query: str) -> str:
     return match.group(1) if match else ""
 
 
-def lexical_search(query: str, limit: int = RETRIEVAL_LIMIT):
+def lexical_search(
+    query: str,
+    limit: int = RETRIEVAL_LIMIT,
+    chunk_size: int = 1800,
+    overlap: int = 250,
+):
     """Search documentation using TF-IDF and API signature boosting."""
 
     if not query or not query.strip():
@@ -74,7 +79,10 @@ def lexical_search(query: str, limit: int = RETRIEVAL_LIMIT):
     if limit < 1:
         raise ValueError("Limit must be at least 1.")
 
-    chunks, vectorizer, document_vectors = load_lexical_index()
+    chunks, vectorizer, document_vectors = load_lexical_index(
+        chunk_size=chunk_size,
+        overlap=overlap,
+    )
 
     if not chunks:
         return []
@@ -190,7 +198,14 @@ def reciprocal_rank_fusion(
     return ranked_results[:limit]
 
 
-def hybrid_search(query: str, limit: int = 5):
+def hybrid_search(
+    query: str,
+    limit: int = 5,
+    collection_name: str = "pydocspal_docs",
+    chunk_size: int = 1800,
+    chunk_overlap: int = 250,
+    retrieval_limit: int = RETRIEVAL_LIMIT,
+):
     """Search documentation using semantic and lexical retrieval."""
 
     if not query or not query.strip():
@@ -201,12 +216,15 @@ def hybrid_search(query: str, limit: int = 5):
 
     semantic_results = semantic_search(
         query,
-        n_results=RETRIEVAL_LIMIT,
+        n_results=retrieval_limit,
+        collection_name=collection_name,
     )
 
     lexical_results = lexical_search(
         query,
-        limit=RETRIEVAL_LIMIT,
+        limit=retrieval_limit,
+        chunk_size=chunk_size,
+        overlap=chunk_overlap,
     )
 
     return reciprocal_rank_fusion(
