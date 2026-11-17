@@ -284,3 +284,119 @@ def ask(request: AskRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal error during RAG processing",
         )
+
+
+import uuid
+from typing import Any, Optional
+from app.graph import run_langgraph_agent, resume_langgraph_agent
+
+
+class AgentToolCall(BaseModel):
+    tool: str
+    args: dict[str, Any] = {}
+    result: Any = None
+
+
+class AgentCitation(BaseModel):
+    source: str
+    title: str = "unknown"
+    section: str = "unknown"
+    page: str = "unknown"
+
+
+class AgentRequest(BaseModel):
+    message: Optional[str] = Field(default=None, description="User prompt or question")
+    thread_id: Optional[str] = Field(default=None, description="Conversation thread identifier")
+    action: Optional[str] = Field(default=None, description="Optional action: 'approve', 'reject', or 'resume'")
+    approved: Optional[bool] = Field(default=None, description="Boolean approval decision when resuming")
+
+
+class AgentResponse(BaseModel):
+    thread_id: str
+    status: str
+    approval_required: bool
+    proposed_response: Optional[str] = None
+    response: Optional[str] = None
+    tool_calls: list[AgentToolCall] = []
+    citations: list[AgentCitation] = []
+    error: Optional[str] = None
+
+
+@app.post("/agent", response_model=AgentResponse)
+def agent_endpoint(request: AgentRequest):
+    """
+    Day 9 LangGraph Agent Endpoint with Human Approval.
+    Supports:
+    1. Starting a new agent conversation thread.
+    2. Continuing an existing thread.
+    3. Resuming an interrupted approval node with approve/reject decision.
+    """
+    thread_id = request.thread_id.strip() if request.thread_id and request.thread_id.strip() else str(uuid.uuid4())
+
+    # Check if this is an approval resume request
+    is_resume = (
+        request.approved is not None
+        or (request.action and request.action.strip().lower() in ("approve", "approved", "reject", "rejected", "resume"))
+    )
+
+    if is_resume:
+        if request.approved is not None:
+            is_approved = bool(request.approved)
+        elif request.action:
+            is_approved = request.action.strip().lower() in ("approve", "approved", "yes", "true")
+        else:
+            is_approved = False
+
+        try:
+            result = resume_langgraph_agent(thread_id=thread_id, approved=is_approved)
+            return AgentResponse(
+                thread_id=result["thread_id"],
+                status=result["status"],
+                approval_required=result["approval_required"],
+                proposed_response=result.get("proposed_response"),
+                response=result.get("response"),
+                tool_calls=[AgentToolCall(**tc) for tc in result.get("tool_calls", [])],
+                citations=[AgentCitation(**c) for c in result.get("citations", [])],
+                error=result.get("error"),
+            )
+        except ValueError as err:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(err),
+            )
+        except Exception as err:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Agent resume failed: {err}",
+            )
+
+    # Standard conversation start or continuation
+    clean_message = (request.message or "").strip()
+    if not clean_message:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Message cannot be empty when starting or continuing a conversation.",
+        )
+
+    try:
+        result = run_langgraph_agent(message=clean_message, thread_id=thread_id)
+        return AgentResponse(
+            thread_id=result["thread_id"],
+            status=result["status"],
+            approval_required=result["approval_required"],
+            proposed_response=result.get("proposed_response"),
+            response=result.get("response"),
+            tool_calls=[AgentToolCall(**tc) for tc in result.get("tool_calls", [])],
+            citations=[AgentCitation(**c) for c in result.get("citations", [])],
+            error=result.get("error"),
+        )
+    except ValueError as err:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(err),
+        )
+    except Exception as err:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Agent workflow failed: {err}",
+        )

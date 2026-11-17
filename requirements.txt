@@ -39,6 +39,12 @@ joblib==1.6.0
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
 kubernetes==37.0.2
+langchain-core==1.8.1
+langgraph==1.2.22
+langgraph-checkpoint==4.3.2
+langgraph-prebuilt==1.1.2
+langgraph-sdk==0.4.14
+langsmith==0.15.0
 markdown-it-py==4.3.0
 MarkupSafe==3.0.4
 mdurl==0.1.2

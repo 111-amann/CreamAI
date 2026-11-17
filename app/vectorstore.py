@@ -138,6 +138,14 @@ def build_index(
     print(f"Stored documents: {collection.count()}")
     print(f"Database location: {CHROMA_DIR}")
 
+    try:
+        from app.tools import build_stdlib_versions_csv
+        print("Ensuring standard library version metadata CSV is up to date...")
+        count = build_stdlib_versions_csv()
+        print(f"Version metadata ready: {count} records in data/stdlib_versions.csv")
+    except Exception as exc:
+        print(f"Notice: Version extraction skipped during vector indexing: {exc}")
+
 
 def semantic_search(
     query: str,

@@ -156,6 +156,14 @@ def main():
     except OSError as error:
         print(f"Could not save records: {error}")
 
+    try:
+        from app.tools import build_stdlib_versions_csv
+        print("Updating standard library version metadata CSV...")
+        count = build_stdlib_versions_csv()
+        print(f"Extracted {count} version records into data/stdlib_versions.csv")
+    except Exception as error:
+        print(f"Version extraction notice: {error}")
+
 
 if __name__ == "__main__":
     main()
