@@ -27,3 +27,7 @@ __pycache__/
 
 # ChromaDB persistent database
 data/chroma_db/
+
+# Local databases
+data/feedback.db
+*.db

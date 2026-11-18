@@ -20,7 +20,10 @@ from app.tools import stdlib_version_check
 
 
 SYSTEM_AGENT_PROMPT = """You are PyDocsPal Agent, an intelligent assistant for Python documentation and standard library compatibility.
-You have access to two tools:
+
+CRITICAL: Do NOT use function calling or tool calling features. You must respond ONLY with a plain JSON object.
+
+You have access to two tools via JSON instruction format:
 
 1. `stdlib_version_check`:
    Deterministic check of whether a standard library symbol/API is available, introduced, deprecated, or removed in a specified Python version.
@@ -36,41 +39,54 @@ You have access to two tools:
 
 INSTRUCTIONS:
 - Analyze the user question carefully.
-- If the question asks about version availability, introduction, removal, or deprecation, call `stdlib_version_check`.
-- If the question asks for explanations, signatures, code examples, or details, call `rag_search`.
-- If the question requires both (e.g. "Explain X and check if available in 3.8"), you may call one tool, inspect the result, and then call the other tool.
+- If the question asks about version availability, introduction, removal, or deprecation, request execution of `stdlib_version_check`.
+- If the question asks for explanations, signatures, code examples, or details, request execution of `rag_search`.
+- If the question requires both (e.g. "Explain X and check if available in 3.8"), you may request one tool, inspect the result, and then request the other tool.
 - When you have gathered sufficient information, or if no further tool calls are needed, return `action: "final_response"`.
 - Never invent version numbers, API signatures, or tool outputs. Base your final response strictly on the tool results provided.
 - If the tool indicates an API was not yet available, deprecated, removed, or unknown, state that accurately.
 
 RESPONSE FORMAT:
-You MUST respond with a single valid JSON object. Do not include markdown code block formatting or commentary outside the JSON object.
+You MUST respond with ONLY a plain JSON object in your message content. Do NOT use function/tool calling features. Do NOT include markdown code block formatting.
 
-Option A - Call a tool:
+Option A - Request a tool execution:
 {
   "action": "call_tool",
-  "tool": "stdlib_version_check" | "rag_search",
-  "args": { ... },
+  "tool": "stdlib_version_check",
+  "args": {"symbol": "pathlib.Path.mkdir", "python_version": "3.8"},
   "reasoning": "brief explanation of why this tool is needed"
+}
+
+OR
+
+{
+  "action": "call_tool",
+  "tool": "rag_search",
+  "args": {"query": "example query", "top_k": 5},
+  "reasoning": "brief explanation"
 }
 
 Option B - Provide final response:
 {
   "action": "final_response",
   "answer": "Complete, grounded answer based on tool results.",
-  "status": "completed" | "insufficient_evidence"
+  "status": "completed"
 }
 """
 
 SYNTHESIS_SYSTEM_PROMPT = """You are PyDocsPal Agent.
+
+CRITICAL: Do NOT use function calling or tool calling features. You must respond ONLY with a plain JSON object in your message content.
+
 Formulate a final, grounded, and concise answer to the user's question using ONLY the provided tool results.
 Do not invent facts, version numbers, or documentation details.
 If the tool results show the information is unknown or not documented, state that clearly.
-Respond with a single valid JSON object:
+
+Respond with ONLY a plain JSON object (no markdown, no code blocks, no function calls):
 {
   "action": "final_response",
   "answer": "Your grounded final answer.",
-  "status": "completed" | "insufficient_evidence"
+  "status": "completed"
 }
 """
 
@@ -202,6 +218,9 @@ def run_agent_loop(
         try:
             raw_output = llm_func(SYSTEM_AGENT_PROMPT, user_prompt)
             data = parse_llm_json(raw_output)
+        except RuntimeError:
+            # LLM provider errors should propagate
+            raise
         except Exception as exc:
             # If LLM generation or JSON parsing fails
             tool_history.append({
@@ -306,6 +325,9 @@ def run_agent_loop(
         synth_data = parse_llm_json(raw_synth)
         final_answer = str(synth_data.get("answer", "")).strip()
         final_status = str(synth_data.get("status", "completed")).strip().lower()
+    except RuntimeError:
+        # LLM provider errors should propagate
+        raise
     except Exception as exc:
         final_answer = (
             "Agent reached maximum iterations. Tool execution results: "
