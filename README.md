@@ -25,6 +25,10 @@ PyDocsPal is a Python documentation assistant designed to help developers and st
 - Generate explanations using an LLM provider.
 - Access functionality through REST API endpoints.
 - Analyze structured documentation records using Pandas.
+- **NEW - Day 10:** Interactive Streamlit UI with chat interface.
+- **NEW - Day 10:** Python version compatibility badges and deprecation warnings.
+- **NEW - Day 10:** User feedback system with persistent storage.
+- **NEW - Day 10:** Multi-step agent mode with human approval workflow.
 
 ## Tech Stack
 
@@ -32,6 +36,7 @@ PyDocsPal is a Python documentation assistant designed to help developers and st
 |---|---|
 | Language | Python |
 | API | FastAPI, Uvicorn |
+| Frontend | **Streamlit** |
 | Data Processing | Pandas |
 | Keyword Search | Scikit-learn, TF-IDF |
 | Semantic Search | Sentence Transformers |
@@ -39,7 +44,8 @@ PyDocsPal is a Python documentation assistant designed to help developers and st
 | Vector Database | ChromaDB |
 | Ranking | Cosine Similarity, Reciprocal Rank Fusion |
 | LLM Integration | Groq / Gemini provider wrapper |
-| Data Storage | JSON, Text Files |
+| Agent Framework | **LangGraph** |
+| Data Storage | JSON, Text Files, **SQLite** |
 | Environment Management | python-dotenv, venv |
 | Version Control | Git, GitHub |
 
@@ -65,18 +71,29 @@ PyDocsPal/
 │   ├── cli.py
 │   ├── ingest.py
 │   ├── models.py
-│   └── fetch.py
+│   ├── fetch.py
+│   ├── rag.py
+│   ├── agent_loop.py
+│   ├── graph.py
+│   └── tools.py
+│
+├── ui/
+│   └── app.py
 │
 ├── data/
 │   ├── raw/
 │   │   ├── extracted/
 │   │   └── fetched/
 │   ├── chroma_db/
-│   └── records.json
+│   ├── records.json
+│   ├── stdlib_versions.csv
+│   └── feedback.db
 │
 ├── docs/
 │   ├── how_llms_work.md
-│   └── user_questions.md
+│   ├── user_questions.md
+│   └── screenshots/
+│       └── checkpoint-2.png
 │
 ├── prompts/
 │   ├── system.txt
@@ -88,6 +105,9 @@ PyDocsPal/
 │   ├── run_hybrid_eval.py
 │   ├── search_results.md
 │   └── hybrid_search_results.md
+│
+├── tests/
+│   └── test_streamlit_integration.py
 │
 ├── day01_intro.py
 ├── day01_menu.py
@@ -412,6 +432,217 @@ The project also includes learning material covering:
 - Retrieval-Augmented Generation concepts.
 
 See [`docs/how_llms_work.md`](docs/how_llms_work.md).
+
+## Day 10: Streamlit UI + Checkpoint 2
+
+### Overview
+
+Day 10 introduces a professional Streamlit frontend that integrates with the existing FastAPI backend. The UI provides an interactive chat interface with Python compatibility checking, citations, and user feedback collection.
+
+![PyDocsPal Streamlit UI](docs/screenshots/checkpoint-2.png)
+
+### Features
+
+#### 1. **Chat Interface**
+- Clean, professional chat UI using `st.chat_message()` and `st.chat_input()`
+- Conversation history maintained in session state
+- Loading indicators for backend responses
+- Error handling for backend connectivity issues
+
+#### 2. **Dual Operating Modes**
+
+**RAG Mode:**
+- Direct question answering via `/ask` endpoint
+- Displays generated answer with supporting citations
+- Fast responses for straightforward documentation queries
+
+**Agent Mode:**
+- Multi-step reasoning via `/agent` endpoint with LangGraph
+- Automatic tool selection (RAG search, version checking)
+- Human approval workflow for proposed actions
+- Resume capability for interrupted conversations
+
+#### 3. **Python Compatibility Badges** ⭐ *Signature Feature*
+
+Every assistant answer displays compatibility information:
+
+- **✅ Works from Python X.Y** - Shows minimum required Python version
+- **⚠️ Deprecated since Python X.Y** - Warning for deprecated APIs
+- **❌ Removed in Python X.Y** - Error for removed APIs
+- **💡 Compatibility unknown** - When version data is unavailable
+
+The system:
+- Extracts API names from assistant responses
+- Uses the `stdlib_version_check` tool from Day 9
+- Displays evidence from official documentation
+- Links to exact documentation sections when available
+- Never invents compatibility information
+
+#### 4. **Citations Display**
+
+All answers include supporting documentation sources:
+- Source filename and title
+- Documentation section
+- Expandable details using Streamlit expanders
+- Clear indication when no citations are available
+
+#### 5. **User Feedback System**
+
+Every response includes thumbs up/down controls:
+- Feedback persisted to SQLite database (`data/feedback.db`)
+- Stores question, answer, feedback value, timestamp, Python version, and mode
+- Prevents duplicate feedback submissions
+- Shows confirmation when feedback is saved
+
+#### 6. **Configuration**
+
+Sidebar settings include:
+- Backend URL display
+- Mode selection (RAG vs Agent)
+- Python version selector (3.8 through 3.15)
+- Backend health indicator
+
+Environment variables:
+- `PYDOCSPAL_API_URL` - Backend URL (default: `http://localhost:8000`)
+
+### Installation and Usage
+
+#### Install Streamlit Dependencies
+
+```bash
+pip install streamlit>=1.40.0
+```
+
+**Note:** There may be protobuf version conflicts between streamlit and chromadb. Install with:
+
+```bash
+pip install --no-deps streamlit==1.40.2
+```
+
+#### Start the Backend
+
+```bash
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+#### Start the Streamlit UI
+
+```bash
+streamlit run ui/app.py
+```
+
+The Streamlit app will be available at:
+- Local: `http://localhost:8501`
+- Network: Check terminal output for network URL
+
+#### Using the Application
+
+1. **Select Mode:** Choose between RAG or Agent mode in the sidebar
+2. **Select Python Version:** Pick your target Python version for compatibility checks
+3. **Ask Questions:** Type your question in the chat input
+4. **Review Answers:** See the response with citations and compatibility badges
+5. **Approve Actions (Agent Mode):** Review and approve/reject proposed agent actions
+6. **Provide Feedback:** Use thumbs up/down to rate responses
+
+### Example Interactions
+
+**RAG Mode Query:**
+```
+User: What is pathlib.Path.read_text?
+Assistant: Path.read_text(encoding=None, errors=None, newline=None) reads the file...
+💡 Compatibility: Use Agent mode for version compatibility checks
+📚 Sources: pathlib.txt - Reading and writing files
+```
+
+**Agent Mode Query:**
+```
+User: Is pathlib.Path.mkdir available in Python 3.8?
+Assistant: [Performs version check]
+✅ Works from Python 3.5
+🔍 Detailed Compatibility Information:
+  Symbol: pathlib.Path.mkdir
+  Status: available
+  Introduced in: Python 3.5
+  Evidence: Added in version 3.5
+📚 Sources: pathlib.txt
+```
+
+**Deprecated API Warning:**
+```
+User: Tell me about os.popen
+Assistant: os.popen() executes a command and returns a file object...
+⚠️ os.popen - Deprecated since Python 3.13, use subprocess.Popen instead
+📚 Sources: os.txt
+```
+
+### Testing
+
+Run integration tests:
+
+```bash
+python tests/test_streamlit_integration.py
+```
+
+Tests verify:
+- Backend health check
+- RAG endpoint integration
+- Agent endpoint integration with approval flow
+- Streamlit UI accessibility
+
+### Feedback Database Schema
+
+The SQLite feedback database (`data/feedback.db`) contains:
+
+```sql
+CREATE TABLE feedback (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    feedback INTEGER NOT NULL,  -- 1 for thumbs up, -1 for thumbs down
+    timestamp TEXT NOT NULL,
+    python_version TEXT,
+    mode TEXT,  -- 'RAG' or 'Agent'
+    answer_hash TEXT UNIQUE  -- Prevents duplicate submissions
+);
+```
+
+### Architecture
+
+```
+┌─────────────────┐
+│  Streamlit UI   │
+│   (Port 8501)   │
+└────────┬────────┘
+         │ HTTP
+         ▼
+┌─────────────────┐
+│  FastAPI Server │
+│   (Port 8000)   │
+├─────────────────┤
+│ /ask (RAG)      │
+│ /agent (Agent)  │
+└────────┬────────┘
+         │
+    ┌────┴────┐
+    ▼         ▼
+┌────────┐ ┌─────────────┐
+│ChromaDB│ │stdlib_ver... │
+│        │ │check (Day 9)│
+└────────┘ └──────────────┘
+```
+
+### Checkpoint 2 Deliverables
+
+✅ Streamlit UI at `ui/app.py`
+✅ RAG mode integration
+✅ Agent mode integration with approval workflow
+✅ Python compatibility badges
+✅ Deprecation/removal warnings
+✅ Citations display
+✅ User feedback system with SQLite
+✅ Integration tests
+✅ Updated documentation
+✅ Screenshot captured
 
 ## Developer
 
