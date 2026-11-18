@@ -56,13 +56,21 @@ def clean_text(text: str) -> str:
 
 
 def parse_py_version(v_str: str):
-    """Reliably parse a Python version string for comparisons."""
+    """Reliably parse a Python version string for comparisons.
+    
+    Returns a packaging.version.Version object for valid versions,
+    or raises ValueError for invalid versions.
+    """
     clean = re.sub(r"[^0-9\.]", "", str(v_str)).strip(".")
+    
+    # Validate that we have at least one digit part
+    if not clean or not any(c.isdigit() for c in clean):
+        raise ValueError(f"Invalid version string: '{v_str}'")
+    
     try:
         return parse_version(clean)
-    except Exception:
-        parts = tuple(int(x) for x in clean.split(".") if x.isdigit())
-        return parts
+    except Exception as exc:
+        raise ValueError(f"Invalid version string: '{v_str}'") from exc
 
 
 def normalize_symbol(symbol: str) -> str:
@@ -496,7 +504,24 @@ class StdlibVersionChecker:
     def check(self, symbol: str, python_version: str) -> dict[str, Any]:
         """Check compatibility of a symbol for a specified Python version."""
         matched_symbol, rows = self.find_matching_records(symbol)
-        req_ver = parse_py_version(python_version)
+        
+        # Validate Python version early
+        try:
+            req_ver = parse_py_version(python_version)
+        except ValueError:
+            return {
+                "symbol": symbol,
+                "python_version": python_version,
+                "status": "unknown",
+                "available": False,
+                "introduced_in": None,
+                "deprecated_in": None,
+                "removed_in": None,
+                "relevant_changes": [],
+                "source_file": "",
+                "evidence": "",
+                "message": f"Invalid Python version format: '{python_version}'. Expected format like '3.8' or '3.11'.",
+            }
 
         if not rows:
             return {
