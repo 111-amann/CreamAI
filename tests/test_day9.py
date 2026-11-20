@@ -204,7 +204,8 @@ class TestLangGraphAgent(unittest.TestCase):
 
     def test_conversation_memory_and_thread_isolation(self):
         def mock_llm(sys_prompt, usr_prompt):
-            return '{"action": "final_response", "answer": "Response for: " + usr_prompt[:30]}'
+            import json
+            return json.dumps({"action": "final_response", "answer": "Response for: " + usr_prompt[:30]})
 
         # Thread A
         run_langgraph_agent("Question from Thread A", thread_id="thread-A", graph=self.test_graph, llm_generator=mock_llm)
@@ -296,13 +297,23 @@ class TestAgentAPI(unittest.TestCase):
         self.assertEqual(res.status_code, 400)
         self.assertIn("empty", res.json()["detail"].lower())
 
+    def test_agent_endpoint_llm_json_parsing_error_returns_500(self):
+        # Invalid JSON returned by LLM must return HTTP 500, never an HTTP 200 with error masked in approval
+        invalid_json_output = "This is not valid JSON at all and cannot be parsed."
+
+        with patch("app.graph.generate_response", return_value=invalid_json_output):
+            res = self.client.post("/agent", json={"message": "What is pathlib.Path?"})
+            self.assertEqual(res.status_code, 500)
+            data = res.json()
+            self.assertIn("failed", data["detail"].lower())
+
     def test_ask_regression(self):
         # Empty question validation
         res = self.client.post("/ask", json={"question": "   "})
         self.assertEqual(res.status_code, 400)
 
         # Answered regression with mocks for LLM and retrieval
-        mock_rag = '{"status": "answered", "answer": "Mocked RAG response.", "citation_indices": [1]}'
+        mock_rag = '{"status": "answered", "answer": "Mocked RAG response for pathlib.Path.", "citation_indices": [1]}'
         mock_chunks = [
             {
                 "text": "Pathlib documentation",
@@ -321,6 +332,7 @@ class TestAgentAPI(unittest.TestCase):
             data = res.json()
             self.assertEqual(data["status"], "answered")
             self.assertTrue(len(data["citations"]) > 0)
+            self.assertIn("compatibility", data)
 
 
 if __name__ == "__main__":

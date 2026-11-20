@@ -689,6 +689,130 @@ def stdlib_version_check(
     return checker.check(symbol=symbol, python_version=python_version)
 
 
+def extract_candidate_symbols(
+    text: str,
+    citations: Optional[list[dict]] = None
+) -> list[str]:
+    """
+    Extract candidate Python standard library symbols from text and citations.
+    """
+    candidates: list[str] = []
+
+    # 1. Backtick spans: `symbol`
+    for m in re.findall(r"`([a-zA-Z_][\w\.]*)`", text):
+        if m not in candidates and not m.isdigit():
+            candidates.append(m)
+
+    # 2. Dotted identifiers: module.sub.func
+    for m in re.findall(r"\b([a-zA-Z_][a-zA-Z0-9_]*(?:\.[a-zA-Z_][a-zA-Z0-9_]*)+)\b", text):
+        if m.lower() not in {"e.g", "i.e", "etc", "txt", "py", "json"} and m not in candidates:
+            candidates.append(m)
+
+    # 3. Known class / module names
+    for name in KNOWN_CLASS_MODULES:
+        pattern = rf"\b{re.escape(name)}\b"
+        if re.search(pattern, text) and name not in candidates:
+            candidates.append(name)
+
+    # 4. From citations: section and source
+    if citations:
+        for c in citations:
+            sec = c.get("section", "")
+            if sec and sec != "unknown":
+                for part in re.findall(r"\b([a-zA-Z_][\w\.]*)\b", sec):
+                    if part not in candidates and len(part) > 1 and not part.isdigit():
+                        candidates.append(part)
+            src = c.get("source", "")
+            if "library/" in src:
+                mod_name = Path(src).stem
+                if mod_name not in candidates:
+                    candidates.append(mod_name)
+
+    return candidates
+
+
+def detect_compatibility_info(
+    question: str,
+    answer: str = "",
+    python_version: str = "3.12",
+    citations: Optional[list[dict]] = None,
+    csv_path: Optional[Path] = None,
+) -> dict[str, Any]:
+    """
+    Detect Python standard library symbols in question, answer, and citations,
+    and return structured compatibility information for the specified Python version.
+    """
+    checker = get_version_checker(csv_path)
+    combined_text = f"{question}\n{answer}"
+    candidates = extract_candidate_symbols(combined_text, citations)
+
+    compat_info: dict[str, Any] = {
+        "has_version_check": False,
+        "checks": [],
+        "warnings": [],
+    }
+
+    seen_symbols: set[str] = set()
+    found_known = False
+
+    for cand in candidates:
+        matched_sym, rows = checker.find_matching_records(cand)
+        if rows:
+            clean_sym = matched_sym.lower()
+            if clean_sym in seen_symbols:
+                continue
+            seen_symbols.add(clean_sym)
+
+            res = checker.check(cand, python_version)
+            if res.get("status") != "unknown" or res.get("introduced_in") or res.get("deprecated_in") or res.get("removed_in"):
+                found_known = True
+                compat_info["checks"].append({
+                    "symbol": res["symbol"],
+                    "status": res["status"],
+                    "available": res["available"],
+                    "introduced_in": res.get("introduced_in"),
+                    "deprecated_in": res.get("deprecated_in"),
+                    "removed_in": res.get("removed_in"),
+                    "evidence": res.get("evidence", ""),
+                    "source_file": res.get("source_file", ""),
+                })
+
+                status = res.get("status")
+                dep_in = res.get("deprecated_in")
+                rem_in = res.get("removed_in")
+                sym_name = res["symbol"]
+
+                if status == "deprecated" and dep_in:
+                    warn = f"⚠️ `{sym_name}` - Deprecated since Python {dep_in}"
+                    if rem_in:
+                        warn += f", scheduled for removal in Python {rem_in}"
+                    if warn not in compat_info["warnings"]:
+                        compat_info["warnings"].append(warn)
+                elif status == "removed" and rem_in:
+                    warn = f"❌ `{sym_name}` - Removed in Python {rem_in}"
+                    if warn not in compat_info["warnings"]:
+                        compat_info["warnings"].append(warn)
+
+    if found_known:
+        compat_info["has_version_check"] = True
+    elif candidates:
+        # Candidate symbol detected but not in stdlib versions CSV -> unknown status
+        primary_sym = candidates[0]
+        compat_info["has_version_check"] = True
+        compat_info["checks"].append({
+            "symbol": primary_sym,
+            "status": "unknown",
+            "available": False,
+            "introduced_in": None,
+            "deprecated_in": None,
+            "removed_in": None,
+            "evidence": "",
+            "source_file": "",
+        })
+
+    return compat_info
+
+
 def main():
     parser = argparse.ArgumentParser(description="PyDocsPal Standard Library Version Tool")
     parser.add_argument("--rebuild-csv", action="store_true", help="Rebuild data/stdlib_versions.csv from docs")

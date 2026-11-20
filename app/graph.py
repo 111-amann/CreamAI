@@ -112,18 +112,9 @@ def agent_node(state: AgentGraphState, config: RunnableConfig) -> dict[str, Any]
     try:
         raw_output = llm_func(SYSTEM_AGENT_PROMPT, user_prompt)
         data = parse_llm_json(raw_output)
-    except RuntimeError as exc:
-        # LLM provider errors should be propagated, not swallowed
-        raise exc
     except Exception as exc:
-        fallback_msg = f"Agent reasoning error: {type(exc).__name__}: {exc}"
-        return {
-            "iterations": iterations,
-            "pending_tool": None,
-            "proposed_response": fallback_msg,
-            "error": fallback_msg,
-            "messages": [AIMessage(content=fallback_msg)],
-        }
+        # Propagate LLM and JSON parsing errors to prevent masking failures as successful approval prompts
+        raise RuntimeError(f"Agent reasoning error: {type(exc).__name__}: {exc}") from exc
 
     action = str(data.get("action", "")).strip().lower()
 

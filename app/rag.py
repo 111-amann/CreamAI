@@ -5,6 +5,7 @@ from typing import Any
 
 from app.hybrid_search import hybrid_search
 from app.llm import generate_response
+from app.tools import detect_compatibility_info
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 PROMPTS_DIR = BASE_DIR / "prompts"
@@ -51,6 +52,7 @@ def run_rag_pipeline(
     collection_name: str = "pydocspal_docs",
     chunk_size: int = 1800,
     chunk_overlap: int = 250,
+    python_version: str = "3.12",
 ) -> dict[str, Any]:
     """
     Execute the RAG pipeline:
@@ -84,6 +86,7 @@ def run_rag_pipeline(
             "answer": "I don't know",
             "status": "insufficient_evidence",
             "citations": [],
+            "compatibility": None,
             "retrieval_latency": round(retrieval_latency, 4),
             "total_latency": round(total_latency, 4),
             "retrieved_chunks": [],
@@ -144,6 +147,7 @@ def run_rag_pipeline(
             "answer": "I don't know",
             "status": "insufficient_evidence",
             "citations": [],
+            "compatibility": None,
             "retrieval_latency": round(retrieval_latency, 4),
             "total_latency": round(total_latency, 4),
             "retrieved_chunks": chunks,
@@ -160,11 +164,19 @@ def run_rag_pipeline(
             "page": chunk_meta.get("page", "unknown"),
         })
 
+    compatibility = detect_compatibility_info(
+        question=clean_question,
+        answer=raw_answer,
+        python_version=python_version,
+        citations=citations,
+    )
+
     return {
         "question": clean_question,
         "answer": raw_answer,
         "status": "answered",
         "citations": citations,
+        "compatibility": compatibility,
         "retrieval_latency": round(retrieval_latency, 4),
         "total_latency": round(total_latency, 4),
         "retrieved_chunks": chunks,

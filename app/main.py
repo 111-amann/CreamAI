@@ -1,17 +1,14 @@
+import json
+from pathlib import Path
+from typing import Any, Optional
+
 from app.rag import run_rag_pipeline, GenerationError
 from fastapi import FastAPI, HTTPException, Query, status
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.records import load_records, get_by_id
 from app.smart_search import smart_search
-
-import json
-from pathlib import Path
-
-from pydantic import BaseModel, Field
-from fastapi import HTTPException
 from app.llm import generate_response
-
 from app.hybrid_search import hybrid_search
 
 app = FastAPI(
@@ -239,6 +236,7 @@ class Citation(BaseModel):
 class AskRequest(BaseModel):
     question: str = Field(min_length=1, max_length=2000)
     top_k: int = Field(default=5, ge=1, le=20)
+    python_version: Optional[str] = Field(default="3.12", description="Target Python version for compatibility checks")
 
 
 class AskResponse(BaseModel):
@@ -246,6 +244,7 @@ class AskResponse(BaseModel):
     answer: str
     status: str
     citations: list[Citation]
+    compatibility: Optional[dict[str, Any]] = None
 
 
 @app.post("/ask", response_model=AskResponse)
@@ -261,12 +260,14 @@ def ask(request: AskRequest):
         result = run_rag_pipeline(
             question=question,
             top_k=request.top_k,
+            python_version=request.python_version or "3.12",
         )
         return AskResponse(
             question=result["question"],
             answer=result["answer"],
             status=result["status"],
             citations=[Citation(**c) for c in result["citations"]],
+            compatibility=result.get("compatibility"),
         )
     except GenerationError as err:
         raise HTTPException(
@@ -349,6 +350,11 @@ def agent_endpoint(request: AgentRequest):
 
         try:
             result = resume_langgraph_agent(thread_id=thread_id, approved=is_approved)
+            if result.get("error"):
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail=f"Agent resume failed: {result['error']}",
+                )
             return AgentResponse(
                 thread_id=result["thread_id"],
                 status=result["status"],
@@ -364,6 +370,8 @@ def agent_endpoint(request: AgentRequest):
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=str(err),
             )
+        except HTTPException:
+            raise
         except Exception as err:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -380,6 +388,11 @@ def agent_endpoint(request: AgentRequest):
 
     try:
         result = run_langgraph_agent(message=clean_message, thread_id=thread_id)
+        if result.get("error"):
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Agent workflow failed: {result['error']}",
+            )
         return AgentResponse(
             thread_id=result["thread_id"],
             status=result["status"],
@@ -395,6 +408,8 @@ def agent_endpoint(request: AgentRequest):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(err),
         )
+    except HTTPException:
+        raise
     except Exception as err:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

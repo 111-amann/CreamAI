@@ -453,7 +453,7 @@ Day 10 introduces a professional Streamlit frontend that integrates with the exi
 
 **RAG Mode:**
 - Direct question answering via `/ask` endpoint
-- Displays generated answer with supporting citations
+- Displays generated answer with supporting citations and automatic Python version compatibility checks
 - Fast responses for straightforward documentation queries
 
 **Agent Mode:**
@@ -550,7 +550,7 @@ The Streamlit app will be available at:
 ```
 User: What is pathlib.Path.read_text?
 Assistant: Path.read_text(encoding=None, errors=None, newline=None) reads the file...
-💡 Compatibility: Use Agent mode for version compatibility checks
+✅ Works from Python 3.5
 📚 Sources: pathlib.txt - Reading and writing files
 ```
 

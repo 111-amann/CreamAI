@@ -78,12 +78,12 @@ def check_backend_health() -> bool:
         return False
 
 
-def call_ask_endpoint(question: str, top_k: int = 5) -> dict[str, Any]:
+def call_ask_endpoint(question: str, top_k: int = 5, python_version: str = "3.12") -> dict[str, Any]:
     """Call the /ask RAG endpoint."""
     try:
         response = requests.post(
             f"{API_URL}/ask",
-            json={"question": question, "top_k": top_k},
+            json={"question": question, "top_k": top_k, "python_version": python_version},
             timeout=60
         )
         response.raise_for_status()
@@ -169,9 +169,9 @@ def extract_compatibility_info(tool_calls: list[dict], python_version: str) -> d
     return compat_info
 
 
-def display_compatibility_badge(compat_info: dict, python_version: str):
+def display_compatibility_badge(compat_info: Optional[dict], python_version: str):
     """Display Python compatibility badge and warnings."""
-    if not compat_info["has_version_check"]:
+    if not compat_info or not compat_info.get("has_version_check"):
         st.info("💡 **Compatibility:** Unable to determine - no version checks performed")
         return
     
@@ -431,9 +431,12 @@ def main():
                 try:
                     if mode == "RAG":
                         # RAG mode
-                        result = call_ask_endpoint(prompt, top_k=5)
+                        result = call_ask_endpoint(prompt, top_k=5, python_version=python_version)
                         answer = result.get("answer", "")
                         citations = result.get("citations", [])
+                        
+                        # Extract compatibility info returned by /ask endpoint
+                        compat_info = result.get("compatibility")
                         
                         # Display answer
                         st.markdown(answer)
@@ -441,15 +444,15 @@ def main():
                         # Display citations
                         display_citations(citations)
                         
-                        # No compatibility info in RAG mode by default
-                        st.info("💡 **Compatibility:** Use Agent mode for version compatibility checks")
+                        # Display compatibility badge
+                        display_compatibility_badge(compat_info, python_version)
                         
                         # Add to session state
                         st.session_state.messages.append({
                             "role": "assistant",
                             "content": answer,
                             "citations": citations,
-                            "compat_info": None,
+                            "compat_info": compat_info,
                             "python_version": python_version,
                             "mode": "RAG",
                             "question": prompt
