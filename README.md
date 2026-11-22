@@ -1,5 +1,7 @@
 # PyDocsPal
 
+[![CI](https://github.com/111-amann/CreamAI/actions/workflows/ci.yml/badge.svg)](https://github.com/111-amann/CreamAI/actions/workflows/ci.yml)
+
 ### Your Python Documentation Assistant
 
 PyDocsPal is a Python documentation assistant designed to help developers and students discover and understand Python modules, functions, classes, signatures, usage examples, and version compatibility using official Python documentation.
@@ -53,6 +55,10 @@ PyDocsPal is a Python documentation assistant designed to help developers and st
 
 ```text
 PyDocsPal/
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 │
 ├── analysis/
 │   ├── __init__.py
@@ -114,6 +120,7 @@ PyDocsPal/
 ├── .dockerignore
 ├── Dockerfile
 ├── docker-compose.yml
+├── render.yaml
 ├── pytest.ini
 ├── ruff.toml
 ├── day01_intro.py
@@ -251,6 +258,54 @@ To stop containers and remove volumes:
 ```bash
 docker compose down -v
 ```
+
+---
+
+## Live Deployment (Render / Hugging Face Spaces)
+
+### Deployment Endpoints
+- **Live URL**: `<YOUR_LIVE_URL>`
+- **Health Check**: `<YOUR_LIVE_URL>/health`
+- **Interactive Documentation**: `<YOUR_LIVE_URL>/docs`
+
+### Option 1: Deploying on Render (Docker Service via `render.yaml`)
+
+PyDocsPal includes a root `render.yaml` Blueprint definition for automated Docker deployment.
+
+1. **Push your code to GitHub**:
+   Ensure your changes are committed and pushed to your repository (`https://github.com/111-amann/CreamAI`).
+2. **Connect to Render**:
+   - Navigate to the [Render Dashboard](https://dashboard.render.com/).
+   - Click **New +** > **Blueprint** (or **New +** > **Web Service**).
+   - Select your GitHub repository (`CreamAI`).
+   - Render automatically detects `render.yaml` and configures the `pydocspal` Docker web service with the health check path `/health`.
+3. **Configure Environment Variables**:
+   In your service settings or Blueprint prompt, supply your LLM provider credentials:
+   - `LLM_PROVIDER`: `groq` (default) or `gemini`
+   - `GROQ_API_KEY`: your Groq API key (`sync: false`)
+   - `GEMINI_API_KEY`: your Gemini API key (`sync: false`)
+   - Render dynamically provides `$PORT` at runtime; the container startup command automatically honors `${PORT:-8000}` and binds to `0.0.0.0:${PORT}`.
+4. **Deploy**:
+   Click **Apply** / **Deploy**. Once the deployment succeeds and the `/health` endpoint responds with `{"status": "healthy"}`, update `<YOUR_LIVE_URL>` above with your public Render URL.
+
+### Option 2: Deploying on Hugging Face Spaces (Docker SDK)
+
+PyDocsPal's container is preconfigured to deploy directly on Hugging Face Spaces using the Docker SDK:
+
+1. **Create Space**:
+   - Go to [Hugging Face Spaces](https://huggingface.co/spaces) and click **Create new Space**.
+   - Select **Docker** as the Space SDK (choose "Blank" template).
+2. **Push Code / Sync Repository**:
+   - Link or push the PyDocsPal repository to the Hugging Face Space remote.
+   - Hugging Face Spaces automatically builds the `Dockerfile` and assigns `PORT=7860`.
+   - The container command `sh -c "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"` seamlessly binds to `0.0.0.0:7860`.
+3. **Configure Secrets**:
+   - Under your Space's **Settings** > **Variables and secrets**, add:
+     - `LLM_PROVIDER`: `groq` (or `gemini`)
+     - `GROQ_API_KEY`: your Groq API key
+     - `GEMINI_API_KEY`: your Gemini API key (optional)
+4. **Access the Space**:
+   - The Space will build and launch FastAPI at your Space's URL. Verify functionality via `<SPACE_URL>/health` and `<SPACE_URL>/docs`.
 
 ---
 

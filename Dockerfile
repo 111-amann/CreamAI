@@ -48,9 +48,12 @@ COPY data/ ./data/
 # Copy configuration files
 COPY pytest.ini ruff.toml ./
 
+# Default port environment variable for hosting platforms (Render, Hugging Face Spaces)
+ENV PORT=8000
+
 # Expose FastAPI and Streamlit ports
 EXPOSE 8000
 EXPOSE 8501
 
-# Default command (overridden by docker-compose)
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Default command: bind to 0.0.0.0 and honor PORT env var (${PORT:-8000})
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
