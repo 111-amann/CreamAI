@@ -264,9 +264,9 @@ docker compose down -v
 ## Live Deployment (Render / Hugging Face Spaces)
 
 ### Deployment Endpoints
-- **Live URL**: `<YOUR_LIVE_URL>`
-- **Health Check**: `<YOUR_LIVE_URL>/health`
-- **Interactive Documentation**: `<YOUR_LIVE_URL>/docs`
+- **Live URL**: `https://pydocspal.onrender.com`
+- **Health Check**: `https://pydocspal.onrender.com/health`
+- **Interactive Documentation**: `https://pydocspal.onrender.com/docs`
 
 ### Option 1: Deploying on Render (Docker Service via `render.yaml`)
 
@@ -286,7 +286,7 @@ PyDocsPal includes a root `render.yaml` Blueprint definition for automated Docke
    - `GEMINI_API_KEY`: your Gemini API key (`sync: false`)
    - Render dynamically provides `$PORT` at runtime; the container startup command automatically honors `${PORT:-8000}` and binds to `0.0.0.0:${PORT}`.
 4. **Deploy**:
-   Click **Apply** / **Deploy**. Once the deployment succeeds and the `/health` endpoint responds with `{"status": "healthy"}`, update `<YOUR_LIVE_URL>` above with your public Render URL.
+   Click **Apply** / **Deploy**. Once the deployment succeeds and the `/health` endpoint responds with `{"status": "healthy"}`, the service is live at `https://pydocspal.onrender.com`.
 
 ### Option 2: Deploying on Hugging Face Spaces (Docker SDK)
 
