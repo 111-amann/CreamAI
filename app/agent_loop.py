@@ -158,7 +158,7 @@ TOOL_REGISTRY: dict[str, dict[str, Any]] = {
 
 
 def parse_llm_json(raw_text: str) -> dict[str, Any]:
-    """Parse JSON response from LLM, stripping markdown code blocks if present."""
+    """Parse JSON response from LLM, stripping markdown code blocks if present and normalizing tool call schemas."""
     text = raw_text.strip()
     if text.startswith("```"):
         text = re.sub(r"^```(?:json)?\s*", "", text, flags=re.I)
@@ -170,7 +170,41 @@ def parse_llm_json(raw_text: str) -> dict[str, Any]:
     if match:
         text = match.group(0)
 
-    return json.loads(text)
+    data = json.loads(text)
+    if not isinstance(data, dict):
+        raise ValueError("Parsed LLM output is not a JSON object.")
+
+    # Normalize tool-calling schemas (e.g. OpenAI function call format {"name": "...", "arguments": {...}})
+    if "action" not in data:
+        if "name" in data:
+            data["action"] = "call_tool"
+            data["tool"] = data["name"]
+            raw_args = data.get("arguments", data.get("args", {}))
+            if isinstance(raw_args, str):
+                try:
+                    data["args"] = json.loads(raw_args)
+                except Exception:
+                    data["args"] = {"raw": raw_args}
+            elif isinstance(raw_args, dict):
+                data["args"] = raw_args
+            else:
+                data["args"] = {}
+        elif "tool" in data:
+            data["action"] = "call_tool"
+            if "args" not in data and "arguments" in data:
+                data["args"] = data["arguments"]
+        elif any(k in data for k in ("answer", "response", "proposed_response", "content", "message")):
+            data["action"] = "final_response"
+            if "answer" not in data:
+                data["answer"] = (
+                    data.get("response")
+                    or data.get("proposed_response")
+                    or data.get("content")
+                    or data.get("message")
+                    or ""
+                )
+
+    return data
 
 
 def run_agent_loop(

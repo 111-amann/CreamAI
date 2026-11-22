@@ -117,12 +117,22 @@ def agent_node(state: AgentGraphState, config: RunnableConfig) -> dict[str, Any]
     if action == "call_tool":
         tool_name = str(data.get("tool", "")).strip()
         args = data.get("args", {})
+        if not isinstance(args, dict):
+            args = {}
         return {
             "iterations": iterations,
             "pending_tool": {"tool": tool_name, "args": args},
         }
     else:
-        answer = str(data.get("answer", "")).strip()
+        answer = str(
+            data.get("answer")
+            or data.get("proposed_response")
+            or data.get("response")
+            or data.get("content")
+            or ""
+        ).strip()
+        if not answer:
+            answer = "I have reviewed the available documentation and tool results."
         return {
             "iterations": iterations,
             "pending_tool": None,
@@ -310,6 +320,9 @@ def run_langgraph_agent(
         "messages": [HumanMessage(content=message)],
         "iterations": 0,
         "tool_calls": [],
+        "pending_tool": None,
+        "proposed_response": None,
+        "final_response": None,
         "citations": [],
         "approval_status": "pending",
         "error": None,

@@ -64,6 +64,8 @@ def run_rag_pipeline(
     clean_question = question.strip()
     if not clean_question:
         raise ValueError("Question cannot be empty.")
+    if len(clean_question) > 2000:
+        raise ValueError("Question exceeds maximum allowed length of 2000 characters.")
 
     start_total_time = time.perf_counter()
 

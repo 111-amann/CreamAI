@@ -1,15 +1,18 @@
 import json
+import logging
 import os
+import time
 import uuid
 from pathlib import Path
 from typing import Any, Optional
 
-from fastapi import FastAPI, HTTPException, Query, status
+from fastapi import FastAPI, Header, HTTPException, Query, Request, status
 from pydantic import BaseModel, Field
 
+from app.cache import query_cache
 from app.graph import resume_langgraph_agent, run_langgraph_agent
 from app.hybrid_search import hybrid_search
-from app.llm import generate_response
+from app.llm import generate_response, get_last_llm_metrics
 from app.rag import GenerationError, run_rag_pipeline
 from app.records import get_by_id, load_records
 from app.smart_search import smart_search
@@ -21,22 +24,51 @@ os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 os.environ.setdefault("PYTORCH_NO_CUDA_MEMORY_CACHING", "1")
 
+logger = logging.getLogger("pydocspal.api")
+
 app = FastAPI(
     title="PyDocsPal API",
-    description="Python Documentation Assistant API",
-    version="1.0.0"
+    description="Python Documentation Assistant API with Observability and Caching",
+    version="1.0.0",
 )
 
 
+@app.middleware("http")
+async def telemetry_middleware(request: Request, call_next):
+    """Log per-request telemetry including endpoint, method, status, latency_ms, and tokens."""
+    start_time = time.perf_counter()
+    response = await call_next(request)
+    duration_ms = round((time.perf_counter() - start_time) * 1000, 2)
+    llm_metrics = get_last_llm_metrics()
+    total_tokens = llm_metrics.get("total_tokens", 0) if llm_metrics else 0
+
+    logger.info(
+        "Request telemetry | method=%s | path=%s | status=%d | latency_ms=%.2f | total_tokens=%d",
+        request.method,
+        request.url.path,
+        response.status_code,
+        duration_ms,
+        total_tokens,
+    )
+    response.headers["X-Process-Time-Ms"] = str(duration_ms)
+    return response
+
+
+# Documented input limits
+MAX_QUESTION_LENGTH = 2000
+MAX_AGENT_MESSAGE_LENGTH = 2000
+MAX_SEARCH_QUERY_LENGTH = 500
+
+
 class QuestionRequest(BaseModel):
-    question: str
+    question: str = Field(min_length=1, max_length=MAX_QUESTION_LENGTH)
 
 
 @app.get("/health")
 def health_check():
     return {
         "status": "healthy",
-        "message": "PyDocsPal API is running"
+        "message": "PyDocsPal API is running",
     }
 
 
@@ -45,7 +77,7 @@ def get_records(limit: int = Query(default=10, ge=1, le=100)):
     records = load_records()
     return {
         "total": len(records),
-        "records": records[:limit]
+        "records": records[:limit],
     }
 
 
@@ -57,32 +89,49 @@ def get_record(record_id: int):
     if record is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Record not found"
+            detail="Record not found",
         )
 
     return record
 
 
 @app.get("/search")
-def search_records(q: str = Query(min_length=1)):
+def search_records(q: str = Query(min_length=1, max_length=MAX_SEARCH_QUERY_LENGTH)):
+    if len(q) > MAX_SEARCH_QUERY_LENGTH:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Search query exceeds maximum allowed length of {MAX_SEARCH_QUERY_LENGTH} characters",
+        )
+    query = q.strip()
+    if not query:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Search query cannot be empty",
+        )
+
     records = load_records()
-    results = smart_search(records, q)
+    results = smart_search(records, query)
 
     return {
-        "query": q,
+        "query": query,
         "total_results": len(results),
-        "results": results
+        "results": results,
     }
 
 
 @app.post("/questions")
 def ask_question(request: QuestionRequest):
+    if len(request.question) > MAX_QUESTION_LENGTH:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Question exceeds maximum allowed length of {MAX_QUESTION_LENGTH} characters",
+        )
     question = request.question.strip()
 
     if not question:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Question cannot be empty"
+            detail="Question cannot be empty",
         )
 
     records = load_records()
@@ -95,15 +144,16 @@ def ask_question(request: QuestionRequest):
             if results
             else "No relevant documentation found."
         ),
-        "results": results
+        "results": results,
     }
+
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 PROMPT_DIR = BASE_DIR / "prompts"
 
 
 class ChatRequest(BaseModel):
-    question: str = Field(min_length=1, max_length=2000)
+    question: str = Field(min_length=1, max_length=MAX_QUESTION_LENGTH)
     task: str = "explain"
 
 
@@ -117,21 +167,26 @@ def read_prompt(filename: str) -> str:
     prompt_path = PROMPT_DIR / filename
     return prompt_path.read_text(encoding="utf-8")
 
+
 @app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
-
+    if len(request.question) > MAX_QUESTION_LENGTH:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Question exceeds maximum allowed length of {MAX_QUESTION_LENGTH} characters",
+        )
     question = request.question.strip()
 
     if not question:
         raise HTTPException(
             status_code=400,
-            detail="Question cannot be empty"
+            detail="Question cannot be empty",
         )
 
     # Select task prompt
     task_prompts = {
         "explain": "task_explain.txt",
-        "compare": "task_compare.txt"
+        "compare": "task_compare.txt",
     }
 
     prompt_file = task_prompts.get(request.task)
@@ -139,7 +194,7 @@ def chat(request: ChatRequest):
     if prompt_file is None:
         raise HTTPException(
             status_code=400,
-            detail="Task must be 'explain' or 'compare'"
+            detail="Task must be 'explain' or 'compare'",
         )
 
     # Retrieve relevant documentation
@@ -149,7 +204,7 @@ def chat(request: ChatRequest):
     context = json.dumps(
         results,
         indent=2,
-        ensure_ascii=False
+        ensure_ascii=False,
     )
 
     # Load prompts
@@ -157,15 +212,15 @@ def chat(request: ChatRequest):
     task_prompt = read_prompt(prompt_file)
 
     user_prompt = (
-    task_prompt
-    .replace("{question}", question)
-    .replace("{context}", context)
-)
+        task_prompt
+        .replace("{question}", question)
+        .replace("{context}", context)
+    )
 
     try:
         raw_response = generate_response(
             system_prompt,
-            user_prompt
+            user_prompt,
         )
 
         data = json.loads(raw_response)
@@ -173,50 +228,57 @@ def chat(request: ChatRequest):
         return ChatResponse(
             answer=data["answer"],
             confidence=data["confidence"],
-            follow_up=data["follow_up"]
+            follow_up=data["follow_up"],
         )
 
     except (KeyError, ValueError, TypeError):
         raise HTTPException(
             status_code=502,
-            detail="LLM returned an invalid response"
+            detail="LLM returned an invalid response",
         )
 
     except RuntimeError as error:
         raise HTTPException(
             status_code=503,
-            detail=str(error)
+            detail=str(error),
         )
-
-    # except Exception:
-    #     raise HTTPException(
-    #         status_code=502,
-    #         detail="LLM provider request failed"
-    #     )
 
     except Exception as exc:
         print(f"LLM ERROR: {type(exc).__name__}: {exc}")
         raise HTTPException(
             status_code=502,
-            detail="LLM provider request failed"
-    )
+            detail="LLM provider request failed",
+        )
+
 
 @app.get("/search/semantic")
 def semantic_search_endpoint(
-    q: str = Query(min_length=1, max_length=500),
-    limit: int = Query(default=5, ge=1, le=20)
+    q: str = Query(min_length=1, max_length=MAX_SEARCH_QUERY_LENGTH),
+    limit: int = Query(default=5, ge=1, le=20),
+    bypass_cache: bool = Query(default=False),
 ):
+    if len(q) > MAX_SEARCH_QUERY_LENGTH:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Search query exceeds maximum allowed length of {MAX_SEARCH_QUERY_LENGTH} characters",
+        )
     query = q.strip()
 
     if not query:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Search query cannot be empty"
+            detail="Search query cannot be empty",
         )
+
+    cache_key = query_cache.generate_key("semantic_search", q=query, limit=limit)
+    if not bypass_cache and os.getenv("PYDOCSPAL_DISABLE_CACHE") != "1":
+        cached_result = query_cache.get(cache_key)
+        if cached_result is not None:
+            return cached_result
 
     results = hybrid_search(query, limit=limit)
 
-    return {
+    response_payload = {
         "query": query,
         "search_type": "hybrid",
         "total_results": len(results),
@@ -230,11 +292,17 @@ def semantic_search_endpoint(
                 "page": result["metadata"]["page"],
                 "hybrid_score": result["hybrid_score"],
                 "semantic_rank": result["semantic_rank"],
-                "lexical_rank": result["lexical_rank"]
+                "lexical_rank": result["lexical_rank"],
             }
             for result in results
-        ]
+        ],
     }
+
+    if not bypass_cache and os.getenv("PYDOCSPAL_DISABLE_CACHE") != "1":
+        query_cache.set(cache_key, response_payload)
+
+    return response_payload
+
 
 class Citation(BaseModel):
     source: str
@@ -244,9 +312,10 @@ class Citation(BaseModel):
 
 
 class AskRequest(BaseModel):
-    question: str = Field(min_length=1, max_length=2000)
+    question: str = Field(min_length=1, max_length=MAX_QUESTION_LENGTH)
     top_k: int = Field(default=5, ge=1, le=20)
-    python_version: Optional[str] = Field(default="3.12", description="Target Python version for compatibility checks")
+    python_version: Optional[str] = Field(default="3.12", max_length=20, description="Target Python version for compatibility checks")
+    bypass_cache: Optional[bool] = Field(default=False, description="Bypass in-memory response cache")
 
 
 class AskResponse(BaseModel):
@@ -258,13 +327,36 @@ class AskResponse(BaseModel):
 
 
 @app.post("/ask", response_model=AskResponse)
-def ask(request: AskRequest):
+def ask(
+    request: AskRequest,
+    x_bypass_cache: Optional[str] = Header(default=None),
+):
+    if len(request.question) > MAX_QUESTION_LENGTH:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Question exceeds maximum allowed length of {MAX_QUESTION_LENGTH} characters",
+        )
     question = request.question.strip()
     if not question:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Question cannot be empty"
+            detail="Question cannot be empty",
         )
+
+    bypass = bool(request.bypass_cache) or bool(
+        x_bypass_cache and x_bypass_cache.strip().lower() in ("true", "1")
+    )
+    cache_key = query_cache.generate_key(
+        "ask",
+        question=question,
+        top_k=request.top_k,
+        python_version=request.python_version or "3.12",
+    )
+
+    if not bypass and os.getenv("PYDOCSPAL_DISABLE_CACHE") != "1":
+        cached_result = query_cache.get(cache_key)
+        if cached_result is not None:
+            return AskResponse(**cached_result)
 
     try:
         result = run_rag_pipeline(
@@ -272,12 +364,23 @@ def ask(request: AskRequest):
             top_k=request.top_k,
             python_version=request.python_version or "3.12",
         )
+        response_dict = {
+            "question": result["question"],
+            "answer": result["answer"],
+            "status": result["status"],
+            "citations": [Citation(**c).model_dump() for c in result["citations"]],
+            "compatibility": result.get("compatibility"),
+        }
+
+        if not bypass and os.getenv("PYDOCSPAL_DISABLE_CACHE") != "1":
+            query_cache.set(cache_key, response_dict)
+
         return AskResponse(
-            question=result["question"],
-            answer=result["answer"],
-            status=result["status"],
-            citations=[Citation(**c) for c in result["citations"]],
-            compatibility=result.get("compatibility"),
+            question=response_dict["question"],
+            answer=response_dict["answer"],
+            status=response_dict["status"],
+            citations=[Citation(**c) for c in response_dict["citations"]],
+            compatibility=response_dict["compatibility"],
         )
     except GenerationError as err:
         raise HTTPException(
@@ -311,9 +414,9 @@ class AgentCitation(BaseModel):
 
 
 class AgentRequest(BaseModel):
-    message: Optional[str] = Field(default=None, description="User prompt or question")
-    thread_id: Optional[str] = Field(default=None, description="Conversation thread identifier")
-    action: Optional[str] = Field(default=None, description="Optional action: 'approve', 'reject', or 'resume'")
+    message: Optional[str] = Field(default=None, max_length=MAX_AGENT_MESSAGE_LENGTH, description="User prompt or question")
+    thread_id: Optional[str] = Field(default=None, max_length=128, description="Conversation thread identifier")
+    action: Optional[str] = Field(default=None, max_length=32, description="Optional action: 'approve', 'reject', or 'resume'")
     approved: Optional[bool] = Field(default=None, description="Boolean approval decision when resuming")
 
 
@@ -336,6 +439,7 @@ def agent_endpoint(request: AgentRequest):
     1. Starting a new agent conversation thread.
     2. Continuing an existing thread.
     3. Resuming an interrupted approval node with approve/reject decision.
+    Stateful conversations and approvals are never cached.
     """
     thread_id = request.thread_id.strip() if request.thread_id and request.thread_id.strip() else str(uuid.uuid4())
 
@@ -371,6 +475,11 @@ def agent_endpoint(request: AgentRequest):
                 error=result.get("error"),
             )
         except ValueError as err:
+            logger.warning(
+                "Agent resume validation error | thread_id=%s | error=%s",
+                thread_id,
+                err,
+            )
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=str(err),
@@ -378,12 +487,25 @@ def agent_endpoint(request: AgentRequest):
         except HTTPException:
             raise
         except Exception as err:
+            logger.error(
+                "Agent resume failed | thread_id=%s | error_type=%s | error=%s",
+                thread_id,
+                type(err).__name__,
+                err,
+                exc_info=True,
+            )
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Agent resume failed: {err}",
             )
 
     # Standard conversation start or continuation
+    if request.message and len(request.message) > MAX_AGENT_MESSAGE_LENGTH:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Message exceeds maximum allowed length of {MAX_AGENT_MESSAGE_LENGTH} characters.",
+        )
+
     clean_message = (request.message or "").strip()
     if not clean_message:
         raise HTTPException(
@@ -394,6 +516,11 @@ def agent_endpoint(request: AgentRequest):
     try:
         result = run_langgraph_agent(message=clean_message, thread_id=thread_id)
         if result.get("error"):
+            logger.error(
+                "Agent workflow returned error | thread_id=%s | error=%s",
+                thread_id,
+                result["error"],
+            )
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Agent workflow failed: {result['error']}",
@@ -409,6 +536,11 @@ def agent_endpoint(request: AgentRequest):
             error=result.get("error"),
         )
     except ValueError as err:
+        logger.warning(
+            "Agent workflow validation error | thread_id=%s | error=%s",
+            thread_id,
+            err,
+        )
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(err),
@@ -416,10 +548,43 @@ def agent_endpoint(request: AgentRequest):
     except HTTPException:
         raise
     except Exception as err:
+        logger.error(
+            "Agent workflow failed | thread_id=%s | error_type=%s | error=%s",
+            thread_id,
+            type(err).__name__,
+            err,
+            exc_info=True,
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Agent workflow failed: {err}",
         )
+
+
+# =====================================================================
+# Observability & Cache Management Endpoints
+# =====================================================================
+
+@app.get("/cache/stats")
+def get_cache_stats():
+    """Return in-memory query cache metrics and hit/miss telemetry."""
+    return query_cache.stats()
+
+
+@app.post("/cache/clear")
+def clear_cache():
+    """Clear in-memory query cache entries and reset counters."""
+    query_cache.clear()
+    return {"status": "cleared", "message": "Query cache successfully cleared"}
+
+
+@app.get("/telemetry")
+def get_telemetry():
+    """Return the most recent LLM invocation telemetry and cache statistics."""
+    return {
+        "llm": get_last_llm_metrics(),
+        "cache": query_cache.stats(),
+    }
 
 
 if __name__ == "__main__":
@@ -427,4 +592,3 @@ if __name__ == "__main__":
 
     server_port = int(os.environ.get("PORT", 8000))
     uvicorn.run("app.main:app", host="0.0.0.0", port=server_port)
-
