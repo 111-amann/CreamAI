@@ -12,9 +12,13 @@
 
 ---
 
-### Demo Video
+### Demo Video & Project Artifacts
 
-**Demo Video: [Demo Video](https://drive.google.com/file/d/1JP2wfuT1Hf5OL5OQupaOddWscNu49S8A/view?usp=sharing)**
+- **Live Cloud Deployment:** [https://pydocspal.onrender.com](https://pydocspal.onrender.com)
+- **Demo Video:** [Google Drive Demo Video](https://drive.google.com/file/d/1JP2wfuT1Hf5OL5OQupaOddWscNu49S8A/view?usp=sharing)
+- **Technical Interview Deep Dive:** [docs/interview.md](docs/interview.md)
+- **Resume Highlights:** [docs/resume.md](docs/resume.md)
+- **14-Day Delivery Tracker:** [PROGRESS.md](PROGRESS.md)
 
 ---
 
@@ -168,6 +172,7 @@ PyDocsPal/
 │
 ├── docs/
 │   ├── how_llms_work.md
+│   ├── interview.md
 │   ├── resume.md
 │   ├── user_questions.md
 │   └── screenshots/
@@ -203,6 +208,7 @@ PyDocsPal/
 ├── day01_intro.py
 ├── day01_menu.py
 ├── README.md
+├── PROGRESS.md
 ├── requirements.txt
 ├── .env.example
 └── .gitignore
