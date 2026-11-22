@@ -107,8 +107,15 @@ PyDocsPal/
 │   └── hybrid_search_results.md
 │
 ├── tests/
+│   ├── test_day11_suite.py
+│   ├── test_day9.py
 │   └── test_streamlit_integration.py
 │
+├── .dockerignore
+├── Dockerfile
+├── docker-compose.yml
+├── pytest.ini
+├── ruff.toml
 ├── day01_intro.py
 ├── day01_menu.py
 ├── README.md
@@ -181,6 +188,95 @@ The API will be available at:
 Interactive Swagger documentation:
 
 `http://127.0.0.1:8000/docs`
+
+## Run with Docker
+
+PyDocsPal provides containerized deployment using Docker and Docker Compose, spinning up both the FastAPI backend service and the Streamlit frontend UI with health monitoring and shared persistent storage.
+
+### Prerequisites
+
+1. Ensure **Docker** and **Docker Compose** are installed and running on your system.
+2. Create or verify a `.env` file in the root directory containing your LLM provider credentials (`GROQ_API_KEY` or `GEMINI_API_KEY`):
+
+```env
+# .env file
+LLM_PROVIDER=groq
+GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=openai/gpt-oss-120b
+
+# Or for Gemini:
+# LLM_PROVIDER=gemini
+# GEMINI_API_KEY=your_gemini_api_key_here
+# GEMINI_MODEL=gemini-2.5-flash
+```
+
+*(You can copy `.env.example` to get started: `cp .env.example .env`)*
+
+### Starting the Services
+
+Build the container image and launch both the `api` and `ui` services:
+
+```bash
+docker compose up --build
+```
+
+To run the containers in detached (background) mode:
+
+```bash
+docker compose up --build -d
+```
+
+Docker Compose starts:
+- **`api` service**: Runs FastAPI with Uvicorn on port `8000`, loads `.env`, mounts persistent `data/`, and executes periodic healthchecks against `http://localhost:8000/health`.
+- **`ui` service**: Runs the Streamlit web application on port `8501`, connects to `http://api:8000`, and waits for the `api` service to become healthy before accepting traffic.
+
+### Accessing the Application
+
+Once the containers are running and healthy:
+
+- **FastAPI Interactive API Documentation (Swagger UI)**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **FastAPI Health Check Endpoint**: [http://localhost:8000/health](http://localhost:8000/health)
+- **Streamlit Interactive Web UI**: [http://localhost:8501](http://localhost:8501)
+
+### Stopping and Cleaning Up
+
+To gracefully stop the running services:
+
+```bash
+docker compose down
+```
+
+To stop containers and remove volumes:
+
+```bash
+docker compose down -v
+```
+
+---
+
+## Testing & Code Quality
+
+PyDocsPal includes a comprehensive test suite and automated lint checks:
+
+### Running the Pytest Suite
+
+```bash
+pytest tests/test_day11_suite.py -v
+```
+
+To run all test suites across the repository:
+
+```bash
+pytest -v
+```
+
+### Running Ruff Linter
+
+Ensure zero errors across the codebase:
+
+```bash
+ruff check .
+```
 
 ## Documentation Processing and Indexing
 

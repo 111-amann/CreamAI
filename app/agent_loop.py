@@ -18,7 +18,6 @@ from app.hybrid_search import hybrid_search
 from app.llm import generate_response
 from app.tools import stdlib_version_check
 
-
 SYSTEM_AGENT_PROMPT = """You are PyDocsPal Agent, an intelligent assistant for Python documentation and standard library compatibility.
 
 CRITICAL: Do NOT use function calling or tool calling features. You must respond ONLY with a plain JSON object.
@@ -328,7 +327,7 @@ def run_agent_loop(
     except RuntimeError:
         # LLM provider errors should propagate
         raise
-    except Exception as exc:
+    except Exception:
         final_answer = (
             "Agent reached maximum iterations. Tool execution results: "
             + "; ".join(f"{item['tool']}: {item['result']}" for item in tool_history if item['tool'] != 'system')

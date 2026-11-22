@@ -6,8 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 from app.chunking import load_all_chunks
-from app.vectorstore import semantic_search, create_unique_id
-
+from app.vectorstore import create_unique_id, semantic_search
 
 # Number of results retrieved from each search method.
 RETRIEVAL_LIMIT = 10

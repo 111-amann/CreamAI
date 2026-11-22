@@ -1,11 +1,4 @@
-import json
-import time
-from pathlib import Path
-from typing import Any
-
-from app.rag import run_rag_pipeline
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+import jsonimport timefrom pathlib import Pathfrom typing import Anyfrom app.rag import run_rag_pipelinePROJECT_ROOT = Path(__file__).resolve().parents[1]
 EVAL_SET_PATH = PROJECT_ROOT / "eval" / "eval_set.json"
 OUTPUT_DIR = PROJECT_ROOT / "eval"
 

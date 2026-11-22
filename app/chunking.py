@@ -1,8 +1,6 @@
 
-from pathlib import Path
 from collections import Counter
-import re
-
+from pathlib import Path
 
 # Project paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent

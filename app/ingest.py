@@ -1,7 +1,8 @@
-from app.models import Record
 import json
 import re
 from pathlib import Path
+
+from app.models import Record
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 RAW_DIR = BASE_DIR / "data" / "raw" / "extracted"

@@ -12,16 +12,16 @@ def generate_response(system_prompt: str, user_prompt: str) -> str:
     provider = os.getenv("LLM_PROVIDER", "groq").lower()
 
     if provider == "groq":
-        from groq import Groq, BadRequestError, NotFoundError
+        from groq import BadRequestError, Groq, NotFoundError
 
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             raise RuntimeError("GROQ_API_KEY is not configured.")
 
         client = Groq(api_key=api_key)
-        
+
         model = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b")
-        
+
         # Models that support JSON mode in Groq (as of November 2026)
         # Reference: https://console.groq.com/docs/models
         # Note: llama3-8b-8192 and llama3-70b-8192 have been deprecated
@@ -34,13 +34,13 @@ def generate_response(system_prompt: str, user_prompt: str) -> str:
             "llama-3.3-70b-versatile",
             "qwen/qwen3.8-27b",
         ]
-        
+
         # Check if current model supports JSON mode
         supports_json_mode = any(
-            supported in model.lower() 
+            supported in model.lower()
             for supported in json_mode_supported_models
         )
-        
+
         try:
             request_params = {
                 "model": model,
@@ -50,14 +50,14 @@ def generate_response(system_prompt: str, user_prompt: str) -> str:
                 ],
                 "temperature": 0.2,
             }
-            
+
             # Only add response_format for models that support it
             if supports_json_mode:
                 request_params["response_format"] = {"type": "json_object"}
-            
+
             response = client.chat.completions.create(**request_params)
             return response.choices[0].message.content
-            
+
         except NotFoundError as e:
             # Model not found or no access
             error_msg = str(e)
@@ -65,7 +65,7 @@ def generate_response(system_prompt: str, user_prompt: str) -> str:
                 f"Groq model '{model}' not found or not accessible. "
                 f"Please check your GROQ_MODEL configuration. Error: {error_msg}"
             ) from e
-            
+
         except BadRequestError as e:
             # Re-raise Groq API errors with clear message
             error_msg = str(e)

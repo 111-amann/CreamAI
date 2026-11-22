@@ -3,7 +3,6 @@ from pathlib import Path
 
 from app.vectorstore import semantic_search
 
-
 QUESTIONS = [
     "What functions are available in the Python collections module?",
     "What is the purpose of collections.Counter, and how is it used?",
@@ -85,7 +84,7 @@ def run_evaluation():
                 f"- **Section:** {section}",
                 f"- **Page:** {page}",
                 f"- **Cosine distance:** {distance:.4f}",
-                f"- **Relevance:** To be manually evaluated",
+                "- **Relevance:** To be manually evaluated",
                 "",
                 "**Retrieved text:**",
                 "",

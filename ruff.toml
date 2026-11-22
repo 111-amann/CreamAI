@@ -1,0 +1,19 @@
+# Ruff configuration
+target-version = "py311"
+line-length = 120
+
+[lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+]
+ignore = [
+    "E501",  # line too long
+]
+
+[lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/*" = ["E402"]
+"eval/*" = ["E402"]

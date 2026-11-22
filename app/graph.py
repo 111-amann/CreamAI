@@ -13,7 +13,6 @@ Features:
 """
 
 import json
-import re
 from typing import Annotated, Any, Callable, Optional, TypedDict
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
@@ -24,12 +23,10 @@ from langgraph.graph.message import add_messages
 from langgraph.types import Command, interrupt
 
 from app.agent_loop import (
-    execute_rag_search,
-    execute_stdlib_version_check,
-    parse_llm_json,
-    SYSTEM_AGENT_PROMPT,
     SYNTHESIS_SYSTEM_PROMPT,
+    SYSTEM_AGENT_PROMPT,
     TOOL_REGISTRY,
+    parse_llm_json,
 )
 from app.llm import generate_response
 
@@ -57,7 +54,6 @@ def agent_node(state: AgentGraphState, config: RunnableConfig) -> dict[str, Any]
     question = state.get("question", "")
     tool_calls = state.get("tool_calls", [])
     iterations = state.get("iterations", 0) + 1
-    citations = list(state.get("citations", []))
 
     # Retrieve custom LLM generator if injected in config
     configurable = (config or {}).get("configurable", {})

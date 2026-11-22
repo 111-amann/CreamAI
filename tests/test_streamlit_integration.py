@@ -3,8 +3,8 @@ Integration tests for the Streamlit UI.
 Tests the UI's integration with the backend API.
 """
 
+
 import requests
-import time
 
 
 def test_backend_health():
@@ -45,17 +45,17 @@ def test_agent_endpoint():
     assert "thread_id" in data
     assert "status" in data
     assert "tool_calls" in data
-    
+
     # Check if version check tool was used
     tool_names = [tc["tool"] for tc in data.get("tool_calls", [])]
     has_version_check = "stdlib_version_check" in tool_names
-    
+
     print("✓ Agent endpoint test passed")
     print(f"  Status: {data['status']}")
     print(f"  Thread ID: {data['thread_id']}")
     print(f"  Tools called: {tool_names}")
     print(f"  Has version check: {has_version_check}")
-    
+
     if has_version_check:
         # Verify version check result structure
         for tc in data["tool_calls"]:
@@ -78,11 +78,11 @@ def test_agent_with_approval():
     assert response.status_code == 200
     data = response.json()
     thread_id = data["thread_id"]
-    
+
     print("✓ Agent conversation started")
     print(f"  Thread ID: {thread_id}")
     print(f"  Approval required: {data.get('approval_required')}")
-    
+
     # If approval is required, test the resume endpoint
     if data.get("approval_required"):
         print("  Testing approval flow...")
@@ -113,7 +113,7 @@ def run_all_tests():
     print("\n" + "="*60)
     print("Running Streamlit Integration Tests")
     print("="*60 + "\n")
-    
+
     tests = [
         ("Backend Health Check", test_backend_health),
         ("RAG Endpoint", test_rag_endpoint),
@@ -121,10 +121,10 @@ def run_all_tests():
         ("Agent Approval Flow", test_agent_with_approval),
         ("Streamlit UI", test_streamlit_ui_running),
     ]
-    
+
     passed = 0
     failed = 0
-    
+
     for test_name, test_func in tests:
         print(f"\nTesting: {test_name}")
         print("-" * 60)
@@ -134,11 +134,11 @@ def run_all_tests():
         except Exception as e:
             print(f"✗ Test failed: {e}")
             failed += 1
-    
+
     print("\n" + "="*60)
     print(f"Test Results: {passed} passed, {failed} failed")
     print("="*60 + "\n")
-    
+
     return failed == 0
 
 

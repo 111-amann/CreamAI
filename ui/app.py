@@ -52,7 +52,7 @@ def save_feedback(question: str, answer: str, feedback: int, python_version: str
     # Create hash to prevent duplicate submissions
     import hashlib
     answer_hash = hashlib.md5(f"{question}|{answer}".encode()).hexdigest()
-    
+
     conn = sqlite3.connect(FEEDBACK_DB)
     cursor = conn.cursor()
     try:
@@ -109,7 +109,7 @@ def call_agent_endpoint(
             payload["action"] = action
         if approved is not None:
             payload["approved"] = approved
-            
+
         response = requests.post(
             f"{API_URL}/agent",
             json=payload,
@@ -128,7 +128,7 @@ def extract_compatibility_info(tool_calls: list[dict], python_version: str) -> d
         "checks": [],
         "warnings": []
     }
-    
+
     for tc in tool_calls:
         if tc.get("tool") == "stdlib_version_check":
             result = tc.get("result", {})
@@ -142,7 +142,7 @@ def extract_compatibility_info(tool_calls: list[dict], python_version: str) -> d
                 removed_in = result.get("removed_in")
                 evidence = result.get("evidence", "")
                 source_file = result.get("source_file", "")
-                
+
                 check_info = {
                     "symbol": symbol,
                     "status": status,
@@ -154,7 +154,7 @@ def extract_compatibility_info(tool_calls: list[dict], python_version: str) -> d
                     "source_file": source_file
                 }
                 compat_info["checks"].append(check_info)
-                
+
                 # Generate warnings for deprecated/removed APIs
                 if status == "deprecated" and deprecated_in:
                     warning = f"⚠️ `{symbol}` - Deprecated since Python {deprecated_in}"
@@ -165,7 +165,7 @@ def extract_compatibility_info(tool_calls: list[dict], python_version: str) -> d
                     compat_info["warnings"].append(
                         f"❌ `{symbol}` - Removed in Python {removed_in}"
                     )
-    
+
     return compat_info
 
 
@@ -174,18 +174,18 @@ def display_compatibility_badge(compat_info: Optional[dict], python_version: str
     if not compat_info or not compat_info.get("has_version_check"):
         st.info("💡 **Compatibility:** Unable to determine - no version checks performed")
         return
-    
+
     # Find the minimum working version
     min_version = None
     all_available = True
-    
+
     for check in compat_info["checks"]:
         if not check["available"]:
             all_available = False
         if check["introduced_in"]:
             if min_version is None or check["introduced_in"] > min_version:
                 min_version = check["introduced_in"]
-    
+
     # Display badge
     if all_available and min_version:
         st.success(f"✅ **Works from Python {min_version}**")
@@ -195,11 +195,11 @@ def display_compatibility_badge(compat_info: Optional[dict], python_version: str
         st.error(f"❌ **Not available in Python {python_version}**")
     else:
         st.warning("⚠️ **Compatibility unknown**")
-    
+
     # Display warnings
     for warning in compat_info["warnings"]:
         st.warning(warning)
-    
+
     # Display detailed compatibility info in expander
     if compat_info["checks"]:
         with st.expander("🔍 Detailed Compatibility Information"):
@@ -224,18 +224,18 @@ def display_citations(citations: list[dict]):
     if not citations:
         st.caption("ℹ️ No supporting citations returned.")
         return
-    
+
     st.markdown("**📚 Sources:**")
     for idx, citation in enumerate(citations, 1):
         source = citation.get("source", "unknown")
         title = citation.get("title", "unknown")
         section = citation.get("section", "unknown")
-        
+
         # Format citation label
         label = f"{idx}. {title}"
         if section and section != "unknown":
             label += f" - {section}"
-        
+
         with st.expander(label):
             st.markdown(f"**Source:** `{source}`")
             if title and title != "unknown":
@@ -247,7 +247,7 @@ def display_citations(citations: list[dict]):
 def display_feedback_buttons(question: str, answer: str, python_version: str, mode: str, key_suffix: str):
     """Display thumbs up/down feedback buttons."""
     col1, col2, col3 = st.columns([1, 1, 8])
-    
+
     with col1:
         if st.button("👍", key=f"thumbs_up_{key_suffix}"):
             success = save_feedback(question, answer, 1, python_version, mode)
@@ -255,7 +255,7 @@ def display_feedback_buttons(question: str, answer: str, python_version: str, mo
                 st.success("✓", icon="✓")
             else:
                 st.info("Already rated")
-    
+
     with col2:
         if st.button("👎", key=f"thumbs_down_{key_suffix}"):
             success = save_feedback(question, answer, -1, python_version, mode)
@@ -272,37 +272,37 @@ def main():
         page_icon="🐍",
         layout="wide"
     )
-    
+
     # Initialize feedback database
     init_feedback_db()
-    
+
     # Header
     st.title("🐍 PyDocsPal")
     st.markdown("**Your Python Documentation Assistant**")
-    
+
     # Sidebar configuration
     with st.sidebar:
         st.header("⚙️ Configuration")
-        
+
         # Backend URL
         st.text_input("Backend URL", value=API_URL, disabled=True, key="backend_url")
-        
+
         # Check backend health
         if check_backend_health():
             st.success("✅ Backend connected")
         else:
             st.error("❌ Backend unavailable")
             st.stop()
-        
+
         st.markdown("---")
-        
+
         # Mode selection
         mode = st.radio(
             "Mode",
             ["RAG", "Agent"],
             help="RAG: Direct question answering. Agent: Multi-step reasoning with tool use."
         )
-        
+
         # Python version selector
         python_version = st.selectbox(
             "Python Version",
@@ -310,10 +310,10 @@ def main():
             index=PYTHON_VERSIONS.index("3.12"),
             help="Target Python version for compatibility checks"
         )
-        
+
         st.markdown("---")
         st.caption("PyDocsPal Day 10 - Checkpoint 2")
-    
+
     # Initialize session state
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -321,23 +321,23 @@ def main():
         st.session_state.thread_id = str(uuid.uuid4())
     if "pending_approval" not in st.session_state:
         st.session_state.pending_approval = None
-    
+
     # Display chat history
     for idx, msg in enumerate(st.session_state.messages):
         role = msg["role"]
         content = msg["content"]
-        
+
         with st.chat_message(role):
             st.markdown(content)
-            
+
             # Display citations if available
             if "citations" in msg and msg["citations"]:
                 display_citations(msg["citations"])
-            
+
             # Display compatibility badge if available
             if "compat_info" in msg and msg["compat_info"]:
                 display_compatibility_badge(msg["compat_info"], msg.get("python_version", python_version))
-            
+
             # Display feedback buttons for assistant messages
             if role == "assistant" and "question" in msg:
                 display_feedback_buttons(
@@ -347,17 +347,17 @@ def main():
                     msg.get("mode", mode),
                     f"history_{idx}"
                 )
-    
+
     # Handle pending approval
     if st.session_state.pending_approval:
         st.warning("⏸️ **Agent is waiting for your approval**")
-        
+
         approval_data = st.session_state.pending_approval
-        
+
         with st.container():
             st.markdown("**Proposed Response:**")
             st.info(approval_data["proposed_response"])
-            
+
             col1, col2 = st.columns(2)
             with col1:
                 if st.button("✅ Approve", key="approve_btn", type="primary"):
@@ -367,11 +367,11 @@ def main():
                                 thread_id=approval_data["thread_id"],
                                 approved=True
                             )
-                            
+
                             # Extract compatibility info
                             tool_calls = result.get("tool_calls", [])
                             compat_info = extract_compatibility_info(tool_calls, python_version)
-                            
+
                             # Add approved response to chat
                             response_text = result.get("response", result.get("proposed_response", ""))
                             st.session_state.messages.append({
@@ -383,12 +383,12 @@ def main():
                                 "mode": "Agent",
                                 "question": approval_data.get("question", "")
                             })
-                            
+
                             st.session_state.pending_approval = None
                             st.rerun()
                         except Exception as e:
                             st.error(f"Error: {str(e)}")
-            
+
             with col2:
                 if st.button("❌ Reject", key="reject_btn"):
                     with st.spinner("Rejecting..."):
@@ -397,7 +397,7 @@ def main():
                                 thread_id=approval_data["thread_id"],
                                 approved=False
                             )
-                            
+
                             st.session_state.messages.append({
                                 "role": "assistant",
                                 "content": "❌ Execution was rejected by the user.",
@@ -407,12 +407,12 @@ def main():
                                 "mode": "Agent",
                                 "question": approval_data.get("question", "")
                             })
-                            
+
                             st.session_state.pending_approval = None
                             st.rerun()
                         except Exception as e:
                             st.error(f"Error: {str(e)}")
-    
+
     # Chat input
     if prompt := st.chat_input("Ask a question about Python documentation...", disabled=bool(st.session_state.pending_approval)):
         # Add user message to chat
@@ -420,11 +420,11 @@ def main():
             "role": "user",
             "content": prompt
         })
-        
+
         # Display user message
         with st.chat_message("user"):
             st.markdown(prompt)
-        
+
         # Get assistant response
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
@@ -434,19 +434,19 @@ def main():
                         result = call_ask_endpoint(prompt, top_k=5, python_version=python_version)
                         answer = result.get("answer", "")
                         citations = result.get("citations", [])
-                        
+
                         # Extract compatibility info returned by /ask endpoint
                         compat_info = result.get("compatibility")
-                        
+
                         # Display answer
                         st.markdown(answer)
-                        
+
                         # Display citations
                         display_citations(citations)
-                        
+
                         # Display compatibility badge
                         display_compatibility_badge(compat_info, python_version)
-                        
+
                         # Add to session state
                         st.session_state.messages.append({
                             "role": "assistant",
@@ -457,17 +457,17 @@ def main():
                             "mode": "RAG",
                             "question": prompt
                         })
-                        
+
                         # Display feedback buttons
                         display_feedback_buttons(prompt, answer, python_version, "RAG", "current")
-                        
+
                     else:
                         # Agent mode
                         result = call_agent_endpoint(
                             message=prompt,
                             thread_id=st.session_state.thread_id
                         )
-                        
+
                         if result.get("approval_required"):
                             # Store pending approval
                             st.session_state.pending_approval = {
@@ -482,18 +482,18 @@ def main():
                             # Extract compatibility info
                             tool_calls = result.get("tool_calls", [])
                             compat_info = extract_compatibility_info(tool_calls, python_version)
-                            
+
                             # Display response
                             response_text = result.get("response", result.get("proposed_response", ""))
                             st.markdown(response_text)
-                            
+
                             # Display citations
                             citations = result.get("citations", [])
                             display_citations(citations)
-                            
+
                             # Display compatibility badge
                             display_compatibility_badge(compat_info, python_version)
-                            
+
                             # Add to session state
                             st.session_state.messages.append({
                                 "role": "assistant",
@@ -504,10 +504,10 @@ def main():
                                 "mode": "Agent",
                                 "question": prompt
                             })
-                            
+
                             # Display feedback buttons
                             display_feedback_buttons(prompt, response_text, python_version, "Agent", "current")
-                        
+
                 except Exception as e:
                     error_msg = f"❌ Error: {str(e)}"
                     st.error(error_msg)

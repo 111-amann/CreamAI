@@ -1,15 +1,17 @@
 import json
+import uuid
 from pathlib import Path
 from typing import Any, Optional
 
-from app.rag import run_rag_pipeline, GenerationError
 from fastapi import FastAPI, HTTPException, Query, status
 from pydantic import BaseModel, Field
 
-from app.records import load_records, get_by_id
-from app.smart_search import smart_search
-from app.llm import generate_response
+from app.graph import resume_langgraph_agent, run_langgraph_agent
 from app.hybrid_search import hybrid_search
+from app.llm import generate_response
+from app.rag import GenerationError, run_rag_pipeline
+from app.records import get_by_id, load_records
+from app.smart_search import smart_search
 
 app = FastAPI(
     title="PyDocsPal API",
@@ -285,11 +287,6 @@ def ask(request: AskRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal error during RAG processing",
         )
-
-
-import uuid
-from typing import Any, Optional
-from app.graph import run_langgraph_agent, resume_langgraph_agent
 
 
 class AgentToolCall(BaseModel):

@@ -1,9 +1,10 @@
 """Final comprehensive verification of all functionality."""
+import signal
+import subprocess
 import sys
 import time
+
 import requests
-import subprocess
-import signal
 
 print("=" * 70)
 print("FINAL COMPREHENSIVE VERIFICATION")
@@ -69,16 +70,16 @@ def test_agent_version_check():
     data = r.json()
     assert "thread_id" in data, "No thread_id"
     assert "status" in data, "No status"
-    assert data.get("approval_required") == True, "Not in approval state"
-    
+    assert data.get("approval_required") is True, "Not in approval state"
+
     proposed = data.get("proposed_response", "")
     assert len(proposed) > 50, f"Proposed too short: {proposed}"
     assert "error" not in proposed.lower(), f"Error in proposed: {proposed}"
     assert "3.8" in proposed or "python 3.8" in proposed.lower(), "Doesn't mention version"
-    
+
     print(f"  Status: {data['status']}")
     print(f"  Proposed: {proposed[:100]}...")
-    
+
     # Approve and get final response
     thread_id = data["thread_id"]
     r2 = requests.post(
@@ -100,7 +101,7 @@ def test_agent_rejection():
     assert r.status_code == 200, f"Status {r.status_code}"
     data = r.json()
     thread_id = data["thread_id"]
-    
+
     # Reject
     r2 = requests.post(
         f"{BASE_URL}/agent",
@@ -110,14 +111,14 @@ def test_agent_rejection():
     assert r2.status_code == 200, f"Rejection failed: {r2.status_code}"
     data2 = r2.json()
     assert data2["status"] == "rejected", f"Status not rejected: {data2['status']}"
-    print(f"  Rejection handled correctly")
+    print("  Rejection handled correctly")
 
 try:
     test("Health Check", test_health)
     test("RAG Ask", test_rag_ask)
     test("Agent Version Check + Approval", test_agent_version_check)
     test("Agent Rejection", test_agent_rejection)
-    
+
     if all_passed:
         print("\n" + "=" * 70)
         print("✓ ALL TESTS PASSED - System fully functional")
@@ -133,6 +134,6 @@ finally:
     try:
         server_process.send_signal(signal.CTRL_BREAK_EVENT)
         server_process.wait(timeout=5)
-    except:
+    except Exception:
         server_process.kill()
     print("Server stopped.")

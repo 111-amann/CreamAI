@@ -1,13 +1,12 @@
 
-from pathlib import Path
 import argparse
 import hashlib
+from pathlib import Path
 
 import chromadb
 
 from app.chunking import load_all_chunks
-from app.embed import embed_texts, embed_query
-
+from app.embed import embed_query, embed_texts
 
 # Persistent ChromaDB storage
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
