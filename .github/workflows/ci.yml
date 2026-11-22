@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    name: CI Pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff pytest
+          grep -v "^streamlit" requirements.txt > /tmp/requirements_base.txt
+          pip install -r /tmp/requirements_base.txt
+          pip install --no-deps "streamlit>=1.40.0"
+          pip install \
+            altair \
+            blinker \
+            cachetools \
+            click \
+            gitpython \
+            packaging \
+            pillow \
+            pyarrow \
+            requests \
+            tenacity \
+            toml \
+            watchdog
+
+      - name: Lint with Ruff
+        run: ruff check .
+
+      - name: Run Pytest Suite
+        run: pytest tests/test_day11_suite.py tests/test_day9.py -v
+
+      - name: Build Docker Image
+        run: docker build -t pydocspal-ci:test .

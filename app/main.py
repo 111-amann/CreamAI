@@ -412,3 +412,13 @@ def agent_endpoint(request: AgentRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Agent workflow failed: {err}",
         )
+
+
+if __name__ == "__main__":
+    import os
+
+    import uvicorn
+
+    server_port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=server_port)
+
