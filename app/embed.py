@@ -1,6 +1,4 @@
 
-from sentence_transformers import SentenceTransformer
-
 MODEL_NAME = "all-MiniLM-L6-v2"
 
 # Load the embedding model.
@@ -9,11 +7,13 @@ _model = None
 
 
 def get_model():
-    """Load the embedding model once and reuse it."""
+    """Load the embedding model once and reuse it (lazy load to minimize startup memory)."""
     global _model
 
     if _model is None:
         print(f"Loading embedding model: {MODEL_NAME}")
+        from sentence_transformers import SentenceTransformer
+
         _model = SentenceTransformer(MODEL_NAME)
         print("Embedding model loaded successfully.")
 

@@ -1,4 +1,5 @@
 import json
+import os
 import uuid
 from pathlib import Path
 from typing import Any, Optional
@@ -12,6 +13,13 @@ from app.llm import generate_response
 from app.rag import GenerationError, run_rag_pipeline
 from app.records import get_by_id, load_records
 from app.smart_search import smart_search
+
+# Low-memory defaults to prevent OOM on memory-constrained hosting (e.g. Render 512Mi limit)
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+os.environ.setdefault("PYTORCH_NO_CUDA_MEMORY_CACHING", "1")
 
 app = FastAPI(
     title="PyDocsPal API",
@@ -415,8 +423,6 @@ def agent_endpoint(request: AgentRequest):
 
 
 if __name__ == "__main__":
-    import os
-
     import uvicorn
 
     server_port = int(os.environ.get("PORT", 8000))

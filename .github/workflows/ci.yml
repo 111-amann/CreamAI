@@ -36,9 +36,12 @@ jobs:
             cachetools \
             click \
             gitpython \
+            itsdangerous \
             packaging \
             pillow \
             pyarrow \
+            pydeck \
+            python-multipart \
             requests \
             tenacity \
             toml \

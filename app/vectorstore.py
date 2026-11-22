@@ -2,8 +2,7 @@
 import argparse
 import hashlib
 from pathlib import Path
-
-import chromadb
+from typing import Any
 
 from app.chunking import load_all_chunks
 from app.embed import embed_query, embed_texts
@@ -17,25 +16,43 @@ COLLECTION_NAME = "pydocspal_docs"
 # Process a limited number of chunks at a time.
 BATCH_SIZE = 128
 
-# Initialize persistent ChromaDB client.
-client = chromadb.PersistentClient(
-    path=str(CHROMA_DIR)
-)
+# Initialize persistent ChromaDB client lazily
+_client: Any = None
+
+
+def get_client() -> Any:
+    """Get or create the persistent ChromaDB client lazily to conserve startup memory."""
+    global _client
+    if _client is None:
+        import chromadb
+
+        _client = chromadb.PersistentClient(
+            path=str(CHROMA_DIR)
+        )
+    return _client
+
+
+def __getattr__(name: str) -> Any:
+    """Provide module-level backwards compatibility for `vectorstore.client`."""
+    if name == "client":
+        return get_client()
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 def get_collection(collection_name: str = COLLECTION_NAME, reset: bool = False):
     """Get or create the documentation collection."""
+    chroma_client = get_client()
 
     if reset:
         try:
-            client.delete_collection(
+            chroma_client.delete_collection(
                 name=collection_name
             )
             print(f"Existing collection '{collection_name}' deleted.")
         except Exception:
             pass
 
-    collection = client.get_or_create_collection(
+    collection = chroma_client.get_or_create_collection(
         name=collection_name,
         metadata={
             "description": "Python documentation embeddings",

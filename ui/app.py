@@ -312,7 +312,7 @@ def main():
         )
 
         st.markdown("---")
-        st.caption("PyDocsPal Day 10 - Checkpoint 2")
+        st.caption("Build with 💖 by Aman")
 
     # Initialize session state
     if "messages" not in st.session_state:
