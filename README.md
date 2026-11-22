@@ -14,7 +14,7 @@
 
 ### Demo Video
 
-**Demo Video: <ADD_DEMO_VIDEO_URL>**
+**Demo Video: [Demo Video](https://drive.google.com/file/d/1JP2wfuT1Hf5OL5OQupaOddWscNu49S8A/view?usp=sharing)**
 
 ---
 
@@ -89,11 +89,11 @@ flowchart TD
 | Component / Benchmark | Metric | Measurement / Result |
 |---|---|---|
 | **Test Suite Passing** | Unit, integration & regression tests | **100% Pass** (`test_day9`, `test_day11_suite`, `test_day13_suite`) |
-| **Test Execution Time** | Total suite run time | **~13.2 seconds** for 50+ assertions |
+| **Test Execution Time** | Total suite run time | **~13.2 seconds** for 60+ assertions |
 | **Linting & Code Style** | Ruff PEP 8 & type sanity | **0 errors / 0 warnings** across entire repository |
 | **Stdlib Version Directives** | Indexed directive records | **4,101 directives** across Python 3.8–3.15 |
 | **Embedding Dimension** | Vector dense representation | **384 dimensions** (`all-MiniLM-L6-v2`) |
-| **RRF Constant ($k$)** | Rank fusion parameter | **$k = 60$** fusing lexical & semantic scores |
+| **RRF Constant (k)** | Rank fusion parameter | **k = 60** fusing lexical & semantic scores |
 | **Chunking Configuration** | Text chunk size & overlap | **1,800 chars** chunk size, **250 chars** overlap |
 | **Cache Performance** | In-memory query response | **< 1 ms hit latency**, 300s TTL, 1,000 max entries |
 | **Abstention Accuracy** | Out-of-domain / missing evidence | **100% precision** (abstains with *"I don't know"*) |
@@ -136,6 +136,7 @@ PyDocsPal/
 │
 ├── app/
 │   ├── __init__.py
+│   ├── cache.py
 │   ├── main.py
 │   ├── records.py
 │   ├── smart_search.py
@@ -167,14 +168,17 @@ PyDocsPal/
 │
 ├── docs/
 │   ├── how_llms_work.md
+│   ├── resume.md
 │   ├── user_questions.md
 │   └── screenshots/
 │       └── checkpoint-2.png
 │
 ├── prompts/
 │   ├── system.txt
+│   ├── system_rag.txt
+│   ├── task_compare.txt
 │   ├── task_explain.txt
-│   └── task_compare.txt
+│   └── task_rag.txt
 │
 ├── eval/
 │   ├── run_search_eval.py
@@ -183,8 +187,11 @@ PyDocsPal/
 │   └── hybrid_search_results.md
 │
 ├── tests/
-│   ├── test_day11_suite.py
 │   ├── test_day9.py
+│   ├── test_day11_suite.py
+│   ├── test_day13_suite.py
+│   ├── test_groq_error.py
+│   ├── test_llm_direct.py
 │   └── test_streamlit_integration.py
 │
 ├── .dockerignore
@@ -208,7 +215,7 @@ PyDocsPal/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/111-amann/CreamAI.git
+git clone [https://github.com/111-amann/CreamAI.git](https://github.com/111-amann/CreamAI.git)
 cd CreamAI
 ```
 
@@ -334,9 +341,9 @@ docker compose down -v
 ## Live Deployment (Render / Hugging Face Spaces)
 
 ### Deployment Endpoints
-- **Live URL**: `https://pydocspal.onrender.com`
-- **Health Check**: `https://pydocspal.onrender.com/health`
-- **Interactive Documentation**: `https://pydocspal.onrender.com/docs`
+- **Live URL**: [https://pydocspal.onrender.com](https://pydocspal.onrender.com)
+- **Health Check**: [https://pydocspal.onrender.com/health](https://pydocspal.onrender.com/health)
+- **Interactive Documentation**: [https://pydocspal.onrender.com/docs](https://pydocspal.onrender.com/docs)
 
 ### Option 1: Deploying on Render (Docker Service via `render.yaml`)
 
@@ -500,6 +507,9 @@ The confidence value is model-reported and is not a calibrated probability.
 | POST | `/questions` | Retrieve relevant structured records for a question |
 | POST | `/chat` | Generate an LLM-powered response using structured-record context |
 | POST | `/ask` | Full RAG: Grounded answer with verified citations and evidence-based abstention |
+| POST | `/agent` | Stateful LangGraph agent with tool routing and human approval |
+| GET | `/telemetry` | Inspect request latency and LLM token metrics |
+| GET | `/cache/stats` | Inspect in-memory cache hits, misses, and size |
 
 ### Example: Hybrid Search
 
@@ -664,13 +674,13 @@ Day 10 introduces a professional Streamlit frontend that integrates with the exi
 
 ### Features
 
-#### 1. **Chat Interface**
+#### 1. Chat Interface
 - Clean, professional chat UI using `st.chat_message()` and `st.chat_input()`
 - Conversation history maintained in session state
 - Loading indicators for backend responses
 - Error handling for backend connectivity issues
 
-#### 2. **Dual Operating Modes**
+#### 2. Dual Operating Modes
 
 **RAG Mode:**
 - Direct question answering via `/ask` endpoint
@@ -683,14 +693,14 @@ Day 10 introduces a professional Streamlit frontend that integrates with the exi
 - Human approval workflow for proposed actions
 - Resume capability for interrupted conversations
 
-#### 3. **Python Compatibility Badges** ⭐ *Signature Feature*
+#### 3. Python Compatibility Badges
 
 Every assistant answer displays compatibility information:
 
-- **✅ Works from Python X.Y** - Shows minimum required Python version
-- **⚠️ Deprecated since Python X.Y** - Warning for deprecated APIs
-- **❌ Removed in Python X.Y** - Error for removed APIs
-- **💡 Compatibility unknown** - When version data is unavailable
+- **Works from Python X.Y** - Shows minimum required Python version
+- **Deprecated since Python X.Y** - Warning for deprecated APIs
+- **Removed in Python X.Y** - Error for removed APIs
+- **Compatibility unknown** - When version data is unavailable
 
 The system:
 - Extracts API names from assistant responses
@@ -699,7 +709,7 @@ The system:
 - Links to exact documentation sections when available
 - Never invents compatibility information
 
-#### 4. **Citations Display**
+#### 4. Citations Display
 
 All answers include supporting documentation sources:
 - Source filename and title
@@ -707,7 +717,7 @@ All answers include supporting documentation sources:
 - Expandable details using Streamlit expanders
 - Clear indication when no citations are available
 
-#### 5. **User Feedback System**
+#### 5. User Feedback System
 
 Every response includes thumbs up/down controls:
 - Feedback persisted to SQLite database (`data/feedback.db`)
@@ -715,7 +725,7 @@ Every response includes thumbs up/down controls:
 - Prevents duplicate feedback submissions
 - Shows confirmation when feedback is saved
 
-#### 6. **Configuration**
+#### 6. Configuration
 
 Sidebar settings include:
 - Backend URL display
@@ -768,32 +778,32 @@ The Streamlit app will be available at:
 ### Example Interactions
 
 **RAG Mode Query:**
-```
+```text
 User: What is pathlib.Path.read_text?
 Assistant: Path.read_text(encoding=None, errors=None, newline=None) reads the file...
-✅ Works from Python 3.5
-📚 Sources: pathlib.txt - Reading and writing files
+Works from Python 3.5
+Sources: pathlib.txt - Reading and writing files
 ```
 
 **Agent Mode Query:**
-```
+```text
 User: Is pathlib.Path.mkdir available in Python 3.8?
 Assistant: [Performs version check]
-✅ Works from Python 3.5
-🔍 Detailed Compatibility Information:
+Works from Python 3.5
+Detailed Compatibility Information:
   Symbol: pathlib.Path.mkdir
   Status: available
   Introduced in: Python 3.5
   Evidence: Added in version 3.5
-📚 Sources: pathlib.txt
+Sources: pathlib.txt
 ```
 
 **Deprecated API Warning:**
-```
+```text
 User: Tell me about os.popen
 Assistant: os.popen() executes a command and returns a file object...
-⚠️ os.popen - Deprecated since Python 3.13, use subprocess.Popen instead
-📚 Sources: os.txt
+os.popen - Deprecated since Python 3.13, use subprocess.Popen instead
+Sources: os.txt
 ```
 
 ### Testing
@@ -840,12 +850,12 @@ PyDocsPal has been tuned, measured, and benchmarked for real-world production co
 | Metric / Parameter | Production Value | Description |
 |---|---|---|
 | **Startup Cold Import Time** | **~9.8 seconds** | Initial import of PyTorch, SentenceTransformers, ChromaDB, and LangGraph components. |
-| **Automated Test Suite** | **50+ tests in ~13.2s** | Full pytest regression and integration test suite across `test_day9`, `test_day11_suite`, and `test_day13_suite`. |
+| **Automated Test Suite** | **60+ tests in ~9.6s** | Full pytest regression and integration test suite across `test_day9`, `test_day11_suite`, and `test_day13_suite`. |
 | **Linting & Code Quality** | **0 errors / warnings** | Enforced with Ruff (`ruff check .`), following strict PEP 8 and Pythonic patterns. |
 | **Document Chunk Size** | **1,800 characters** | Tuned to preserve complete function docstrings and code blocks without fragmentation. |
 | **Document Chunk Overlap** | **250 characters** | Ensures continuity of signatures and version notes across consecutive chunk boundaries. |
 | **Retrieval Limit** | **10 chunks** | Top candidate chunks retrieved per search method prior to rank fusion. |
-| **RRF Constant (`RRF_K`)** | **60** | Reciprocal Rank Fusion constant ($1 / (k + \text{rank})$) balancing dense semantic and sparse lexical signals. |
+| **RRF Constant (RRF_K)** | **60** | Reciprocal Rank Fusion constant (1 / (k + rank)) balancing dense semantic and sparse lexical signals. |
 | **Embedding Dimension** | **384 dimensions** | `sentence-transformers/all-MiniLM-L6-v2` dense vectors stored and queried in ChromaDB. |
 | **Max Question / Message Length** | **2,000 characters** | Enforced on `/ask`, `/chat`, and `/agent` (returns HTTP 400/422 on oversized inputs; 400 on empty inputs). |
 | **Max Search Query Length** | **500 characters** | Enforced on `/search` and `/search/semantic`. |
@@ -861,16 +871,16 @@ PyDocsPal has been tuned, measured, and benchmarked for real-world production co
 
 ### Checkpoint 2 Deliverables
 
-✅ Streamlit UI at `ui/app.py`
-✅ RAG mode integration
-✅ Agent mode integration with approval workflow
-✅ Python compatibility badges
-✅ Deprecation/removal warnings
-✅ Citations display
-✅ User feedback system with SQLite
-✅ Integration tests
-✅ Updated documentation
-✅ Screenshot captured
+- Streamlit UI at `ui/app.py`
+- RAG mode integration
+- Agent mode integration with approval workflow
+- Python compatibility badges
+- Deprecation/removal warnings
+- Citations display
+- User feedback system with SQLite
+- Integration tests
+- Updated documentation
+- Screenshot captured
 
 ## Developer
 
